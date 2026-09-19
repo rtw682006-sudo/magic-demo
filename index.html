@@ -657,6 +657,8 @@ ul { line-height: 1.6; }
   }
   .mobile-bar b { font-family: var(--font-display); font-size: 1.5rem; color: var(--brass-300); font-variant-numeric: tabular-nums; }
   .cfg--live { padding-bottom: 96px; }
+  /* плашка cookie не должна накрывать панель со сметой */
+  body:has(.mobile-bar) .cookie { bottom: 88px; }
 }
 
 /* ---------- системные состояния: загрузка, ошибки ---------- */
