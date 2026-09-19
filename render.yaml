@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: magic-demo
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .
+
+    # любой адрес отдаём index.html — маршруты сайта живут внутри страницы,
+    # а свой экран 404 он показывает сам
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: sameorigin
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff

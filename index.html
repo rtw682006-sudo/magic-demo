@@ -1,0 +1,3124 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Magic — кальянный кейтеринг премиального сегмента в Москве. Демо-версия сайта.">
+<style>:root{color-scheme:dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Magic Кальянный Кейтеринг</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap">
+<style>
+/* ===========================================================
+   MAGIC — кальянный кейтеринг. Дизайн-система
+   Палитра по брендбуку: deep maroon · olive green · walnut ·
+   cream quartz. Единая тёмная среда.
+   =========================================================== */
+
+:root {
+  /* ground — орех и почти чёрный, тёплые */
+  --graphite-950: #0a0807;
+  --graphite-900: #120e0c;
+  --graphite-850: #1a1512;
+  --graphite-800: #221a15;
+  --graphite-700: #33261d;
+  --graphite-600: #453427;
+
+  /* cream quartz */
+  --smoke-100: #ede7dd;
+  --smoke-200: #d8d0c2;
+  --smoke-300: #b0a795;
+  --smoke-400: #877e6e;
+  --smoke-500: #675f53;
+
+  /* olive green — акцент текста и линий */
+  --brass-300: #c2b57a;
+  --brass-400: #a79a61;
+  --brass-500: #847949;
+  --brass-600: #5f572f;
+
+  /* deep maroon — заливки и главные действия */
+  --maroon-400: #9c3630;
+  --maroon-500: #7a2320;
+  --maroon-600: #5c1817;
+  --maroon-700: #491211;
+
+  /* walnut */
+  --walnut: #5c3a21;
+
+  /* service */
+  --ok: #7f9a5e;
+  --warn: #c9a15a;
+  --err: #c2564c;
+
+  --line: rgba(167, 154, 97, 0.2);
+  --line-soft: rgba(237, 231, 221, 0.09);
+
+  --font-display: "Cormorant Garamond", "Times New Roman", serif;
+  --font-body: "Montserrat", -apple-system, "Segoe UI", system-ui, sans-serif;
+
+  --container: 1320px;
+  --gutter: clamp(20px, 4vw, 56px);
+  --radius: 2px;
+
+  --step--1: clamp(0.78rem, 0.76rem + 0.1vw, 0.84rem);
+  --step-0: clamp(0.95rem, 0.92rem + 0.15vw, 1.03rem);
+  --step-1: clamp(1.12rem, 1.05rem + 0.35vw, 1.3rem);
+  --step-2: clamp(1.45rem, 1.3rem + 0.7vw, 1.9rem);
+  --step-3: clamp(1.9rem, 1.6rem + 1.4vw, 2.9rem);
+  --step-4: clamp(2.5rem, 1.9rem + 2.9vw, 4.6rem);
+  --step-5: clamp(3.1rem, 2.1rem + 4.6vw, 6.4rem);
+
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
+
+body {
+  margin: 0;
+  background: var(--graphite-900);
+  color: var(--smoke-200);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body.is-locked { overflow: hidden; }
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; text-decoration: none; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--brass-400);
+  outline-offset: 3px;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  color: var(--smoke-100);
+  margin: 0;
+}
+
+p { margin: 0; }
+
+/* ---------- ambient grain / smoke ---------- */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+}
+
+/* ---------- layout primitives ---------- */
+
+.wrap {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+main { position: relative; z-index: 2; }
+
+.section { padding-block: clamp(56px, 8vw, 128px); }
+.section--tight { padding-block: clamp(40px, 5vw, 72px); }
+.section--edge { border-top: 1px solid var(--line-soft); }
+
+.stack { display: flex; flex-direction: column; }
+.stack-8 { gap: 8px; } .stack-12 { gap: 12px; } .stack-16 { gap: 16px; }
+.stack-24 { gap: 24px; } .stack-32 { gap: 32px; } .stack-48 { gap: 48px; }
+.stack-64 { gap: clamp(36px, 5vw, 64px); }
+
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+
+.split { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: end; }
+@media (max-width: 820px) { .split { grid-template-columns: minmax(0, 1fr); align-items: start; } }
+
+.eyebrow {
+  font-size: var(--step--1);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brass-400);
+  font-weight: 600;
+}
+
+.lede {
+  font-size: var(--step-1);
+  color: var(--smoke-300);
+  max-width: 62ch;
+  line-height: 1.55;
+}
+
+.muted { color: var(--smoke-400); }
+.small { font-size: var(--step--1); }
+.num { font-variant-numeric: tabular-nums; }
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 68ch;
+}
+.head h2 { font-size: var(--step-3); }
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 26px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .25s, color .25s, border-color .25s, transform .25s;
+  background: none;
+}
+.btn--primary {
+  background: var(--maroon-700);
+  color: var(--smoke-100);
+  border-color: var(--maroon-500);
+}
+.btn--primary:hover { background: var(--maroon-600); border-color: var(--maroon-400); }
+.btn--ghost { border-color: var(--line); color: var(--smoke-200); }
+.btn--ghost:hover { border-color: var(--brass-400); color: var(--brass-300); }
+.btn--quiet { padding-inline: 0; min-height: 32px; color: var(--brass-300); }
+.btn--quiet:hover { color: var(--brass-400); }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+
+.link-arrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: var(--step--1); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--brass-300); font-weight: 600;
+  border-bottom: 1px solid rgba(167,154,97,.4);
+  padding-bottom: 4px; width: fit-content;
+  transition: gap .25s, border-color .25s;
+}
+.link-arrow:hover { gap: 16px; border-color: var(--brass-400); }
+
+/* ---------- header ---------- */
+
+.hdr {
+  position: sticky; top: 0; z-index: 60;
+  background: rgba(10, 8, 7, 0.76);
+  backdrop-filter: blur(18px) saturate(1.2);
+  border-bottom: 1px solid var(--line-soft);
+}
+.hdr__in {
+  display: flex; align-items: center; gap: clamp(12px, 1.6vw, 28px);
+  min-height: 74px; min-width: 0;
+}
+.brand { display: flex; align-items: baseline; gap: 10px; margin-right: auto; flex: none; }
+.brand__mark {
+  font-family: var(--font-display);
+  font-size: 1.62rem; font-weight: 400; letter-spacing: .3em;
+  color: var(--smoke-100); text-transform: uppercase;
+  margin-right: -.3em;
+  flex: none; white-space: nowrap;
+}
+.brand__sub { overflow: hidden; }
+.brand__sub {
+  font-size: .66rem; letter-spacing: .34em; text-transform: lowercase;
+  color: var(--smoke-400); white-space: nowrap;
+}
+
+.nav { display: flex; align-items: center; gap: 2px; flex: none; }
+.nav a, .nav button {
+  padding: 10px clamp(7px, .8vw, 13px); border: 0; background: none; cursor: pointer;
+  white-space: nowrap;
+  font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--smoke-300); font-weight: 600;
+  transition: color .2s;
+}
+.nav a:hover, .nav button:hover, .nav a.is-active { color: var(--brass-300); }
+
+.nav__group { position: relative; }
+.nav__menu {
+  position: absolute; top: calc(100% + 10px); left: -8px;
+  min-width: 250px; padding: 10px;
+  background: var(--graphite-850);
+  border: 1px solid var(--line);
+  display: none; flex-direction: column;
+  box-shadow: 0 28px 60px rgba(0,0,0,.6);
+}
+.nav__group:hover .nav__menu, .nav__group:focus-within .nav__menu { display: flex; }
+.nav__menu a { padding: 10px 12px; text-transform: none; letter-spacing: .02em; font-size: .9rem; font-weight: 500; }
+.nav__menu a:hover { background: var(--graphite-800); }
+
+.hdr__cta { display: flex; align-items: center; gap: 14px; flex: none; }
+.hdr__phone { font-size: .9rem; color: var(--smoke-200); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.burger { display: none; width: 46px; height: 46px; border: 1px solid var(--line); background: none; cursor: pointer; }
+.burger span { display: block; width: 18px; height: 1px; background: var(--smoke-200); margin: 4px auto; transition: .25s; }
+
+/* mobile drawer */
+.drawer {
+  position: fixed; inset: 0; z-index: 70;
+  background: var(--graphite-950);
+  padding: 24px var(--gutter) 40px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column; gap: 6px;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(-10px);
+  transition: opacity .32s ease, transform .42s cubic-bezier(.2,.7,.3,1), visibility .32s;
+}
+.drawer.is-open { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
+.drawer.is-open a, .drawer.is-open span { animation: drawerIn .5s cubic-bezier(.2,.7,.3,1) both; }
+@keyframes drawerIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.drawer a { padding: 14px 0; border-bottom: 1px solid var(--line-soft); font-size: 1.05rem; }
+.drawer .drawer__sub { padding-left: 18px; color: var(--smoke-300); font-size: .95rem; }
+.drawer__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+
+/* ---------- plates (медиа-заглушки) ---------- */
+
+.plate {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 22% 12%, rgba(132,121,73,.26), transparent 58%),
+    radial-gradient(90% 80% at 78% 88%, rgba(92,58,33,.3), transparent 60%),
+    linear-gradient(160deg, var(--graphite-700), var(--graphite-950));
+  border: 1px solid var(--line-soft);
+}
+.plate::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.92 0 0 0 0 0.78 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23s)'/%3E%3C/svg%3E");
+  background-size: cover;
+  opacity: .45;
+  mix-blend-mode: screen;
+}
+.plate__tag {
+  position: absolute; left: 14px; bottom: 12px; z-index: 2;
+  font-size: .64rem; letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(237,231,221,.5);
+}
+.plate--h2 { aspect-ratio: 3 / 4; }
+.plate--wide { aspect-ratio: 16 / 9; }
+.plate--sq { aspect-ratio: 1 / 1; }
+.plate--v1 { filter: hue-rotate(-12deg); }
+.plate--v2 { filter: hue-rotate(18deg) saturate(.85); }
+.plate--v3 { filter: saturate(.6) brightness(.9); }
+.plate--v4 { filter: hue-rotate(-30deg) brightness(1.05); }
+
+/* ---------- hero ---------- */
+
+.hero { position: relative; padding-block: clamp(60px, 9vw, 130px) clamp(48px, 6vw, 96px); overflow: hidden; }
+.hero__bg {
+  position: absolute; inset: -10% -20% auto; height: 120%;
+  background:
+    radial-gradient(60% 55% at 70% 20%, rgba(132,121,73,.18), transparent 62%),
+    radial-gradient(50% 50% at 18% 70%, rgba(73,18,17,.22), transparent 65%);
+  pointer-events: none;
+}
+.hero__in { position: relative; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .9fr); gap: clamp(32px, 5vw, 76px); align-items: end; }
+.hero h1 { font-size: var(--step-5); line-height: .95; }
+.hero h1 em { font-style: italic; color: var(--brass-300); }
+.hero__facts { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 20px; border-top: 1px solid var(--line-soft); padding-top: 24px; }
+.hero__fact b { display: block; font-family: var(--font-display); font-size: var(--step-2); color: var(--smoke-100); font-weight: 500; }
+.hero__fact span { font-size: var(--step--1); color: var(--smoke-400); }
+
+/* ---------- generic cards / grids ---------- */
+
+.grid { display: grid; gap: clamp(16px, 2vw, 26px); }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.card {
+  display: flex; flex-direction: column; gap: 14px;
+  padding: clamp(20px, 2.2vw, 30px);
+  background: var(--graphite-850);
+  border: 1px solid var(--line-soft);
+  transition: border-color .3s, background .3s, transform .3s;
+}
+.card--link:hover { border-color: var(--line); background: var(--graphite-800); transform: translateY(-3px); }
+.card h3 { font-size: var(--step-2); }
+.card__price { font-size: var(--step-1); color: var(--brass-300); font-variant-numeric: tabular-nums; }
+
+.tile { display: flex; flex-direction: column; gap: 16px; }
+.tile h3 { font-size: var(--step-1); font-family: var(--font-body); font-weight: 700; letter-spacing: -0.005em; }
+
+/* нумерованный процесс — порядок здесь содержательный */
+.steps { counter-reset: st; display: grid; gap: 0; }
+.step-row {
+  display: grid; grid-template-columns: 76px minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(14px, 2vw, 32px);
+  padding-block: 26px;
+  border-top: 1px solid var(--line-soft);
+  align-items: start;
+}
+.step-row:last-child { border-bottom: 1px solid var(--line-soft); }
+.step-row__n {
+  font-family: var(--font-display); font-size: var(--step-2);
+  color: var(--brass-500); font-variant-numeric: tabular-nums;
+}
+.step-row h3 { font-size: var(--step-1); font-family: var(--font-body); font-weight: 700; }
+
+/* ---------- таблицы ---------- */
+
+.tbl-scroll { overflow-x: auto; }
+.tbl { width: 100%; border-collapse: collapse; min-width: 560px; font-size: .94rem; }
+.tbl th, .tbl td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+.tbl th { font-size: var(--step--1); letter-spacing: .14em; text-transform: uppercase; color: var(--smoke-400); font-weight: 600; }
+.tbl td.num, .tbl th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tbl tbody tr:hover { background: rgba(255,255,255,.02); }
+
+/* ---------- чипы, бейджи ---------- */
+
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 42px; padding: 8px 16px;
+  border: 1px solid var(--line-soft); background: var(--graphite-850);
+  color: var(--smoke-300); cursor: pointer; border-radius: var(--radius);
+  font-size: .88rem; transition: .2s;
+}
+.chip:hover { border-color: var(--line); color: var(--smoke-100); }
+.chip.is-on { border-color: var(--brass-400); color: var(--brass-300); background: rgba(167,154,97,.1); }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+  border: 1px solid var(--line); color: var(--brass-300); font-weight: 600;
+}
+.badge--soft { border-color: var(--line-soft); color: var(--smoke-400); }
+.badge--ok { border-color: rgba(127,168,122,.4); color: var(--ok); }
+
+/* ---------- forms ---------- */
+
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field > label { font-size: var(--step--1); letter-spacing: .12em; text-transform: uppercase; color: var(--smoke-400); font-weight: 600; }
+.input, select.input, textarea.input {
+  width: 100%; min-height: 50px; padding: 12px 16px;
+  background: var(--graphite-900); border: 1px solid var(--line-soft);
+  color: var(--smoke-100); border-radius: var(--radius); transition: border-color .2s;
+}
+.input:focus { border-color: var(--brass-400); outline: none; }
+textarea.input { min-height: 110px; resize: vertical; }
+.check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-size: .9rem; color: var(--smoke-300); }
+.check input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--brass-500); flex: none; }
+
+input[type="range"] {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 3px;
+  background: var(--graphite-600); border-radius: 3px; outline: none; margin: 18px 0 6px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
+  background: linear-gradient(140deg, var(--brass-400), var(--brass-600));
+  cursor: pointer; border: 3px solid var(--graphite-900);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 22px; height: 22px; border-radius: 50%; border: 3px solid var(--graphite-900);
+  background: var(--brass-400); cursor: pointer;
+}
+
+/* ---------- configurator ---------- */
+
+.cfg { display: grid; grid-template-columns: minmax(0, 1fr) 372px; gap: clamp(24px, 3vw, 48px); align-items: start; }
+.cfg__progress { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; margin-bottom: 30px; }
+.cfg__progress button {
+  display: flex; align-items: center; min-height: 56px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  text-align: left; padding: 12px 10px; cursor: pointer;
+  background: var(--graphite-850); border: 0; border-top: 2px solid var(--graphite-600);
+  color: var(--smoke-400); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 600;
+  transition: .25s;
+}
+.cfg__progress button.is-done { border-top-color: var(--brass-600); color: var(--smoke-300); }
+.cfg__progress button.is-now { border-top-color: var(--brass-300); color: var(--brass-300); background: var(--graphite-800); }
+
+.opt-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+.opt {
+  position: relative; text-align: left; cursor: pointer; padding: 0;
+  background: var(--graphite-850); border: 1px solid var(--line-soft);
+  display: flex; flex-direction: column; overflow: hidden; transition: .25s;
+}
+.opt:hover { border-color: var(--line); }
+.opt.is-on { border-color: var(--brass-400); box-shadow: inset 0 0 0 1px rgba(167,154,97,.4); }
+.opt.is-on::after {
+  content: ""; position: absolute; top: 10px; right: 10px; width: 20px; height: 20px; z-index: 3;
+  background: var(--brass-300);
+  clip-path: polygon(14% 46%, 0 60%, 40% 100%, 100% 22%, 86% 10%, 38% 70%);
+}
+.opt__body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 5px; }
+.opt__title { color: var(--smoke-100); font-weight: 700; font-size: .96rem; }
+.opt__meta { font-size: .8rem; color: var(--smoke-400); }
+.opt__price { font-size: .85rem; color: var(--brass-300); font-variant-numeric: tabular-nums; margin-top: 2px; }
+
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line-soft); }
+.stepper button { width: 44px; height: 44px; background: var(--graphite-850); border: 0; cursor: pointer; color: var(--smoke-200); font-size: 1.1rem; }
+.stepper button:hover { color: var(--brass-300); }
+.stepper span { min-width: 54px; text-align: center; font-variant-numeric: tabular-nums; font-weight: 700; color: var(--smoke-100); }
+
+.hint {
+  display: flex; gap: 10px; padding: 12px 14px; font-size: .85rem;
+  border-left: 2px solid var(--brass-500); background: rgba(167,154,97,.08); color: var(--smoke-300);
+}
+.hint--warn { border-left-color: var(--warn); background: rgba(216,163,90,.08); }
+
+.summary {
+  position: sticky; top: 92px;
+  background: var(--graphite-850); border: 1px solid var(--line);
+  padding: 24px; display: flex; flex-direction: column; gap: 16px;
+}
+.summary__lines { display: flex; flex-direction: column; gap: 9px; max-height: 340px; overflow-y: auto; }
+.summary__line { display: flex; justify-content: space-between; gap: 14px; font-size: .88rem; color: var(--smoke-300); }
+.summary__line b { color: var(--smoke-100); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.summary__total { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--line); padding-top: 16px; }
+.summary__total b { font-family: var(--font-display); font-size: var(--step-3); color: var(--brass-300); font-variant-numeric: tabular-nums; }
+
+.mobile-bar { display: none; }
+
+/* ---------- gallery ---------- */
+
+.gal { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
+.gal__item { grid-column: span 4; cursor: pointer; position: relative; }
+.gal__item:nth-child(7n+1) { grid-column: span 6; }
+.gal__item:nth-child(7n+4) { grid-column: span 6; }
+.lightbox {
+  position: fixed; inset: 0; z-index: 90; display: flex;
+  background: rgba(8,7,6,.93); padding: var(--gutter);
+  align-items: center; justify-content: center; flex-direction: column; gap: 18px;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .34s ease, visibility .34s;
+}
+.lightbox.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+.lightbox .plate { width: min(960px, 100%); transform: scale(.985); transition: transform .5s cubic-bezier(.2,.7,.3,1); }
+.lightbox.is-open .plate { transform: none; }
+
+/* ---------- модалки, гейт, куки ---------- */
+
+.gate {
+  position: fixed; inset: 0; z-index: 100;
+  background: var(--graphite-950);
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--gutter); text-align: center;
+}
+.gate__card { max-width: 520px; display: flex; flex-direction: column; gap: 22px; align-items: center; }
+.gate__mark { font-family: var(--font-display); font-size: 3rem; font-weight: 400; letter-spacing: .34em; padding-left: .34em; color: var(--smoke-100); }
+
+.modal {
+  position: fixed; inset: 0; z-index: 95; display: flex;
+  background: rgba(8,7,6,.82); padding: var(--gutter);
+  align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .3s ease, visibility .3s;
+}
+.modal.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+.modal .modal__card { transform: translateY(12px); transition: transform .44s cubic-bezier(.2,.7,.3,1); }
+.modal.is-open .modal__card { transform: none; }
+.modal__card {
+  width: min(560px, 100%); max-height: 86vh; overflow-y: auto;
+  background: var(--graphite-850); border: 1px solid var(--line); padding: clamp(22px, 3vw, 38px);
+  display: flex; flex-direction: column; gap: 18px;
+}
+
+.cookie {
+  position: fixed; left: 50%; transform: translateX(-50%); bottom: 18px; z-index: 80;
+  width: min(880px, calc(100% - 32px));
+  background: var(--graphite-800); border: 1px solid var(--line);
+  padding: 16px 20px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+  font-size: .85rem; color: var(--smoke-300);
+  box-shadow: 0 20px 50px rgba(0,0,0,.5);
+}
+
+/* ---------- footer ---------- */
+
+.ftr { border-top: 1px solid var(--line-soft); background: var(--graphite-950); position: relative; z-index: 2; }
+.ftr__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 36px; padding-block: clamp(44px, 6vw, 76px); }
+.ftr h4 { font-family: var(--font-body); font-size: var(--step--1); letter-spacing: .16em; text-transform: uppercase; color: var(--smoke-400); font-weight: 600; margin-bottom: 14px; }
+.ftr a { display: block; padding: 5px 0; color: var(--smoke-300); font-size: .9rem; }
+.ftr a:hover { color: var(--brass-300); }
+.ftr__legal { border-top: 1px solid var(--line-soft); padding-block: 22px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; font-size: .76rem; color: var(--smoke-500); }
+.ftr__warn { border: 1px solid var(--line-soft); padding: 12px 16px; font-size: .76rem; color: var(--smoke-400); letter-spacing: .04em; }
+
+details summary::-webkit-details-marker { display: none; }
+details[open] summary span:last-child { transform: rotate(45deg); display: inline-block; }
+.stack-14 { gap: 14px; }
+ul { line-height: 1.6; }
+
+/* ---------- переходы: гейт, страницы, шапка ---------- */
+
+.gate {
+  transition: opacity .55s ease, transform .8s cubic-bezier(.22,.61,.24,1);
+}
+.gate.is-out { opacity: 0; transform: scale(1.02); pointer-events: none; }
+.gate__card > * { animation: gateIn .9s cubic-bezier(.2,.7,.3,1) both; }
+.gate__card > *:nth-child(1) { animation-delay: .05s; }
+.gate__card > *:nth-child(2) { animation-delay: .16s; }
+.gate__card > *:nth-child(3) { animation-delay: .26s; }
+.gate__card > *:nth-child(4) { animation-delay: .34s; }
+.gate__card > *:nth-child(5) { animation-delay: .42s; }
+@keyframes gateIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+#view { transition: opacity .22s ease, transform .22s ease; }
+#view.is-leaving { opacity: 0; transform: translateY(5px); }
+#view.is-entering { animation: viewIn .62s cubic-bezier(.2,.7,.3,1) both; }
+@keyframes viewIn { from { opacity: .35; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* первые экраны после гейта — мягкое проявление сверху вниз */
+.app-in .hdr { animation: fadeDown .7s cubic-bezier(.2,.7,.3,1) both; }
+.app-in #view { animation: viewIn .8s cubic-bezier(.2,.7,.3,1) .1s both; }
+.app-in .ftr { animation: fadeDown .8s cubic-bezier(.2,.7,.3,1) .18s both; }
+@keyframes fadeDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+.hdr { transition: background .4s ease, border-color .4s ease, box-shadow .4s ease; }
+.hdr.is-scrolled {
+  background: rgba(10, 8, 7, .9);
+  border-bottom-color: var(--line);
+  box-shadow: 0 18px 40px rgba(0,0,0,.36);
+}
+.hdr__in { transition: min-height .4s cubic-bezier(.2,.7,.3,1); }
+.hdr.is-scrolled .hdr__in { min-height: 62px; }
+
+.cookie { animation: cookieIn .7s cubic-bezier(.2,.7,.3,1) .9s both; }
+@keyframes cookieIn { from { opacity: 0; transform: translate(-50%, 18px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+.plate { transition: transform .9s cubic-bezier(.2,.7,.3,1), filter .6s ease; }
+.card--link:hover .plate, .gal__item:hover .plate { transform: scale(1.02); }
+.gal__item .plate { will-change: transform; }
+
+/* ---------- анимация появления (из видимого состояния) ---------- */
+
+.rise { animation: rise .7s cubic-bezier(.2,.7,.3,1) both; }
+@keyframes rise { from { opacity: .55; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ---------- адаптив ---------- */
+
+@media (max-width: 1680px) { .brand__sub { display: none; } }
+@media (max-width: 1520px) { .hdr__phone { display: none; } }
+
+@media (max-width: 1330px) {
+  .nav { display: none; }
+  .burger { display: block; }
+  .cfg { grid-template-columns: minmax(0, 1fr); }
+  .summary { position: static; }
+  .hero__in { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .ftr__grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+@media (max-width: 1000px) {
+  .cfg__progress { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .nav, .hdr__phone { display: none; }
+  .burger { display: block; }
+  .grid-4 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .grid-3 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .step-row { grid-template-columns: 48px minmax(0,1fr); }
+  .step-row > *:last-child { grid-column: 2; }
+  .gal__item, .gal__item:nth-child(7n+1), .gal__item:nth-child(7n+4) { grid-column: span 6; }
+}
+
+@media (max-width: 620px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: minmax(0, 1fr); }
+  .cfg__progress { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero__facts { grid-template-columns: minmax(0,1fr); gap: 14px; }
+  .ftr__grid { grid-template-columns: minmax(0,1fr); }
+  .btn { width: 100%; }
+  .row .btn { width: auto; }
+  .hdr__cta .btn { width: auto; }
+  .cfg--live .summary { display: none; }
+  .mobile-bar {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 75;
+    background: var(--graphite-800); border-top: 1px solid var(--line);
+    padding: 12px 16px; gap: 14px; align-items: center; justify-content: space-between;
+  }
+  .mobile-bar b { font-family: var(--font-display); font-size: 1.5rem; color: var(--brass-300); font-variant-numeric: tabular-nums; }
+  .cfg--live { padding-bottom: 96px; }
+}
+
+/* ---------- системные состояния: загрузка, ошибки ---------- */
+
+/* тонкая полоса прогресса под шапкой при переходах */
+.progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 65;
+  pointer-events: none; opacity: 0; transition: opacity .25s ease;
+}
+.progress::after {
+  content: ""; display: block; height: 100%; width: 100%;
+  background: linear-gradient(90deg, transparent, var(--brass-400), var(--maroon-400), transparent);
+  transform: translateX(-100%);
+}
+.progress.is-on { opacity: 1; }
+.progress.is-on::after { animation: progressSlide 1.1s cubic-bezier(.4,0,.2,1) infinite; }
+@keyframes progressSlide { to { transform: translateX(100%); } }
+
+/* стартовый экран, пока грузятся шрифты */
+.splash {
+  position: fixed; inset: 0; z-index: 110;
+  background: var(--graphite-950);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px;
+  transition: opacity .5s ease;
+}
+.splash.is-out { opacity: 0; pointer-events: none; }
+.splash__mark {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: 2.4rem; letter-spacing: .34em; padding-left: .34em;
+  color: var(--smoke-100); text-transform: uppercase;
+}
+.splash__line { width: 160px; height: 1px; background: var(--graphite-700); overflow: hidden; }
+.splash__line::after {
+  content: ""; display: block; height: 100%; width: 40%;
+  background: var(--brass-400); animation: splashLine 1.2s ease-in-out infinite;
+}
+@keyframes splashLine { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
+
+/* скелетоны */
+.sk { background: var(--graphite-800); position: relative; overflow: hidden; border-radius: 1px; }
+.sk::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(237,231,221,.06), transparent);
+  animation: skShine 1.5s ease-in-out infinite;
+}
+@keyframes skShine { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+.sk--line { height: 12px; }
+.sk--title { height: 26px; width: 55%; }
+.sk--text { height: 12px; }
+.sk--text:nth-of-type(2n) { width: 86%; }
+.sk--plate { aspect-ratio: 16 / 9; }
+.sk-card { display: flex; flex-direction: column; gap: 12px; padding: clamp(20px, 2.2vw, 30px); background: var(--graphite-850); border: 1px solid var(--line-soft); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sk::after, .splash__line::after, .progress.is-on::after { animation: none; }
+}
+
+/* экран состояния: 404, ошибка, офлайн */
+.state {
+  min-height: 62vh; display: flex; flex-direction: column; align-items: flex-start;
+  justify-content: center; gap: 22px; max-width: 62ch;
+}
+.state__code {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(4rem, 3rem + 6vw, 8rem); line-height: .9;
+  color: var(--graphite-600); font-variant-numeric: tabular-nums;
+}
+.state__code--err { color: var(--maroon-600); }
+.state__links { display: flex; flex-wrap: wrap; gap: 10px 26px; padding-top: 6px; border-top: 1px solid var(--line-soft); width: 100%; }
+.state__links a { font-size: .9rem; color: var(--smoke-300); padding-block: 8px; }
+.state__links a:hover { color: var(--brass-300); }
+
+/* плашка офлайна поверх страницы */
+.offline-bar {
+  position: fixed; left: 50%; transform: translateX(-50%); bottom: 18px; z-index: 82;
+  width: min(560px, calc(100% - 32px));
+  background: var(--maroon-700); border: 1px solid var(--maroon-500);
+  color: var(--smoke-100); padding: 12px 18px; font-size: .86rem;
+  display: none; gap: 12px; align-items: center;
+}
+.offline-bar.is-on { display: flex; }
+
+</style>
+
+<div class="splash" id="splash">
+  <span class="splash__mark">Magic</span>
+  <span class="splash__line"></span>
+</div>
+
+<div class="progress" id="progress"></div>
+
+<div class="offline-bar" id="offline-bar">
+  <span style="flex:1">Соединение пропало. Смета сохранена — продолжим, когда сеть вернётся</span>
+  <button class="btn btn--ghost" type="button" style="min-height:36px;padding:6px 14px;border-color:rgba(237,231,221,.3)" onclick="location.reload()">Обновить</button>
+</div>
+
+</head>
+<body>
+<div class="gate" id="gate">
+  <div class="gate__card">
+    <span class="gate__mark">Magic</span>
+    <p class="lede" style="font-size:var(--step-1)">Сайт содержит информацию об услуге кальянного кейтеринга и предназначен для лиц старше 18 лет.</p>
+    <p class="small muted">Подтвердите, пожалуйста, что вам есть 18 лет. Потребление никотинсодержащей продукции вредит вашему здоровью.</p>
+    <div class="row" style="justify-content:center">
+      <button class="btn btn--primary" type="button" id="gate-yes">Мне есть 18</button>
+      <button class="btn btn--ghost" type="button" id="gate-no">Мне нет 18</button>
+    </div>
+    <p class="small" style="color:var(--smoke-500)">Демо-версия сайта. Цены и материалы носят ознакомительный характер.</p>
+  </div>
+</div>
+
+<div id="app">
+  <main id="view"></main>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal__card" id="modal-body"></div>
+</div>
+
+<div class="cookie" id="cookie" style="display:none">
+  <span style="flex:1 1 320px">Мы используем файлы cookie и системы веб-аналитики, чтобы понимать, как посетители пользуются сайтом. Продолжая, вы соглашаетесь с <a href="#/legal/privacy" style="color:var(--brass-300)">политикой конфиденциальности</a>.</span>
+  <button class="btn btn--primary" type="button" id="cookie-ok" style="min-height:40px;padding:8px 20px">Принять</button>
+</div>
+<script>
+/* ==========================================================
+   MAGIC — контент и ценовая модель демо-версии
+   Все цены — демонстрационные, вынесены в один объект PRICE,
+   чтобы в боевой версии их забирал сервер из админки.
+   ========================================================== */
+
+const BRAND = {
+  name: "MAGIC",
+  sub: "hookah catering",
+  phone: "+7 (495) 000-14-88",
+  phoneHref: "tel:+74950001488",
+  tg: "@magic_catering",
+  email: "hello@magic-catering.ru",
+  entity: "ООО «Мэджик Ивент» · ИНН 7701234567 · ОГРН 1237700123456",
+  address: "Москва, Дербеневская наб., 7с22 — склад и шоурум, по записи",
+  hours: "Заявки — круглосуточно. Ответ менеджера — до 15 минут с 09:00 до 02:00",
+};
+
+const PRICE = {
+  version: "2026.09",
+  base: 8000,            // выезд, логистика, сборка/разборка зоны
+  minHours: 3,
+  hookah: {
+    classic: { id: "classic", title: "Классические", price: 3500, meta: "Уголь, базовая линейка, стеклянная колба", note: "Требует проветриваемого помещения или улицы" },
+    electro: { id: "electro", title: "Электронные и э-чаши", price: 4500, meta: "Без углей и открытого огня, чаша APEX", note: "Единственный вариант для помещений без вытяжки" },
+    author:  { id: "author",  title: "Авторские", price: 6500, meta: "Хрустальная колба, ручная сборка, подсветка", note: "Фотогеничны, берут под съёмку и первый стол" },
+    fruit:   { id: "fruit",   title: "Фруктовые чаши", price: 5500, meta: "Ананас, грейпфрут, арбуз — чаша режется на месте", note: "Мягкий вкус, держит до 1,5 часов" },
+  },
+  hourExtra: 0.22,        // доля от стоимости кальянов за каждый час сверх 3
+  master: 5000,
+  masterHour: 1200,
+  nightSurcharge: 0.15,   // старт после 23:00
+  kmOutside: 60,
+  guestsPerHookah: 6,
+  hookahsPerMaster: 6,
+  flask: {
+    standard: { id: "standard", title: "Стандарт", price: 0, meta: "Прозрачное стекло" },
+    shimmer:  { id: "shimmer",  title: "Шиммер", price: 800, meta: "Перламутровая взвесь в колбе" },
+    light:    { id: "light",    title: "Подсветка", price: 1000, meta: "Тёплый или холодный свет" },
+    crystal:  { id: "crystal",  title: "Хрусталь", price: 2500, meta: "Резная колба, ручная работа" },
+    decor:    { id: "decor",    title: "Тематический декор", price: 3000, meta: "Оформление под стилистику события" },
+  },
+  mouth: {
+    single: { id: "single", title: "Одноразовые", price: 0, meta: "Включены в стоимость" },
+    named:  { id: "named",  title: "Персональные именные", price: 250, meta: "За гостя, с гравировкой имени" },
+  },
+  tobaccoLine: {
+    standard: { id: "standard", title: "Стандарт", price: 0, meta: "Рабочие линейки, 60+ вкусов" },
+    premium:  { id: "premium",  title: "Премиум", price: 700, meta: "За кальян. Тёмный лист, плотный дым" },
+    import:   { id: "import",   title: "Импорт и редкие", price: 1400, meta: "За кальян. Привозим под заказ, нужно 5 дней" },
+  },
+  nicotineFree: 400,
+  dress: {
+    classic: { id: "classic", title: "Классика", price: 0, meta: "Белая рубашка, чёрные брюки, фартук" },
+    black:   { id: "black",   title: "Total black", price: 0, meta: "Чёрная рубашка и брюки, без логотипов" },
+    tux:     { id: "tux",     title: "Смокинг и бабочка", price: 1500, meta: "За мастера. Для свадеб и приёмов" },
+    casual:  { id: "casual",  title: "Casual premium", price: 0, meta: "Лён, тёмный трикотаж — для дачи и террас" },
+    custom:  { id: "custom",  title: "Кастом под мероприятие", price: 3000, meta: "Шьём или подбираем по референсу" },
+  },
+  equipment: [
+    { id: "tent",    title: "Шатёр 3×3 с боковинами", price: 15000, meta: "Монтаж 40 минут, нужен ровный грунт" },
+    { id: "heater",  title: "Газовый обогреватель", price: 4500, meta: "За штуку. Греет круг ~3 м" },
+    { id: "fan",     title: "Вентилятор", price: 2000, meta: "За штуку, тихий режим" },
+    { id: "purifier",title: "Очиститель воздуха", price: 5000, meta: "HEPA + угольный фильтр, для помещений" },
+    { id: "tables",  title: "Столы и посадка", price: 6000, meta: "Комплект на 10 гостей" },
+    { id: "light",   title: "Декоративный свет", price: 8000, meta: "Гирлянды, напольные лампы, свечи" },
+    { id: "tv",      title: "ТВ и приставка", price: 9000, meta: "55″, PS5, два геймпада" },
+    { id: "plaid",   title: "Пледы", price: 2500, meta: "Комплект 10 шт., стирка включена" },
+    { id: "fence",   title: "Ограждение зоны", price: 4000, meta: "Отделяет курящую зону от общей" },
+    { id: "styling", title: "Кастомное оформление зоны", price: 25000, meta: "Флористика, текстиль, вывеска события" },
+  ],
+  packages: [
+    { id: "duo", title: "Дуэт", guests: "до 8 гостей", hookahs: "2 кальяна", masters: "1 мастер", hours: "3 часа", price: 21000, includes: ["Классические кальяны", "Табак стандарт", "Одноразовые мундштуки", "Доставка в пределах МКАД"] },
+    { id: "salon", title: "Салон", guests: "до 25 гостей", hookahs: "5 кальянов + 1 бонусный", masters: "1 мастер", hours: "4 часа", price: 47000, includes: ["Классические или электронные", "Табак премиум на выбор", "Шиммер в двух колбах", "Согласование зоны с площадкой"], popular: true },
+    { id: "grand", title: "Гранд", guests: "до 60 гостей", hookahs: "10 кальянов", masters: "2 мастера", hours: "5 часов", price: 96000, includes: ["Любая комбинация линеек", "Авторская подача на первый стол", "Именные мундштуки", "Очистители воздуха"] },
+    { id: "atelier", title: "Ателье", guests: "от 60 гостей", hookahs: "по проекту", masters: "от 3 мастеров", hours: "по таймингу", price: null, includes: ["Полная сборка зоны под событие", "Дресс-код под дресс-код гостей", "Сменные миксы по таймингу вечера", "Менеджер на площадке"] },
+  ],
+};
+
+const TOBACCO = [
+  { n: "Кедровый орех", fam: "Пряности", str: 4, nic: true, line: "premium", note: "Смолистый, тёплый. Хорош к виски" },
+  { n: "Грейпфрут с мятой", fam: "Цитрус", str: 3, nic: true, line: "standard", note: "Самый заказываемый летний микс" },
+  { n: "Лимонный пирог", fam: "Десерт", str: 2, nic: true, line: "standard", note: "Мягкий, заходит некурящим гостям" },
+  { n: "Чёрная смородина", fam: "Ягоды", str: 3, nic: true, line: "standard", note: "Плотная кислинка" },
+  { n: "Маракуйя", fam: "Тропики", str: 2, nic: true, line: "standard", note: "База для летних миксов" },
+  { n: "Ледяная дыня", fam: "Мята/холод", str: 2, nic: false, line: "standard", note: "Безникотиновая версия по запросу" },
+  { n: "Дарджилинг", fam: "Табачные", str: 5, nic: true, line: "import", note: "Тёмный лист, только для опытных" },
+  { n: "Кардамон и сливки", fam: "Пряности", str: 3, nic: true, line: "premium", note: "Зимний фаворит" },
+  { n: "Розовый грейпфрут", fam: "Цитрус", str: 2, nic: false, line: "premium", note: "Безникотиновая смесь на чайном листе" },
+  { n: "Ежевика", fam: "Ягоды", str: 3, nic: true, line: "premium", note: "Держит вкус больше часа" },
+  { n: "Манго-личи", fam: "Тропики", str: 2, nic: true, line: "premium", note: "Для фруктовой чаши" },
+  { n: "Мохито", fam: "Мята/холод", str: 3, nic: true, line: "standard", note: "Классика, редко ошибается" },
+  { n: "Тирамису", fam: "Десерт", str: 2, nic: true, line: "premium", note: "Плотный, на молоке в колбе" },
+  { n: "Вишнёвая косточка", fam: "Ягоды", str: 4, nic: true, line: "import", note: "Терпкий финиш" },
+  { n: "Бергамот", fam: "Цитрус", str: 4, nic: true, line: "import", note: "Чайный, под вечерний тайминг" },
+  { n: "Кислое яблоко", fam: "Кислые", str: 3, nic: true, line: "standard", note: "Освежает после десертов" },
+  { n: "Лайм-кола", fam: "Кислые", str: 3, nic: true, line: "standard", note: "Просят на днях рождения" },
+  { n: "Гвоздика и груша", fam: "Пряности", str: 4, nic: true, line: "premium", note: "Осенний авторский микс" },
+  { n: "Эвкалипт", fam: "Мята/холод", str: 4, nic: true, line: "premium", note: "Жёсткий холод, для улицы" },
+  { n: "Персиковый чай", fam: "Десерт", str: 1, nic: false, line: "standard", note: "Самый лёгкий в карте" },
+  { n: "Арбузная свежесть", fam: "Тропики", str: 1, nic: false, line: "standard", note: "Для фруктовой чаши из арбуза" },
+  { n: "Кубинская сигара", fam: "Табачные", str: 5, nic: true, line: "import", note: "Подаём в финале вечера" },
+];
+
+const TOB_FAMILIES = ["Цитрус", "Ягоды", "Тропики", "Десерт", "Мята/холод", "Табачные", "Пряности", "Кислые"];
+
+const EVENTS = [
+  {
+    slug: "wedding", title: "Свадьбы", short: "Кальянная зона, которая не спорит с флористикой",
+    lede: "Работаем по таймингу банкета: зона открывается после церемонии, усиливается к танцам и закрывается вместе с баром.",
+    facts: [["18:00", "обычное открытие зоны"], ["2", "мастера на 80 гостей"], ["Смокинг", "частый дресс-код"]],
+    bullets: [
+      "Согласуем зону с координатором и площадкой заранее — не в день свадьбы.",
+      "Колбы под палитру: шиммер в цвет декора, хрусталь на первый стол.",
+      "Отдельная лёгкая линейка для гостей, которые «вообще не курят».",
+      "Мастера в смокингах или под дресс-код банкета, без фирменных футболок.",
+    ],
+    price: "от 47 000 ₽",
+  },
+  {
+    slug: "corporate", title: "Корпоративы", short: "Закрывающие документы и предсказуемая смета",
+    lede: "Работаем с юрлицами: договор, счёт, акт, при необходимости NDA. Смету из конфигуратора можно приложить к заявке на согласование бюджета.",
+    facts: [["1 день", "на договор и счёт"], ["НДС", "работаем с и без"], ["До 500", "гостей на площадке"]],
+    bullets: [
+      "Оформляем пропуска и заезд по требованиям бизнес-центра.",
+      "Электронные кальяны и очистители — для помещений без вытяжки.",
+      "Брендирование зоны: вывеска, мундштуки, оформление под айдентику компании.",
+      "Отчётные фото зоны после монтажа — до прихода гостей.",
+    ],
+    price: "от 60 000 ₽",
+  },
+  {
+    slug: "birthday", title: "Дни рождения", short: "Самый частый повод и самый гибкий формат",
+    lede: "От двух кальянов в квартире до зоны на сто гостей в лофте. Минимальный выезд — 3 часа, продление обсуждается на месте.",
+    facts: [["3 часа", "минимальный выезд"], ["от 21 000 ₽", "пакет «Дуэт»"], ["45 мин", "монтаж зоны"]],
+    bullets: [
+      "В квартире — только электронные кальяны и чаши без углей.",
+      "Именные мундштуки как элемент подарка имениннику.",
+      "Фруктовые чаши на первый стол — работают как декор.",
+      "Можем приехать к началу и уехать до конца вечера, тайминг ваш.",
+    ],
+    price: "от 21 000 ₽",
+  },
+  {
+    slug: "yacht", title: "Теплоходы и выездные площадки", short: "Там, где нельзя импровизировать",
+    lede: "Палуба, крыша, загородная веранда — площадки со своими правилами. Выезжаем на осмотр заранее, если событие крупное.",
+    facts: [["За 5 дней", "согласование с судном"], ["Ветер", "главный фактор подачи"], ["Фиксация", "всего оборудования"]],
+    bullets: [
+      "Проверяем разрешение на открытый огонь у администрации судна.",
+      "Ветрозащита и утяжелители — входят в сборку, не допуслуга.",
+      "Загрузка вместе с кейтерингом по общему графику причала.",
+      "Запасной комплект углей и чаш — на борту нельзя доехать до склада.",
+    ],
+    price: "от 72 000 ₽",
+  },
+  {
+    slug: "private", title: "Частные и VIP-события", short: "Тишина, NDA и отсутствие съёмки",
+    lede: "Закрытые вечера, где важнее всего, что о них никто не узнает. Съёмка для портфолио не ведётся, мастера подписывают NDA.",
+    facts: [["NDA", "по умолчанию"], ["0 фото", "в портфолио"], ["Личный", "менеджер события"]],
+    bullets: [
+      "Проверенный состав команды, постоянные мастера, без подмен.",
+      "Заезд и выезд по служебному входу, форма нейтральная.",
+      "Индивидуальные миксы под гостя и их повтор в следующие разы.",
+      "Хранение истории заказов — по согласованию, иначе не храним.",
+    ],
+    price: "по запросу",
+  },
+];
+
+const HOOKAHS = [
+  { id: "classic", title: "Классическая линейка", price: "от 3 500 ₽", meta: "Уголь · стеклянная колба · калауд", text: "Рабочая лошадь кейтеринга: предсказуемый вкус, быстрая перезабивка, знакомая гостям тяга. Нужна улица, терраса или помещение с вытяжкой." },
+  { id: "electro", title: "Электронные и э-чаши", price: "от 4 500 ₽", meta: "Без углей · без открытого огня · APEX", text: "То, что разрешают в квартирах, лофтах и бизнес-центрах. Работаем на электронной чаше APEX: нагрев регулируется, запаха угля нет, зона не требует согласования по пожарной части." },
+  { id: "author", title: "Авторские", price: "от 6 500 ₽", meta: "Хрусталь · ручная сборка · подсветка", text: "Ставим на первый стол и в кадр. Резные колбы, латунная шахта, тёплая подсветка. Каждый экземпляр в единственном числе." },
+  { id: "fruit", title: "Фруктовые чаши", price: "от 5 500 ₽", meta: "Ананас · грейпфрут · арбуз", text: "Чаша режется на площадке при гостях. Вкус мягче, жар ниже, держит до полутора часов. Заодно работает как элемент сервировки." },
+];
+
+
+
+const FAQ = [
+  { q: "За сколько нужно бронировать дату?", a: "В сезон (май–сентябрь, декабрь) — за 2–3 недели. В будни и межсезонье часто закрываем заявку за сутки. Дату держим бесплатно 48 часов, дальше — предоплата 30%." },
+  { q: "Можно ли кальян в квартире или помещении без вытяжки?", a: "Классические угольные — нет. Работаем электронными кальянами и чашами без углей: открытого огня нет, запах минимальный. Дополнительно привозим очистители воздуха." },
+  { q: "Что входит в стоимость?", a: "Кальяны, табак, уголь и расходники, работа мастера, доставка в пределах МКАД, сборка и разборка зоны, уборка после себя. Отдельно считаются оборудование зоны, премиальные линейки табака и подача." },
+  { q: "Сколько кальянов нужно на N гостей?", a: "Наш норматив — один кальян на 6 гостей, один мастер на 6 кальянов. Это не догма: на деловом фуршете курит меньше половины, на дне рождения — почти все. Конфигуратор подставит норматив, а менеджер скорректирует под повод." },
+  { q: "Работаете ли вы с юрлицами?", a: "Да. Договор, счёт, акт, УПД, при необходимости NDA. Работаем с НДС и без. Комплект документов готовим за один рабочий день." },
+  { q: "Что если гости захотят продлить?", a: "Продлеваем на месте по часовой ставке, если следующий выезд команды это позволяет. Чаще всего позволяет — мы не ставим две смены подряд без запаса." },
+  { q: "Вы ставите зону на улице зимой?", a: "Да. Шатёр с боковинами, газовые обогреватели, пледы. Ниже −15 °C предупреждаем, что тяга и вкус меняются, и предлагаем перенести зону под навес." },
+  { q: "Можно привезти конкретный табак?", a: "Да, если заказать за пять дней. Редкие и импортные линейки везём под заказ, стоимость считается отдельно." },
+];
+
+const BLOG = [
+  {
+    slug: "how-many-hookahs", title: "Сколько кальянов нужно на 30, 60 и 120 гостей",
+    date: "2 сентября 2026", read: "6 минут", tag: "Организация",
+    lead: "Разбираем норматив «один на шесть» и объясняем, когда он врёт — на деловом фуршете и на свадьбе цифры отличаются вдвое.",
+    body: [
+      "Базовая формула простая: количество кальянов равно числу гостей, делённому на шесть, с округлением вверх. На 30 гостей — пять, на 60 — десять, на 120 — двадцать. Эта формула лежит в основе нашего конфигуратора и почти всегда даёт разумную отправную точку.",
+      "Но норматив описывает средний вечер, а средних вечеров не бывает. На деловом фуршете курит меньше половины гостей, и половина из них — по одному разу за вечер; там смело берут на треть меньше. На дне рождения в кругу друзей курят почти все и подолгу — там наоборот, лучше добавить один-два.",
+      "Второй фактор — длительность. На трёхчасовом событии пик приходится на середину, и очередь у зоны заметна. На семичасовой свадьбе гости распределяются равномерно, и то же количество кальянов ощущается свободнее.",
+      "Третий фактор, о котором забывают, — мастера. Один мастер физически ведёт до шести кальянов: перезабивка каждые 40–50 минут, плюс розжиг, плюс замена углей. Семь кальянов на одного мастера означают, что кто-то из гостей всегда ждёт.",
+    ],
+  },
+  {
+    slug: "indoor", title: "Кальян в помещении: что можно, а что нет",
+    date: "20 августа 2026", read: "5 минут", tag: "Площадки",
+    lead: "Вытяжка, согласование с арендодателем и почему электронная линейка — не компромисс, а иногда единственный рабочий вариант.",
+    body: [
+      "Главный вопрос любой закрытой площадки — открытый огонь. Уголь разжигается на плитке при температуре около 700 °C, и это автоматически попадает под пожарные требования помещения. Если у площадки нет согласованной зоны для этого, классические кальяны отпадают.",
+      "Электронные кальяны и чаши без углей решают вопрос: нагревательный элемент вместо угля, нет ни искр, ни угарного газа. Формально это уже не про открытый огонь, и большинство лофтов и бизнес-центров такую зону пропускают.",
+      "Остаётся воздух. Даже без углей плотный пар в закрытом зале накапливается. Мы привозим очистители с HEPA и угольным фильтром — один на каждые 30–40 м². Это заметно: к концу вечера в зале не «висит».",
+      "Согласование лучше начинать за неделю. Площадке нужно письмо с описанием зоны, списком оборудования и подтверждением, что уголь не используется. Мы готовим его сами — это входит в работу менеджера.",
+    ],
+  },
+  {
+    slug: "electro-vs-classic", title: "Чем электронный кальян отличается от классического",
+    date: "5 августа 2026", read: "4 минуты", tag: "Продукт",
+    lead: "Честное сравнение по вкусу, крепости и сценариям — без маркетинга в пользу того, что дороже.",
+    body: [
+      "По вкусу классика по-прежнему выигрывает на тёмных и крепких линейках: уголь даёт ту самую глубину, которую нагревательный элемент воспроизводит не полностью. Если гость просит «покрепче и потемнее», честнее предложить уголь.",
+      "На лёгких фруктовых и десертных вкусах разница почти неразличима. Более того, электронная чаша держит температуру стабильнее, и вкус не «горит» к концу забивки — на длинном мероприятии это плюс.",
+      "Эксплуатационно электроника проще: нет углей, нет замены, нет запаха, перезабивка быстрее. Один мастер комфортно ведёт на одну-две единицы больше, чем на классике.",
+      "Вывод простой: улица и терраса — классика, закрытое помещение — электроника, смешанная площадка — комбинация. В конфигураторе можно взять оба типа одновременно, это нормальный сценарий.",
+    ],
+  },
+  {
+    slug: "approve-zone", title: "Как согласовать кальянную зону с площадкой",
+    date: "18 июля 2026", read: "7 минут", tag: "Площадки",
+    lead: "Пошаговый порядок: у кого спрашивать, что писать в письме и какие три вопроса решают 90% отказов.",
+    body: [
+      "Спрашивать нужно не администратора зала, а управляющего или арендодателя — у администратора обычно нет полномочий, и «вроде можно» в день события превращается в «нельзя».",
+      "Три вопроса закрывают почти все отказы: разрешён ли открытый огонь, есть ли вытяжка или выделенная зона, кто отвечает за пожарную безопасность на мероприятии. Ответы на них определяют линейку кальянов и состав оборудования.",
+      "Письмо площадке должно содержать: дату и время монтажа, схему зоны с размерами, список оборудования, тип кальянов, контакты старшего мастера. Одна страница, без воды. Мы отправляем такое письмо от своего имени и ведём переписку сами.",
+      "И ещё: согласуйте покрытие пола. Самая частая претензия площадок — не дым, а следы от стоек и разлитая вода. Мы приезжаем со своей защитой пола, и это снимает вопрос заранее.",
+    ],
+  },
+];
+
+
+const STANDARDS = [
+  ["Приезд за 90 минут", "До гостей зона собрана, проверена и сфотографирована. Опоздание мастера — наш риск, не ваш."],
+  ["Один мастер — до 6 кальянов", "Больше — гости ждут перезабивку. Мы не экономим на этой цифре, даже если клиент просит."],
+  ["Форма, а не футболка", "Классика, total black, смокинг или кастом под дресс-код события. Выбирается на шаге 4 конфигуратора."],
+  ["Своя защита пола", "Коврики под стойки и поддоны под угли. Самая частая претензия площадок снимается заранее."],
+  ["Уборка после себя", "Зона сдаётся в состоянии «как было». Уголь увозим, воду сливаем в согласованное место."],
+  ["Без алкоголя на смене", "Правило без исключений. Мастер на площадке — сотрудник, а не гость."],
+  ["Гигиена по регламенту", "Одноразовые мундштуки на каждого гостя, профессиональная чистка кальянов после каждого события, проверенный уголь."],
+];
+
+/* ---------- дополнительные блоки контента ---------- */
+
+
+const FAQ_B2B = [
+  { q: "Как считается комиссия?", a: "Процент от суммы события без учёта транспортных расходов за МКАД. Фиксируется в рамочном договоре и не меняется от объёма конкретного заказа." },
+  { q: "Можете работать от нашего имени?", a: "Да. Мастера выходят без фирменной символики, на площадке представляемся подрядчиком агентства. Смету для клиента присылаем без наших контактов." },
+  { q: "Как быстро даёте ответ по датам?", a: "По партнёрским запросам — в течение часа в рабочее время. Дату держим 72 часа вместо стандартных 48." },
+  { q: "Что с документами?", a: "Рамочный договор, счёт, акт, УПД. Работаем с НДС и без. NDA подписываем в день обращения, до обсуждения деталей события." },
+  { q: "Кто отвечает за площадку?", a: "Согласование зоны берём на себя: пишем управляющему, готовим схему и список оборудования. Агентству остаётся только свести нас с контактом." },
+];
+
+const FAQ_EXTRA = [
+  { q: "Нужно ли что-то готовить к вашему приезду?", a: "Ровная площадка 2×2 метра на зону, доступ к розетке для электронной линейки и место для угольной плитки на улице. Всё остальное привозим." },
+  { q: "Сколько занимает монтаж?", a: "От 40 минут для двух-трёх кальянов до 90 минут для большой зоны с шатром и обогревом. Приезжаем с запасом до прихода гостей." },
+  { q: "Что если гость никогда не курил кальян?", a: "Мастер предложит лёгкую или безникотиновую смесь и покажет, как затягиваться. Отдельная лёгкая линейка есть на каждом событии." },
+  { q: "Вы работаете зимой на улице?", a: "Да — шатёр с боковинами, обогреватели, пледы. Ниже −15 °C предупреждаем, что меняется тяга, и предлагаем перенести зону под навес." },
+  { q: "Можно ли продлить на месте?", a: "Почти всегда: мы не ставим две смены подряд без запаса. Продление считается по часовой ставке и оплачивается после события." },
+  { q: "Что с уборкой?", a: "Зону сдаём в исходном состоянии: уголь увозим, воду сливаем в согласованное место, защиту пола забираем с собой." },
+  { q: "Есть ли предоплата?", a: "30% для фиксации даты. Остаток — в день события или по счёту для юрлиц. Перенос без удержания возможен за 7 дней." },
+  { q: "Вы страхуете ответственность?", a: "Да, гражданская ответственность подрядчика застрахована. Копию полиса высылаем площадке по запросу вместе с письмом о согласовании зоны." },
+];
+
+const PRICE_FACTORS = [
+  ["Число гостей", "Определяет количество кальянов, а оно — количество мастеров. Это две трети сметы."],
+  ["Длительность", "Первые три часа — базовые. Каждый следующий час добавляет 22% к стоимости кальянов и час работы мастера."],
+  ["Тип площадки", "Помещение без вытяжки переводит заказ на электронную линейку и добавляет очистители воздуха."],
+  ["Время старта", "Старт после 23:00 — ночной тариф +15%. Это компенсация ночной смены команде, а не наценка за повод."],
+  ["Удалённость", "В пределах МКАД доставка входит в стоимость. Дальше — 60 ₽ за километр в одну сторону."],
+  ["Подача и оформление", "Хрусталь, шиммер, именные мундштуки и оформление зоны — то, что делает смету «премиальной». Всё опционально."],
+];
+
+const PRODUCTION = [
+  ["Предметная съёмка", "40–60 кадров в студии: каждый тип кальяна на тёмном фоне, крупные планы чаш, колб и мундштуков. Нужна для карточек конфигуратора."],
+  ["Репортаж с события", "Зона в интерьере, мастер за работой, гости. Снимаем только с письменного разрешения площадки и заказчика."],
+  ["Дресс-код", "Мастер в каждом из пяти вариантов формы, одинаковый ракурс и свет. Эти кадры стоят на четвёртом шаге конфигуратора."],
+];
+
+const HIRING = [
+  ["Опыт от трёх лет", "Берём мастеров с опытом работы в заведении: выездная зона сложнее, права на ошибку меньше."],
+  ["Смена-стажировка", "Первые два события — вторым мастером рядом со старшим. Самостоятельно на площадку никто не выходит."],
+  ["Проверка перед сезоном", "Раз в полгода — разбор ошибок, обновление линеек табака, тренировка на новом оборудовании."],
+  ["Постоянный состав", "На повторные события выезжает та же команда. Вам не нужно объяснять всё заново."],
+];
+
+
+/* ---------- бренд-платформа ---------- */
+
+const PHILOSOPHY = {
+  lead: "Это философия отдыха, где каждый вдох — начало нового впечатления",
+  body: [
+    "Мы создаём атмосферу, в которой гости расслабляются, общаются и наслаждаются моментом",
+    "Наша команда — мастера своего дела, влюблённые в кальянную культуру и знающие, как сделать ваш праздник особенным",
+  ],
+  bridge: "Magic — это мост между прошлым и настоящим, где древнее искусство встречает новый стиль",
+};
+
+const PRINCIPLES = [
+  ["Аутентичность и возвращение к истокам",
+   "Мы изучаем историю кальянной культуры, чтобы предлагать гостям не просто дым, а опыт, уходящий корнями в древние традиции. Бережно относимся к классике, но не боимся экспериментировать"],
+  ["Качество без компромиссов",
+   "Только премиальные табаки, профессиональное оборудование и качественные аксессуары. Каждый кальян — результат тщательного отбора и мастерства. Мы не экономим на том, что влияет на вкус и безопасность"],
+  ["Атмосфера и эмоции",
+   "Мы создаём не просто лаунж-зону, а пространство, где хочется остаться. Всё продумано до мелочей, чтобы гости чувствовали себя комфортно и расслабленно. Атмосфера — половина удовольствия"],
+  ["Индивидуальный подход",
+   "Нет двух одинаковых мероприятий. Мы слушаем клиента, учитываем формат, аудиторию и пожелания. Тихий вечер, шумная вечеринка или деловой лаунж — программа адаптируется под вас"],
+  ["Профессионализм и страсть",
+   "Наши мастера — не просто сотрудники, а энтузиасты кальянного дела. Они постоянно развиваются и следят за трендами. Их страсть передаётся гостям"],
+  ["Чистота и безопасность",
+   "Строго соблюдаем гигиенические нормы: одноразовые мундштуки, профессиональная чистка кальянов, качественный уголь. Безопасность гостей — абсолютный приоритет"],
+  ["Гармония традиций и современности",
+   "Соединяем вековые ритуалы с современными технологиями и дизайном. У вас всегда есть выбор: классика или новое в кальянной культуре — например, электронная чаша APEX"],
+];
+
+/* ==========================================================
+   MAGIC — демо-версия сайта. Роутер, страницы, конфигуратор.
+   ========================================================== */
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const money = (n) => new Intl.NumberFormat("ru-RU").format(Math.round(n)) + " ₽";
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const plate = (tag, v = 1, cls = "") =>
+  `<div class="plate plate--v${v} ${cls}"><span class="plate__tag">${esc(tag)}</span></div>`;
+
+/* ----------------------------------------------------------
+   Навигация
+---------------------------------------------------------- */
+
+const NAV = [
+  { href: "#/catering", label: "Услуга" },
+  {
+    label: "События", children: EVENTS.map((e) => ({ href: `#/events/${e.slug}`, label: e.title })),
+  },
+  {
+    label: "Продукт", children: [
+      { href: "#/hookahs", label: "Парк кальянов" },
+      { href: "#/tobacco", label: "Карта вкусов" },
+      { href: "#/zone", label: "Оформление зоны" },
+      { href: "#/masters", label: "Команда и дресс-код" },
+    ],
+  },
+  { href: "#/prices", label: "Тарифы" },
+  { href: "#/gallery", label: "Галерея" },
+  { href: "#/agencies", label: "Агентствам" },
+  { href: "#/contacts", label: "Контакты" },
+];
+
+function renderHeader() {
+  const nav = NAV.map((item) => {
+    if (item.children) {
+      return `<div class="nav__group"><button type="button">${item.label} ↓</button>
+        <div class="nav__menu">${item.children.map((c) => `<a href="${c.href}">${c.label}</a>`).join("")}</div></div>`;
+    }
+    return `<a href="${item.href}">${item.label}</a>`;
+  }).join("");
+
+  return `<header class="hdr"><div class="wrap hdr__in">
+    <a class="brand" href="#/">
+      <span class="brand__mark">Magic</span>
+      <span class="brand__sub">${BRAND.sub}</span>
+    </a>
+    <nav class="nav">${nav}</nav>
+    <div class="hdr__cta">
+      <a class="hdr__phone" href="${BRAND.phoneHref}">${BRAND.phone}</a>
+      <a class="btn btn--primary" href="#/configurator">Расчёт</a>
+      <button class="burger" type="button" aria-label="Меню" id="burger"><span></span><span></span><span></span></button>
+    </div>
+  </div></header>
+  <div class="drawer" id="drawer">
+    <div class="drawer__top">
+      <span class="brand__mark">Magic</span>
+      <button class="btn btn--ghost" type="button" id="drawer-close">Закрыть</button>
+    </div>
+    ${NAV.map((i) => i.children
+      ? `<span class="small muted" style="padding-top:14px;letter-spacing:.16em;text-transform:uppercase">${i.label}</span>` +
+        i.children.map((c) => `<a class="drawer__sub" href="${c.href}">${c.label}</a>`).join("")
+      : `<a href="${i.href}">${i.label}</a>`).join("")}
+    <a href="#/faq">Вопросы и ответы</a>
+    <a href="#/about">О компании</a>
+    <a href="#/blog">Журнал</a>
+    <a class="btn btn--primary" style="margin-top:20px" href="#/configurator">Собрать смету</a>
+  </div>`;
+}
+
+function renderFooter() {
+  return `<footer class="ftr"><div class="wrap">
+    <div class="ftr__grid">
+      <div>
+        <span class="brand__mark" style="font-size:1.4rem">Magic</span>
+        <p class="small muted" style="margin-top:14px;max-width:34ch">Кальянный кейтеринг в Москве и области. Выезд на площадки любой сложности.</p>
+        <p class="small" style="margin-top:18px"><a href="${BRAND.phoneHref}">${BRAND.phone}</a></p>
+        <p class="small"><a href="mailto:${BRAND.email}">${BRAND.email}</a></p>
+      </div>
+      <div>
+        <h4>Услуга</h4>
+        <a href="#/catering">Кальянный кейтеринг</a>
+        <a href="#/configurator">Конфигуратор заказа</a>
+        <a href="#/prices">Тарифы и пакеты</a>
+        <a href="#/hookahs">Парк кальянов</a>
+        <a href="#/tobacco">Карта вкусов</a>
+        <a href="#/zone">Оформление зоны</a>
+      </div>
+      <div>
+        <h4>События</h4>
+        ${EVENTS.map((e) => `<a href="#/events/${e.slug}">${e.title}</a>`).join("")}
+        <a href="#/agencies">Агентствам и площадкам</a>
+      </div>
+      <div>
+        <h4>Компания</h4>
+        <a href="#/about">О нас</a>
+        <a href="#/masters">Команда</a>
+        <a href="#/gallery">Галерея</a>
+        <a href="#/blog">Журнал</a>
+        <a href="#/faq">Вопросы и ответы</a>
+        <a href="#/contacts">Контакты</a>
+      </div>
+    </div>
+    <div class="ftr__warn">Материалы сайта предназначены для лиц старше 18 лет и носят информационный характер об услуге. Потребление никотинсодержащей продукции вредит вашему здоровью.</div>
+    <div class="ftr__legal">
+      <span>${BRAND.entity}</span>
+      <span style="display:flex;gap:16px;flex-wrap:wrap">
+        <a href="#/legal/privacy">Политика конфиденциальности</a>
+        <a href="#/legal/consent">Согласие на обработку ПДн</a>
+        <a href="#/legal/offer">Публичная оферта</a>
+        <a href="#/legal/terms">Пользовательское соглашение</a>
+      </span>
+      <span>© 2026 Magic. Демо-версия сайта</span>
+    </div>
+  </div></footer>`;
+}
+
+/* ----------------------------------------------------------
+   Переиспользуемые блоки
+---------------------------------------------------------- */
+
+const ctaBlock = (title, text, btn = "Собрать смету") => `
+<section class="section section--edge">
+  <div class="wrap split">
+    <div class="stack stack-16">
+      <span class="eyebrow">Следующий шаг</span>
+      <h2 style="font-size:var(--step-3)">${title}</h2>
+      <p class="lede">${text}</p>
+    </div>
+    <div class="row" style="gap:12px">
+      <a class="btn btn--primary" href="#/configurator">${btn}</a>
+      <a class="btn btn--ghost" href="#/contacts">Связаться</a>
+    </div>
+  </div>
+</section>`;
+
+const pageHead = (eyebrow, title, lede) => `
+<section class="section section--tight" style="padding-top:clamp(40px,6vw,88px)">
+  <div class="wrap stack stack-16">
+    <span class="eyebrow">${eyebrow}</span>
+    <h1 style="font-size:var(--step-4);max-width:18ch">${title}</h1>
+    ${lede ? `<p class="lede">${lede}</p>` : ""}
+  </div>
+</section>`;
+
+
+/* ----------------------------------------------------------
+   Страницы
+---------------------------------------------------------- */
+
+const PAGES = {};
+
+PAGES.home = () => `
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="wrap hero__in">
+    <div class="stack stack-32 rise">
+      <span class="eyebrow">Кальянный кейтеринг · Москва и область</span>
+      <h1>Зона, которую<br>гости <em>не хотят</em><br>покидать</h1>
+      <p class="lede">Собираем кальянную зону под ваше событие: линейка, подача, дресс-код мастеров и оборудование — всё выбирается заранее, а смета считается на сайте за две минуты.</p>
+      <div class="row">
+        <a class="btn btn--primary" href="#/configurator">Собрать смету</a>
+        <a class="btn btn--ghost" href="#/catering">Как это устроено</a>
+      </div>
+    </div>
+    <div class="stack stack-24">
+      ${plate("Авторская подача · хрусталь и латунь", 1, "plate--h2")}
+    </div>
+  </div>
+</section>
+
+<section class="section section--edge">
+  <div class="wrap split" style="align-items:center">
+    <div class="stack stack-24">
+      <span class="eyebrow">Философия</span>
+      <h2 style="font-size:var(--step-3);max-width:20ch">${PHILOSOPHY.lead}</h2>
+      ${PHILOSOPHY.body.map((t) => `<p class="lede" style="font-size:var(--step-0)">${t}</p>`).join("")}
+      <a class="link-arrow" href="#/about">О компании и принципах →</a>
+    </div>
+    <div>${plate("Кальянная зона · вечерний свет", 2, "plate--h2")}</div>
+  </div>
+</section>
+
+<section class="section section--edge">
+  <div class="wrap stack stack-48">
+    <div class="head">
+      <span class="eyebrow">Формат услуги</span>
+      <h2>Кейтеринг, а не «кальянщик на выезд»</h2>
+      <p class="lede">Разница в том, что происходит до приезда гостей: согласование зоны с площадкой, расчёт линейки под помещение, монтаж и проверка. Гость видит только результат.</p>
+    </div>
+    <div class="grid grid-4">
+      ${HOOKAHS.map((h, i) => `<a class="card card--link" href="#/hookahs" style="padding:0">
+        ${plate(h.title, (i % 4) + 1)}
+        <div class="stack stack-8" style="padding:20px 22px 24px">
+          <h3 style="font-size:var(--step-1);font-family:var(--font-body);font-weight:700">${h.title}</h3>
+          <span class="small muted">${h.meta}</span>
+          <span class="card__price">${h.price}</span>
+        </div>
+      </a>`).join("")}
+    </div>
+  </div>
+</section>
+
+<section class="section section--edge">
+  <div class="wrap stack stack-48">
+    <div class="head">
+      <span class="eyebrow">Конфигуратор</span>
+      <h2>Смета собирается на сайте, а не по телефону</h2>
+      <p class="lede">Шесть шагов, живой пересчёт, ссылка на конфигурацию, которую можно переслать коллеге или согласовать с бюджетом. Менеджер получает ровно то, что вы собрали.</p>
+    </div>
+    <div class="grid grid-3">
+      ${[
+        ["Живой пересчёт", "Каждое изменение сразу в смете. Никаких «уточним при звонке» — вилка видна до заявки."],
+        ["Автоподбор по гостям", "Введите число гостей — конфигуратор предложит количество кальянов и мастеров по нашему нормативу."],
+        ["Ссылка на конфигурацию", "Состояние сохраняется в адресе страницы. Отправьте ссылку — коллега откроет ту же смету."],
+      ].map(([t, d]) => `<div class="tile"><h3>${t}</h3><p class="muted">${d}</p></div>`).join("")}
+    </div>
+    <a class="btn btn--primary" style="width:fit-content" href="#/configurator">Открыть конфигуратор</a>
+  </div>
+</section>
+
+<section class="section section--edge">
+  <div class="wrap stack stack-48">
+    <div class="head"><span class="eyebrow">Как проходит работа</span><h2>Шесть шагов от заявки до разобранной зоны</h2></div>
+    <div class="steps">
+      ${[
+        ["Заявка со сметой", "Вы собираете конфигурацию, менеджер подтверждает её и уточняет площадку.", "До 15 минут"],
+        ["Согласование площадки", "Пишем управляющему: схема зоны, оборудование, тип кальянов. Ведём переписку сами.", "1–5 дней"],
+        ["Фиксация даты", "Предоплата 30%, состав команды и тайминг закрепляются в договоре.", "1 день"],
+        ["Монтаж", "Приезжаем за 90 минут до гостей, собираем и фотографируем готовую зону.", "40–90 минут"],
+        ["Работа зоны", "Мастер ведёт до 6 кальянов, перезабивка каждые 40–50 минут, миксы меняются по таймингу.", "От 3 часов"],
+        ["Разбор и уборка", "Уголь увозим, зону сдаём в исходном состоянии. Закрывающие документы — на следующий день.", "30 минут"],
+      ].map(([t, d, time], i) => `<div class="step-row">
+        <div class="step-row__n">${String(i + 1).padStart(2, "0")}</div>
+        <div class="stack stack-8"><h3>${t}</h3><span class="small" style="color:var(--brass-400)">${time}</span></div>
+        <p class="muted">${d}</p>
+      </div>`).join("")}
+    </div>
+  </div>
+</section>
+
+<section class="section section--edge">
+  <div class="wrap stack stack-48">
+    <div class="head"><span class="eyebrow">События</span><h2>Под каждый повод — своя логика зоны</h2></div>
+    <div class="grid grid-3">
+      ${EVENTS.map((e, i) => `<a class="card card--link" href="#/events/${e.slug}" style="padding:0">
+        ${plate(e.title, (i % 4) + 1, "plate--wide")}
+        <div class="stack stack-8" style="padding:20px 22px 24px">
+          <h3 style="font-size:var(--step-1);font-family:var(--font-body);font-weight:700">${e.title}</h3>
+          <p class="small muted">${e.short}</p>
+          <span class="card__price">${e.price}</span>
+        </div>
+      </a>`).join("")}
+      <div class="card" style="justify-content:center;gap:18px">
+        <h3 style="font-size:var(--step-2)">Другой формат?</h3>
+        <p class="muted small">Съёмка, фестиваль, открытие шоурума, вечер в резиденции. Если у события есть тайминг — мы под него встроимся.</p>
+        <a class="link-arrow" href="#/contacts">Обсудить задачу →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section section--edge">
+  <div class="wrap stack stack-32">
+    <div class="head"><span class="eyebrow">Частые вопросы</span><h2>Коротко о главном</h2></div>
+    ${accordion(FAQ.slice(0, 4))}
+    <a class="link-arrow" href="#/faq">Все вопросы →</a>
+  </div>
+</section>
+
+${ctaBlock("Посчитайте свою зону", "Две минуты в конфигураторе — и у вас на руках смета со всеми позициями, которую можно согласовать с бюджетом или переслать организатору.")}
+`;
+
+function accordion(items) {
+  return `<div class="stack" style="border-top:1px solid var(--line-soft)">
+    ${items.map((f) => `<details style="border-bottom:1px solid var(--line-soft);padding:18px 0">
+      <summary style="cursor:pointer;font-size:var(--step-1);color:var(--smoke-100);list-style:none;display:flex;justify-content:space-between;gap:16px">
+        <span>${f.q}</span><span style="color:var(--brass-400)">+</span>
+      </summary>
+      <p class="muted" style="margin-top:12px;max-width:72ch">${f.a}</p>
+    </details>`).join("")}
+  </div>`;
+}
+
+const faqSection = (title, items, eyebrow = "Вопросы") => `
+<section class="section section--edge"><div class="wrap stack stack-32">
+  <div class="head"><span class="eyebrow">${eyebrow}</span><h2>${title}</h2></div>
+  ${accordion(items)}
+</div></section>`;
+
+const tilesSection = (eyebrow, title, tiles, lede = "") => `
+<section class="section section--edge"><div class="wrap stack stack-48">
+  <div class="head"><span class="eyebrow">${eyebrow}</span><h2>${title}</h2>${lede ? `<p class="lede">${lede}</p>` : ""}</div>
+  <div class="grid grid-3">${tiles.map(([t, d]) => `<div class="tile"><h3>${t}</h3><p class="muted small">${d}</p></div>`).join("")}</div>
+</div></section>`;
+
+const stepsSection = (eyebrow, title, steps, lede = "") => `
+<section class="section section--edge"><div class="wrap stack stack-48">
+  <div class="head"><span class="eyebrow">${eyebrow}</span><h2>${title}</h2>${lede ? `<p class="lede">${lede}</p>` : ""}</div>
+  <div class="steps">${steps.map(([t, d, meta], i) => `<div class="step-row">
+    <div class="step-row__n">${String(i + 1).padStart(2, "0")}</div>
+    <div class="stack stack-8"><h3>${t}</h3>${meta ? `<span class="small" style="color:var(--brass-400)">${meta}</span>` : ""}</div>
+    <p class="muted">${d}</p></div>`).join("")}</div>
+</div></section>`;
+
+PAGES.catering = () => `
+${pageHead("Основная услуга", "Кальянная зона на вашей площадке", "Привозим, собираем, ведём и разбираем кальянную зону на вашей площадке. Считаем по числу гостей и таймингу, а не «на глаз».")}
+<section class="section section--tight"><div class="wrap">${plate("Зона на террасе · репортажная съёмка", 2, "plate--wide")}</div></section>
+
+<section class="section">
+  <div class="wrap grid grid-2" style="gap:clamp(28px,5vw,72px)">
+    <div class="stack stack-24">
+      <h2 style="font-size:var(--step-3)">Что входит в стоимость</h2>
+      <ul class="stack stack-12 muted" style="margin:0;padding-left:20px">
+        <li>Кальяны выбранных линеек и запасной комплект чаш</li>
+        <li>Табак, уголь, расходники и вода</li>
+        <li>Работа мастера в выбранном дресс-коде</li>
+        <li>Доставка в пределах МКАД, сборка и разборка зоны</li>
+        <li>Защита пола, поддоны под угли, уборка после себя</li>
+        <li>Переписка с площадкой и согласование зоны</li>
+      </ul>
+    </div>
+    <div class="stack stack-24">
+      <h2 style="font-size:var(--step-3)">Что считается отдельно</h2>
+      <ul class="stack stack-12 muted" style="margin:0;padding-left:20px">
+        <li>Оборудование зоны: шатёр, обогрев, очистители, свет, посадка</li>
+        <li>Премиальные и импортные линейки табака</li>
+        <li>Подача: шиммер, подсветка, хрусталь, тематический декор</li>
+        <li>Именные мундштуки — за гостя</li>
+        <li>Выезд за МКАД — ${money(PRICE.kmOutside)}/км</li>
+        <li>Ночной тариф при старте после 23:00 — +15%</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section section--edge">
+  <div class="wrap stack stack-48">
+    <div class="head"><span class="eyebrow">Норматив</span><h2>Сколько нужно на ваше число гостей</h2>
+      <p class="lede">Базовая формула: один кальян на ${PRICE.guestsPerHookah} гостей, один мастер на ${PRICE.hookahsPerMaster} кальянов. Конфигуратор подставит её автоматически, а менеджер скорректирует под повод.</p></div>
+    <div class="tbl-scroll"><table class="tbl">
+      <thead><tr><th>Гостей</th><th class="num">Кальянов</th><th class="num">Мастеров</th><th>Комментарий</th></tr></thead>
+      <tbody>
+        ${[[10, 2, 1, "Один мастер успевает вести разговор с гостями"],
+           [25, 5, 1, "Порог, после которого нужен второй мастер"],
+           [40, 7, 2, "Зона делится на два круга подачи"],
+           [60, 10, 2, "Нужна отдельная зона перезабивки"],
+           [120, 20, 4, "Старший мастер не ведёт кальяны, а координирует"],
+           [250, 40, 7, "Работаем сменами, монтаж от 2 часов"]]
+          .map(([g, h, m, c]) => `<tr><td class="num">${g}</td><td class="num">${h}</td><td class="num">${m}</td><td class="muted small">${c}</td></tr>`).join("")}
+      </tbody>
+    </table></div>
+    <div class="hint">Норматив — отправная точка. На деловом фуршете курит меньше половины гостей, на дне рождения — почти все. В конфигураторе количество можно переопределить вручную.</div>
+  </div>
+</section>
+
+<section class="section section--edge">
+  <div class="wrap stack stack-48">
+    <div class="head"><span class="eyebrow">География</span><h2>Куда выезжаем</h2></div>
+    <div class="grid grid-3">
+      ${[["В пределах МКАД", "Доставка входит в стоимость. Квартиры, лофты, рестораны, бизнес-центры, крыши."],
+         ["Московская область", `${money(PRICE.kmOutside)} за километр от МКАД. Загородные дома, усадьбы, базы отдыха, шатры.`],
+         ["Вода и высота", "Теплоходы, причалы, крыши. Требуют осмотра площадки и согласования за 5 дней."]]
+        .map(([t, d]) => `<div class="tile"><h3>${t}</h3><p class="muted">${d}</p></div>`).join("")}
+    </div>
+  </div>
+</section>
+
+${ctaBlock("Соберите конфигурацию под своё событие", "Смета появится сразу — построчно, с итогом и вилкой, если в вводных есть неопределённость.")}
+`;
+
+PAGES.hookahs = () => `
+${pageHead("Продукт", "Парк кальянов", "Четыре линейки под разные площадки и поводы. На одном событии их можно комбинировать — это нормальный сценарий, а не компромисс.")}
+<section class="section section--tight"><div class="wrap stack stack-32">
+  ${HOOKAHS.map((h, i) => `<article class="grid grid-2" style="gap:clamp(20px,4vw,56px);align-items:center;border-top:1px solid var(--line-soft);padding-top:clamp(20px,3vw,40px)">
+    <div ${i % 2 ? 'style="order:2"' : ""}>${plate(h.title, (i % 4) + 1, "plate--wide")}</div>
+    <div class="stack stack-16">
+      <span class="eyebrow">${h.meta}</span>
+      <h2 style="font-size:var(--step-3)">${h.title}</h2>
+      <p class="lede" style="font-size:var(--step-0)">${h.text}</p>
+      <span class="card__price">${h.price} за единицу на 3 часа</span>
+      <a class="link-arrow" href="#/configurator">Добавить в смету →</a>
+    </div>
+  </article>`).join("")}
+</div></section>
+
+<section class="section section--edge">
+  <div class="wrap stack stack-32">
+    <div class="head"><span class="eyebrow">Подача</span><h2>Колбы, свет и мундштуки</h2>
+      <p class="lede">Подача выбирается на третьем шаге конфигуратора и считается за каждый кальян.</p></div>
+    <div class="grid grid-3">
+      ${Object.values(PRICE.flask).map((f) => `<div class="card">
+        <h3 style="font-size:var(--step-1);font-family:var(--font-body);font-weight:700">${f.title}</h3>
+        <p class="small muted">${f.meta}</p>
+        <span class="card__price">${f.price ? "+" + money(f.price) : "включено"}</span>
+      </div>`).join("")}
+    </div>
+  </div>
+</section>
+<section class="section section--edge"><div class="wrap stack stack-32">
+  <div class="head"><span class="eyebrow">Сравнение</span><h2>Какую линейку выбрать</h2>
+    <p class="lede">На одном событии линейки комбинируются: угольные на террасе, электронные в зале, авторские на первый стол.</p></div>
+  <div class="tbl-scroll"><table class="tbl">
+    <thead><tr><th>Линейка</th><th>Где работает</th><th>Вкус</th><th>Перезабивка</th><th class="num">Цена</th></tr></thead>
+    <tbody>
+      <tr><td><b style="color:var(--smoke-100)">Классические</b></td><td class="muted small">Улица, терраса, помещение с вытяжкой</td><td class="muted small">Глубокий, держит тёмные линейки</td><td class="muted small">40–50 минут</td><td class="num">${money(PRICE.hookah.classic.price)}</td></tr>
+      <tr><td><b style="color:var(--smoke-100)">Электронные</b></td><td class="muted small">Любое помещение, включая БЦ и квартиры</td><td class="muted small">Стабильный, не «горит» к концу</td><td class="muted small">25–35 минут</td><td class="num">${money(PRICE.hookah.electro.price)}</td></tr>
+      <tr><td><b style="color:var(--smoke-100)">Авторские</b></td><td class="muted small">Там, где зона попадает в кадр</td><td class="muted small">Как классика, подача богаче</td><td class="muted small">40–50 минут</td><td class="num">${money(PRICE.hookah.author.price)}</td></tr>
+      <tr><td><b style="color:var(--smoke-100)">Фруктовые чаши</b></td><td class="muted small">Улица и залы с вытяжкой</td><td class="muted small">Мягче и слаще, жар ниже</td><td class="muted small">Одна чаша на 1,5 часа</td><td class="num">${money(PRICE.hookah.fruit.price)}</td></tr>
+    </tbody>
+  </table></div>
+  <div class="hint">Правило простое: улица — классика, закрытое помещение — электроника, смешанная площадка — комбинация. Конфигуратор отсеет несовместимое сам.</div>
+</div></section>
+
+${faqSection("О парке и оборудовании", [
+  { q: "Сколько кальянов вы можете привезти одновременно?", a: "До 40 единиц одним выездом. Больше — двумя машинами и двумя бригадами монтажа, это согласовывается за неделю." },
+  { q: "Что если кальян выйдет из строя на событии?", a: "На каждый выезд идёт запасной комплект чаш, шахт и шлангов — из расчёта один запасной на пять рабочих. Замена занимает пару минут." },
+  { q: "Можно смешивать линейки на одном событии?", a: "Да, это самый частый сценарий: угольные на террасе, электронные в зале, пара авторских на первый стол." },
+  { q: "Чем авторские кальяны отличаются, кроме внешнего вида?", a: "Технически — той же схемой. Разница в колбе, шахте и подаче: ручная сборка, хрусталь, латунь, подсветка. Это про кадр и первый стол." },
+], "Парк")}
+
+${ctaBlock("Не уверены, какая линейка подойдёт площадке?", "Укажите в конфигураторе тип площадки — он сам отсеет то, что там не разрешат, и предложит рабочую альтернативу.")}
+`;
+
+PAGES.tobacco = () => `
+${pageHead("Продукт", "Карта вкусов", "Больше 60 позиций в постоянной ротации. Ниже — витрина: фильтруйте по крепости, семейству и никотину, отмеченные вкусы попадут в конфигуратор.")}
+<section class="section section--tight"><div class="wrap stack stack-32">
+  <div class="stack stack-16" id="tob-filters">
+    <div class="row" data-group="fam">
+      <span class="small muted" style="min-width:110px">Семейство</span>
+      ${TOB_FAMILIES.map((f) => `<button class="chip" data-fam="${f}">${f}</button>`).join("")}
+    </div>
+    <div class="row" data-group="rest">
+      <span class="small muted" style="min-width:110px">Прочее</span>
+      <button class="chip" data-nic="free">Без никотина</button>
+      <button class="chip" data-line="premium">Премиум</button>
+      <button class="chip" data-line="import">Импорт и редкие</button>
+      <label class="chip" style="cursor:default;gap:12px">Крепость до
+        <input type="range" id="tob-str" min="1" max="5" value="5" step="1" style="width:110px;margin:0">
+        <b id="tob-str-val" class="num" style="color:var(--brass-300)">5</b>
+      </label>
+      <button class="btn btn--quiet" type="button" id="tob-reset">Сбросить</button>
+    </div>
+  </div>
+  <div class="small muted" id="tob-count"></div>
+  <div class="grid grid-4" id="tob-grid"></div>
+</div></section>
+
+<section class="section section--edge"><div class="wrap grid grid-3">
+  ${Object.values(PRICE.tobaccoLine).map((l) => `<div class="card">
+    <h3 style="font-size:var(--step-1);font-family:var(--font-body);font-weight:700">${l.title}</h3>
+    <p class="small muted">${l.meta}</p>
+    <span class="card__price">${l.price ? "+" + money(l.price) : "включено"}</span>
+  </div>`).join("")}
+</div></section>
+${stepsSection("Как это работает на событии", "Карта вкусов по таймингу вечера", [
+  ["Встреча гостей", "Лёгкие фруктовые и цитрусовые: гости ещё едят, крепкий вкус будет спорить с едой.", "Крепость 1–2"],
+  ["Основная часть", "Ягоды, тропики, мята. Самый длинный отрезок вечера — здесь работает половина карты.", "Крепость 2–3"],
+  ["После горячего", "Десертные и пряные: сливки, кардамон, тирамису. Идут вместе с кофе и дижестивом.", "Крепость 3–4"],
+  ["Финал", "Тёмный лист и табачные линейки для тех, кто остался. Одна-две чаши, не больше.", "Крепость 4–5"],
+], "Мастер меняет миксы по ходу вечера — это не одна забивка на три часа, а четыре разных настроения.")}
+
+${tilesSection("Подбор", "Как мы собираем карту под вас", [
+  ["Разговор перед событием", "Спрашиваем, что курит заказчик и что точно не нравится. Пяти минут хватает, чтобы отсечь половину карты."],
+  ["Лёгкая линейка всегда", "На каждом событии есть безникотиновые и самые лёгкие позиции — для гостей, которые «вообще не курят»."],
+  ["Запрос под заказ", "Конкретный бренд или редкий вкус привозим, если сказать за пять дней. Считается по линейке «импорт»."],
+])}
+
+${ctaBlock("Соберите карту вкусов под свой вечер", "На пятом шаге конфигуратора можно задать крепость, семейства и конкретные позиции — или написать свой запрос, и мы привезём под заказ.")}
+`;
+
+PAGES.masters = () => `
+${pageHead("Команда", "Мастера, стандарты и дресс-код", "Кейтеринг продаётся кальянами, а работает людьми. Ниже — то, за что отвечает команда на площадке, и как она выглядит.")}
+
+<section class="section section--edge"><div class="wrap stack stack-48">
+  <div class="head"><span class="eyebrow">Стандарты</span><h2>Правила, которые не обсуждаются</h2></div>
+  <div class="grid grid-3">
+    ${STANDARDS.map(([t, d]) => `<div class="tile"><h3>${t}</h3><p class="muted small">${d}</p></div>`).join("")}
+  </div>
+</div></section>
+
+<section class="section section--edge"><div class="wrap stack stack-48">
+  <div class="head"><span class="eyebrow">Дресс-код</span><h2>Форма мастеров — параметр заказа</h2>
+    <p class="lede">Выбирается на четвёртом шаге конфигуратора. Мастер должен выглядеть как часть вашего события, а не как сотрудник подрядчика.</p></div>
+  <div class="grid grid-4">
+    ${Object.values(PRICE.dress).map((d, i) => `<article class="card" style="padding:0">
+      ${plate(d.title, (i % 4) + 1, "plate--h2")}
+      <div class="stack stack-8" style="padding:18px 20px 22px">
+        <h3 style="font-size:var(--step-1);font-family:var(--font-body);font-weight:700">${d.title}</h3>
+        <p class="small muted">${d.meta}</p>
+        <span class="card__price">${d.price ? "+" + money(d.price) : "без доплаты"}</span>
+      </div>
+    </article>`).join("")}
+  </div>
+</div></section>
+${tilesSection("Найм", "Как мы набираем и держим команду", HIRING, "Кейтеринг продаётся кальянами, а работает людьми: состав команды — то, что реально отличает два одинаковых по смете события.")}
+
+${faqSection("О команде", [
+  { q: "Кто приедет на моё событие?", a: "Состав фиксируется за несколько дней и не меняется без предупреждения. На повторные события стараемся ставить ту же команду." },
+  { q: "Мастера общаются с гостями?", a: "Ровно столько, сколько нужно: подсказать вкус, объяснить новичку. Не навязываются и не участвуют в празднике как гости." },
+  { q: "Можно ли попросить конкретного мастера?", a: "Да, если он свободен на эту дату. Скажите при бронировании — закрепим в заявке." },
+  { q: "А если мастер заболел?", a: "Есть подменный состав из той же команды, знакомый с нашими стандартами. Событие не переносится и не остаётся без мастера." },
+], "Команда")}
+
+${ctaBlock("Выберите форму команды под дресс-код гостей", "Это единственный параметр, который замечают все гости и почти никто не предлагает выбрать заранее.")}
+`;
+
+PAGES.zone = () => `
+${pageHead("Продукт", "Оформление и оборудование зоны", "Невидимый слой услуги: то, из-за чего гости остаются в зоне до конца вечера, а не уходят через двадцать минут.")}
+<section class="section section--tight"><div class="wrap stack stack-32">
+  <div class="tbl-scroll"><table class="tbl">
+    <thead><tr><th>Позиция</th><th>Что это даёт</th><th class="num">Стоимость</th></tr></thead>
+    <tbody>${PRICE.equipment.map((e) => `<tr><td><b style="color:var(--smoke-100)">${e.title}</b></td><td class="muted small">${e.meta}</td><td class="num">${money(e.price)}</td></tr>`).join("")}</tbody>
+  </table></div>
+  <div class="hint">Оборудование выбирается на шестом шаге конфигуратора. Для улицы осенью и зимой обогрев и ветрозащита — не опция, а условие того, что зона будет работать.</div>
+</div></section>
+
+<section class="section section--edge"><div class="wrap grid grid-3">
+  ${[["Лето на террасе", "Вентиляторы, лёгкая посадка, холодные линейки табака. Ветрозащита от сквозняка по бокам."],
+     ["Зима на улице", "Шатёр с боковинами, два-три обогревателя, пледы. Предупреждаем: ниже −15 °C меняется тяга."],
+     ["Помещение без вытяжки", "Электронная линейка плюс очистители воздуха — один на 30–40 м². Уголь не используется."]]
+    .map(([t, d], i) => `<article class="card" style="padding:0">${plate(t, i + 1, "plate--wide")}
+      <div class="stack stack-8" style="padding:20px 22px 24px"><h3 style="font-size:var(--step-1);font-family:var(--font-body);font-weight:700">${t}</h3><p class="small muted">${d}</p></div>
+    </article>`).join("")}
+</div></section>
+${stepsSection("Монтаж", "Как собирается зона", [
+  ["Осмотр места", "Проверяем ровность площадки, розетки, ветер и путь эвакуации. Пять минут, которые экономят час.", "5 минут"],
+  ["Защита и каркас", "Коврики под стойки, шатёр или ветрозащита, ограждение зоны.", "20–40 минут"],
+  ["Свет и посадка", "Столы, пледы, декоративный свет. Зона должна работать и в темноте.", "15 минут"],
+  ["Кальяны и проверка", "Сборка, розжиг, тестовая затяжка каждой единицы. Ни один кальян не уходит к гостю непроверенным.", "20 минут"],
+  ["Фото готовой зоны", "Отправляем заказчику до прихода гостей — на случай, если что-то нужно сдвинуть.", "2 минуты"],
+], "Приезжаем за 90 минут до гостей. Ниже — на что уходит это время.")}
+
+${faqSection("Об оборудовании и площадке", [
+  { q: "Нужна ли розетка?", a: "Для электронной линейки — да, одна на три-четыре единицы. Для угольной достаточно места под плитку на улице." },
+  { q: "Сколько места занимает зона?", a: "Минимум 2×2 метра на два-три кальяна, 4×4 — на зону с посадкой. Шатёр 3×3 требует ровного грунта и высоты 2,5 метра." },
+  { q: "Обогреватели безопасны в шатре?", a: "Да, при открытых боковинах с одной стороны. Это стандартная схема, её принимают все площадки, с которыми мы работаем." },
+  { q: "Что если пойдёт дождь?", a: "Шатёр с боковинами закрывает зону полностью. Если его нет в смете, а прогноз плохой — предупредим за сутки и предложим добавить." },
+], "Зона")}
+
+${ctaBlock("Добавьте оборудование в смету", "Каждая позиция считается отдельной строкой — видно, из чего складывается сумма.")}
+`;
+
+PAGES.eventsHub = () => `
+${pageHead("События", "Форматы событий", "Каждый повод — своя логика зоны, свой тайминг и свои ограничения площадки. Выберите свой, чтобы конфигуратор открылся с нужными настройками.")}
+<section class="section section--tight"><div class="wrap grid grid-2">
+  ${EVENTS.map((e, i) => `<a class="card card--link" href="#/events/${e.slug}" style="padding:0">
+    ${plate(e.title, (i % 4) + 1, "plate--wide")}
+    <div class="stack stack-12" style="padding:24px">
+      <h3 style="font-size:var(--step-2)">${e.title}</h3>
+      <p class="muted">${e.short}</p>
+      <span class="card__price">${e.price}</span>
+    </div>
+  </a>`).join("")}
+</div></section>
+<section class="section section--edge"><div class="wrap stack stack-32">
+  <div class="head"><span class="eyebrow">Сравнение</span><h2>Чем форматы отличаются на практике</h2></div>
+  <div class="tbl-scroll"><table class="tbl">
+    <thead><tr><th>Формат</th><th>Типичный размер</th><th>Линейка</th><th>Что сложнее всего</th><th class="num">От</th></tr></thead>
+    <tbody>
+      <tr><td><b style="color:var(--smoke-100)">Свадьба</b></td><td class="muted small">80–150 гостей, 6–8 часов</td><td class="muted small">Классика + авторские</td><td class="muted small">Тайминг: зона живёт по расписанию банкета</td><td class="num">47 000 ₽</td></tr>
+      <tr><td><b style="color:var(--smoke-100)">Корпоратив</b></td><td class="muted small">50–500 гостей, 4–6 часов</td><td class="muted small">Чаще электронная</td><td class="muted small">Согласование с БЦ и документы</td><td class="num">60 000 ₽</td></tr>
+      <tr><td><b style="color:var(--smoke-100)">День рождения</b></td><td class="muted small">10–60 гостей, 3–5 часов</td><td class="muted small">Любая</td><td class="muted small">Ничего — самый предсказуемый формат</td><td class="num">21 000 ₽</td></tr>
+      <tr><td><b style="color:var(--smoke-100)">Теплоход</b></td><td class="muted small">40–120 гостей, рейс 4–6 часов</td><td class="muted small">Классика с ветрозащитой</td><td class="muted small">Ветер и невозможность вернуться на склад</td><td class="num">72 000 ₽</td></tr>
+      <tr><td><b style="color:var(--smoke-100)">Частное событие</b></td><td class="muted small">10–40 гостей</td><td class="muted small">Авторская подача</td><td class="muted small">Конфиденциальность и постоянный состав</td><td class="num">по запросу</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+${tilesSection("Общее для всех форматов", "Что не меняется от повода", [
+  ["Приезд за 90 минут", "Зона собрана, проверена и сфотографирована до прихода первого гостя."],
+  ["Согласование площадки", "Пишем управляющему сами: схема зоны, оборудование, тип кальянов."],
+  ["Смета до события", "Сумма фиксируется заранее и не меняется на месте. Продление — отдельно и по вашей инициативе."],
+])}
+
+${ctaBlock("Не нашли свой формат?", "Съёмка, фестиваль, открытие, частный вечер — опишите задачу, подберём состав зоны и пришлём смету.")}
+`;
+
+PAGES.event = (slug) => {
+  const e = EVENTS.find((x) => x.slug === slug);
+  if (!e) return PAGES.notFound();
+  return `
+${pageHead(e.title, e.short, e.lede)}
+<section class="section section--tight"><div class="wrap grid grid-2" style="gap:clamp(24px,4vw,64px);align-items:start">
+  <div>${plate(e.title, EVENTS.indexOf(e) % 4 + 1, "plate--wide")}</div>
+  <div class="stack stack-24">
+    <div class="hero__facts" style="border-top:0;padding-top:0">
+      ${e.facts.map(([n, l]) => `<div class="hero__fact"><b>${n}</b><span>${l}</span></div>`).join("")}
+    </div>
+    <ul class="stack stack-12 muted" style="margin:0;padding-left:20px">
+      ${e.bullets.map((b) => `<li>${b}</li>`).join("")}
+    </ul>
+    <div class="row">
+      <a class="btn btn--primary" href="#/configurator?format=${e.slug}">Рассчитать ${e.title.toLowerCase()}</a>
+      <a class="btn btn--ghost" href="#/prices">Пакеты</a>
+    </div>
+    <p class="small muted">Стоимость: ${e.price}. Конфигуратор откроется с уже выбранным форматом события.</p>
+  </div>
+</div></section>
+
+<section class="section section--edge"><div class="wrap stack stack-32">
+  <div class="head"><span class="eyebrow">Вопросы по формату</span><h2>Что спрашивают чаще всего</h2></div>
+  ${accordion(FAQ.slice(0, 5))}
+</div></section>
+${ctaBlock("Соберите зону под " + e.title.toLowerCase(), "Формат уже выбран — остаётся указать площадку, число гостей и тайминг.")}
+`;
+};
+
+PAGES.agencies = () => `
+${pageHead("B2B", "Агентствам и площадкам", "Отдельный контур работы для тех, кто заказывает нас регулярно: фиксированная комиссия, приоритет по датам и один менеджер на все проекты.")}
+<section class="section section--tight"><div class="wrap grid grid-4">
+  ${[["10–15%", "агентская комиссия", "Фиксируется в договоре, не зависит от объёма конкретного события."],
+     ["24 часа", "на пакет документов", "Договор, счёт, акт, УПД. NDA — по запросу, подписываем в день обращения."],
+     ["Приоритет", "по датам сезона", "Партнёрские даты держим дольше и подтверждаем вне общей очереди."],
+     ["Белая смета", "для вашего клиента", "Присылаем версию сметы без наших контактов — под вашим брендом."]]
+    .map(([n, t, d]) => `<div class="card"><b style="font-family:var(--font-display);font-size:var(--step-2);color:var(--brass-300)">${n}</b>
+      <h3 style="font-size:var(--step-1);font-family:var(--font-body);font-weight:700">${t}</h3><p class="small muted">${d}</p></div>`).join("")}
+</div></section>
+
+<section class="section section--edge"><div class="wrap grid grid-2" style="gap:clamp(28px,5vw,72px)">
+  <div class="stack stack-24">
+    <h2 style="font-size:var(--step-3)">Как устроено партнёрство</h2>
+    <div class="steps">
+      ${[["Заявка и созвон", "Обсуждаем поток событий, площадки и требования к документам."],
+         ["Рамочный договор", "Фиксируем комиссию, сроки согласования и порядок расчётов."],
+         ["Личный менеджер", "Один контакт на все события, отвечает в рабочем чате, не через общую линию."],
+         ["Событие", "Работаем от вашего имени или от своего — как договоримся с клиентом."]]
+        .map(([t, d], i) => `<div class="step-row" style="grid-template-columns:56px minmax(0,1fr)">
+          <div class="step-row__n">${String(i + 1).padStart(2, "0")}</div>
+          <div class="stack stack-8"><h3>${t}</h3><p class="muted small">${d}</p></div></div>`).join("")}
+    </div>
+  </div>
+  <form class="card stack stack-16" id="b2b-form">
+    <h3 style="font-size:var(--step-2)">Запросить условия</h3>
+    <div class="field"><label for="b2b-company">Компания</label><input class="input" id="b2b-company" required placeholder="Агентство или площадка"></div>
+    <div class="field"><label for="b2b-name">Контактное лицо</label><input class="input" id="b2b-name" required placeholder="Имя"></div>
+    <div class="field"><label for="b2b-phone">Телефон или Telegram</label><input class="input" id="b2b-phone" required placeholder="+7 ..."></div>
+    <div class="field"><label for="b2b-vol">Событий в месяц</label>
+      <select class="input" id="b2b-vol"><option>1–2</option><option>3–5</option><option>6–10</option><option>больше 10</option></select></div>
+    <label class="check"><input type="checkbox" id="b2b-nda"> Нужен NDA до обсуждения</label>
+    <label class="check"><input type="checkbox" id="b2b-consent" required> Согласен на обработку персональных данных</label>
+    <button class="btn btn--primary" type="submit">Отправить запрос</button>
+    <p class="small muted">Демо-форма: заявка никуда не уходит.</p>
+  </form>
+</div></section>
+
+${tilesSection("Документы", "Что получает партнёр", [
+  ["Рамочный договор", "Один раз на все события: комиссия, сроки, порядок расчётов и ответственность сторон."],
+  ["Пакет по каждому событию", "Счёт, акт, УПД. С НДС или без — как удобно вашей бухгалтерии."],
+  ["NDA в день обращения", "Подписываем до обсуждения деталей, если клиент требует конфиденциальности."],
+  ["Письмо площадке", "Схема зоны, список оборудования, тип кальянов, копия полиса ответственности."],
+  ["Белая смета", "Версия без наших контактов и логотипа — для передачи вашему клиенту."],
+  ["Фотоотчёт зоны", "Кадры собранной зоны до прихода гостей. Удобно, когда вы не на площадке."],
+])}
+
+${faqSection("Вопросы партнёров", FAQ_B2B, "B2B")}
+`;
+
+const GAL = [
+  "Зона на террасе усадьбы", "Авторская колба, хрусталь", "Мастер за перезабивкой", "Фруктовая чаша, ананас",
+  "Шатёр зимой, обогрев", "Электронная линейка в лофте", "Именные мундштуки", "Зона на крыше в Сити",
+  "Подсветка колб, вечер", "Сборка зоны до гостей", "Свадебная зона, смокинги", "Кальян на теплоходе",
+];
+
+PAGES.gallery = () => `
+${pageHead("Галерея", "Как это выглядит", "Репортажные кадры с событий и предметная съёмка парка. В демо-версии — плашки на месте фотографий: продакшн запускается параллельно с дизайном.")}
+<section class="section section--tight"><div class="wrap stack stack-24">
+  <div class="row" id="gal-filters">
+    ${["Все", "События", "Предметка", "Зона"].map((f, i) => `<button class="chip ${i === 0 ? "is-on" : ""}" data-gf="${f}">${f}</button>`).join("")}
+  </div>
+  <div class="gal" id="gal-grid">
+    ${GAL.map((g, i) => `<button class="gal__item" data-cat="${["События", "Предметка", "Зона"][i % 3]}" data-title="${esc(g)}" data-v="${(i % 4) + 1}">
+      ${plate(g, (i % 4) + 1, i % 7 === 0 || i % 7 === 3 ? "plate--wide" : "plate--sq")}
+    </button>`).join("")}
+  </div>
+</div></section>
+<div class="lightbox" id="lightbox">
+  <div id="lightbox-body" style="width:min(960px,100%)"></div>
+  <button class="btn btn--ghost" type="button" id="lightbox-close">Закрыть</button>
+</div>
+${tilesSection("Продакшн", "Что снимаем и зачем", PRODUCTION, "Фото в этой нише — главный аргумент, поэтому съёмка идёт тремя отдельными блоками, а не одним «фотографом на событие».")}
+
+<section class="section section--edge"><div class="wrap stack stack-32">
+  <div class="head"><span class="eyebrow">Правила съёмки</span><h2>Что мы не публикуем</h2></div>
+  <div class="grid grid-3">
+    ${[["Частные события", "Если заказчик просил конфиденциальность — кадров не будет даже без лиц."],
+       ["Гостей без разрешения", "Снимаем зону и мастера. Люди попадают в кадр только с их согласия."],
+       ["Чужие площадки без письма", "Публикация интерьера согласуется с площадкой, а не «и так все выкладывают»."]]
+      .map(([t, d]) => `<div class="tile"><h3>${t}</h3><p class="muted small">${d}</p></div>`).join("")}
+  </div>
+</div></section>
+
+${ctaBlock("Хотите так же?", "Опишите площадку и число гостей — соберём состав зоны и пришлём смету.", "Собрать смету")}
+`;
+
+PAGES.prices = () => `
+${pageHead("Тарифы", "Пакеты и прайс", "Пакеты закрывают типовые сценарии. Всё, что выходит за них, считается конфигуратором построчно — без «уточним при звонке».")}
+<section class="section section--tight"><div class="wrap grid grid-4">
+  ${PRICE.packages.map((p) => `<article class="card">
+    <span class="badge badge--soft">Пакет</span>
+    <h3 style="font-size:var(--step-2)">${p.title}</h3>
+    <div class="stack stack-8 small muted">
+      <span>${p.guests}</span><span>${p.hookahs}</span><span>${p.masters}</span><span>${p.hours}</span>
+    </div>
+    <div class="card__price" style="font-size:var(--step-2);font-family:var(--font-display)">${p.price ? money(p.price) : "по запросу"}</div>
+    <ul class="stack stack-8 small muted" style="margin:0;padding-left:18px">${p.includes.map((i) => `<li>${i}</li>`).join("")}</ul>
+    <a class="btn btn--ghost" style="margin-top:auto" href="#/configurator">Собрать смету</a>
+  </article>`).join("")}
+</div></section>
+
+<section class="section section--edge"><div class="wrap stack stack-32">
+  <div class="head"><span class="eyebrow">Прайс по позициям</span><h2>Из чего складывается смета</h2>
+    <p class="lede">Версия прайса ${PRICE.version}. В боевой версии эти значения живут в админке, а расчёт выполняется на сервере — в демо они лежат в одном объекте.</p></div>
+  <div class="tbl-scroll"><table class="tbl">
+    <thead><tr><th>Позиция</th><th>Единица</th><th class="num">Стоимость</th></tr></thead>
+    <tbody>
+      <tr><td>Выезд: логистика, сборка и разбор зоны</td><td class="muted small">за событие</td><td class="num">${money(PRICE.base)}</td></tr>
+      ${Object.values(PRICE.hookah).map((h) => `<tr><td>${h.title}</td><td class="muted small">за кальян / 3 часа</td><td class="num">${money(h.price)}</td></tr>`).join("")}
+      <tr><td>Каждый час сверх трёх</td><td class="muted small">от стоимости кальянов</td><td class="num">+${Math.round(PRICE.hourExtra * 100)}%</td></tr>
+      <tr><td>Работа мастера</td><td class="muted small">смена 3 часа</td><td class="num">${money(PRICE.master)}</td></tr>
+      <tr><td>Мастер, дополнительный час</td><td class="muted small">за час</td><td class="num">${money(PRICE.masterHour)}</td></tr>
+      ${Object.values(PRICE.flask).filter((f) => f.price).map((f) => `<tr><td>Подача: ${f.title.toLowerCase()}</td><td class="muted small">за кальян</td><td class="num">${money(f.price)}</td></tr>`).join("")}
+      <tr><td>Именные мундштуки</td><td class="muted small">за гостя</td><td class="num">${money(PRICE.mouth.named.price)}</td></tr>
+      ${Object.values(PRICE.tobaccoLine).filter((t) => t.price).map((t) => `<tr><td>Табак: ${t.title.toLowerCase()}</td><td class="muted small">за кальян</td><td class="num">${money(t.price)}</td></tr>`).join("")}
+      <tr><td>Безникотиновые смеси</td><td class="muted small">за кальян</td><td class="num">${money(PRICE.nicotineFree)}</td></tr>
+      <tr><td>Смокинг для мастера</td><td class="muted small">за мастера</td><td class="num">${money(PRICE.dress.tux.price)}</td></tr>
+      <tr><td>Кастомная форма под мероприятие</td><td class="muted small">за событие</td><td class="num">${money(PRICE.dress.custom.price)}</td></tr>
+      <tr><td>Ночной тариф, старт после 23:00</td><td class="muted small">к сумме</td><td class="num">+${Math.round(PRICE.nightSurcharge * 100)}%</td></tr>
+      <tr><td>Выезд за МКАД</td><td class="muted small">за километр</td><td class="num">${money(PRICE.kmOutside)}</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+${tilesSection("Из чего складывается цена", "Шесть факторов, которые двигают смету", PRICE_FACTORS, "Две трети суммы определяются числом гостей и таймингом. Всё остальное — ваш выбор, а не обязательная часть.")}
+
+${faqSection("Об оплате и условиях", [
+  { q: "Когда и как платить?", a: "30% предоплаты фиксируют дату, остаток — в день события наличными, переводом или по счёту для юрлиц." },
+  { q: "Цена из конфигуратора окончательная?", a: "Это предварительный расчёт. Менеджер подтверждает сумму после уточнения площадки — обычно она совпадает, вилка на сайте показывает возможное отклонение." },
+  { q: "Что будет, если гостей придёт больше?", a: "Мастер отработает имеющимися кальянами, а вы решите, добавлять ли единицы. Доставить дополнительные кальяны в тот же вечер получается не всегда — лучше заложить запас заранее." },
+  { q: "Есть ли скидки?", a: "Постоянным заказчикам и агентствам — да, через партнёрские условия. Разовых скидок «за отзыв» не делаем: цена и так посчитана по позициям." },
+], "Оплата")}
+
+${ctaBlock("Считать по позициям", "Конфигуратор соберёт из этого прайса вашу смету и покажет каждую строку.")}
+`;
+
+PAGES.faq = () => `
+${pageHead("Вопросы", "Вопросы и ответы", "Собрали то, что спрашивают в первых двух сообщениях. Если вашего вопроса здесь нет — напишите, добавим.")}
+<section class="section section--tight"><div class="wrap stack stack-24">
+  <span class="eyebrow">Заказ и условия</span>
+  ${accordion(FAQ)}
+</div></section>
+<section class="section section--tight"><div class="wrap stack stack-24">
+  <span class="eyebrow">Событие и площадка</span>
+  ${accordion(FAQ_EXTRA)}
+</div></section>
+<section class="section section--edge"><div class="wrap stack stack-24">
+  <span class="eyebrow">Партнёрам</span>
+  ${accordion(FAQ_B2B)}
+  <a class="link-arrow" href="#/agencies">Условия для агентств и площадок →</a>
+</div></section>
+${ctaBlock("Остались вопросы?", "Напишите в Telegram — отвечаем до 15 минут с девяти утра до двух ночи.", "Собрать смету")}
+`;
+
+PAGES.about = () => `
+${pageHead("О компании", "Magic", "Кальянный кейтеринг для событий, где кальянная зона — часть замысла вечера, а не услуга по остаточному принципу.")}
+<section class="section section--tight"><div class="wrap grid grid-2" style="gap:clamp(28px,5vw,72px);align-items:center">
+  <div>${plate("Шоурум и склад, Дербеневская", 3, "plate--wide")}</div>
+  <div class="stack stack-16">
+    <p class="lede">Заказчику нужен не кальян, а зона, которая не спорит с площадкой, декором и таймингом вечера.</p>
+    <p class="muted">Поэтому сегодня мы продаём не количество кальянов, а предсказуемость: согласованную с площадкой зону, мастеров в форме под ваш дресс-код, смету, которая не меняется на месте, и документы на следующий день.</p>
+    <p class="muted">Демо-версия сайта собрана по роадмапу проекта: структура, конфигуратор и дизайн-система — на месте, фотоконтент и серверная часть подключаются на следующем этапе.</p>
+  </div>
+</div></section>
+
+
+<section class="section section--edge"><div class="wrap stack stack-48">
+  <div class="head">
+    <span class="eyebrow">Философия</span>
+    <h2>${PHILOSOPHY.lead}</h2>
+    <p class="lede">${PHILOSOPHY.body.join(". ")}</p>
+  </div>
+  <div class="steps">
+    ${PRINCIPLES.map(([t, d], i) => `<div class="step-row">
+      <div class="step-row__n">${String(i + 1).padStart(2, "0")}</div>
+      <div class="stack stack-8"><h3>${t}</h3></div>
+      <p class="muted">${d}</p></div>`).join("")}
+  </div>
+  <p class="lede" style="font-family:var(--font-display);font-size:var(--step-2);color:var(--smoke-100);max-width:26ch">${PHILOSOPHY.bridge}</p>
+</div></section>
+
+
+${tilesSection("Принципы", "Во что мы не играем", [
+  ["Без «от 3 000 ₽»", "Цену показываем целиком. Заманивать ценой одного кальяна, чтобы досчитать остальное по телефону, — не наш метод."],
+  ["Без экономии на мастерах", "Норматив «один на шесть» не двигается, даже когда клиент просит дешевле. Лучше отказаться от заказа."],
+  ["Без стоковых фото", "В галерее только наши события. Если кадра нет — значит, его действительно нет или заказчик просил не публиковать."],
+])}
+
+${ctaBlock("Познакомимся на вашем событии", "Начните со сметы — это ни к чему не обязывает и занимает пару минут.")}
+`;
+
+PAGES.contacts = () => `
+${pageHead("Контакты", "Связаться", BRAND.hours)}
+<section class="section section--tight"><div class="wrap grid grid-2" style="gap:clamp(28px,5vw,72px);align-items:start">
+  <div class="stack stack-24">
+    <div class="stack stack-8">
+      <span class="eyebrow">Телефон</span>
+      <a href="${BRAND.phoneHref}" style="font-family:var(--font-display);font-size:var(--step-3);color:var(--smoke-100)">${BRAND.phone}</a>
+    </div>
+    <div class="stack stack-8"><span class="eyebrow">Telegram и WhatsApp</span><span style="font-size:var(--step-1)">${BRAND.tg}</span></div>
+    <div class="stack stack-8"><span class="eyebrow">Почта</span><a href="mailto:${BRAND.email}" style="font-size:var(--step-1)">${BRAND.email}</a></div>
+    <div class="stack stack-8"><span class="eyebrow">Адрес</span><span class="muted">${BRAND.address}</span></div>
+    <div class="stack stack-8"><span class="eyebrow">Реквизиты</span><span class="muted small">${BRAND.entity}</span></div>
+    ${plate("Карта: Дербеневская наб., 7с22", 2, "plate--wide")}
+  </div>
+  <form class="card stack stack-16" id="contact-form">
+    <h3 style="font-size:var(--step-2)">Написать нам</h3>
+    <p class="small muted">Если нужна смета — быстрее через <a class="link-arrow" style="display:inline;border:0;padding:0" href="#/configurator">конфигуратор</a>: менеджер сразу увидит состав зоны.</p>
+    <div class="field"><label for="c-name">Имя</label><input class="input" id="c-name" required></div>
+    <div class="field"><label for="c-phone">Телефон или Telegram</label><input class="input" id="c-phone" required placeholder="+7 ..."></div>
+    <div class="field"><label for="c-date">Дата события</label><input class="input" id="c-date" type="date"></div>
+    <div class="field"><label for="c-msg">Сообщение</label><textarea class="input" id="c-msg" placeholder="Площадка, число гостей, тайминг"></textarea></div>
+    <label class="check"><input type="checkbox" id="c-consent" required> Согласен на обработку персональных данных</label>
+    <button class="btn btn--primary" type="submit">Отправить</button>
+    <p class="small muted">Демо-форма: заявка никуда не уходит.</p>
+  </form>
+</div></section>
+
+${tilesSection("Как связаться", "Выберите удобный канал", [
+  ["Telegram и WhatsApp", `${BRAND.tg}. Основной канал: можно прислать голосовое с описанием события, ответим текстом со сметой.`],
+  ["Телефон", `${BRAND.phone}. Если удобнее голосом — звоните с 09:00 до 02:00, в это время трубку берёт менеджер, а не автоответчик.`],
+  ["Почта", `${BRAND.email}. Для юрлиц, документов и заявок на тендер. Отвечаем в течение рабочего дня.`],
+  ["Конфигуратор", "Самый быстрый путь к цифре: соберите смету сами, менеджер получит её целиком и не будет переспрашивать."],
+  ["Шоурум", "Дербеневская наб., 7с22. Посмотреть авторские колбы и подачу вживую — по записи."],
+  ["Агентствам", "Отдельная линия и личный менеджер. Условия — на странице «Агентствам»."],
+])}
+
+${faqSection("Перед обращением", [
+  { q: "Что подготовить к первому сообщению?", a: "Дату, адрес или тип площадки, примерное число гостей и во сколько начинается событие. Этого достаточно, чтобы назвать цену." },
+  { q: "Как быстро вы отвечаете?", a: "До 15 минут с 09:00 до 02:00. Ночью заявка ложится в очередь и обрабатывается утром первой." },
+  { q: "Можно приехать посмотреть оборудование?", a: "Да, в шоурум по записи. Показываем колбы, подачу и варианты оформления зоны вживую." },
+], "Контакты")}
+`;
+
+PAGES.blog = () => `
+${pageHead("Журнал", "Журнал", "Практические разборы для тех, кто организует событие: нормативы, согласования и продукт — без «незабываемой атмосферы релакса».")}
+<section class="section section--tight"><div class="wrap grid grid-2">
+  ${BLOG.map((b, i) => `<a class="card card--link" href="#/blog/${b.slug}" style="padding:0">
+    ${plate(b.tag, (i % 4) + 1, "plate--wide")}
+    <div class="stack stack-12" style="padding:24px">
+      <span class="small muted">${b.date} · ${b.read} · ${b.tag}</span>
+      <h3 style="font-size:var(--step-2)">${b.title}</h3>
+      <p class="muted small">${b.lead}</p>
+    </div>
+  </a>`).join("")}
+</div></section>
+
+${tilesSection("Рубрики", "О чём мы пишем", [
+  ["Организация", "Нормативы, тайминги, расчёты. Материалы, по которым можно спланировать зону, даже не обращаясь к нам."],
+  ["Площадки", "Согласования, вытяжка, пожарные требования, работа с управляющими. Самая полезная рубрика для организаторов."],
+  ["Продукт", "Линейки, вкусы, оборудование. Без маркетинга в пользу того, что дороже."],
+])}
+
+${ctaBlock("От чтения к смете", "Всё, о чём написано в статьях, уже зашито в конфигуратор: нормативы, ограничения площадок и линейки.")}
+`;
+
+PAGES.post = (slug) => {
+  const p = BLOG.find((b) => b.slug === slug);
+  if (!p) return PAGES.notFound();
+  return `
+<section class="section section--tight" style="padding-top:clamp(40px,6vw,88px)">
+  <div class="wrap stack stack-16" style="max-width:780px">
+    <a class="small muted" href="#/blog">← Журнал</a>
+    <span class="eyebrow">${p.tag} · ${p.read}</span>
+    <h1 style="font-size:var(--step-4)">${p.title}</h1>
+    <p class="lede">${p.lead}</p>
+    <span class="small muted">${p.date}</span>
+  </div>
+</section>
+<section class="section section--tight"><div class="wrap" style="max-width:780px">${plate(p.tag, 2, "plate--wide")}</div></section>
+<section class="section section--tight"><div class="wrap stack stack-24" style="max-width:720px">
+  ${p.body.map((par) => `<p style="font-size:var(--step-1);line-height:1.7;color:var(--smoke-200)">${par}</p>`).join("")}
+</div></section>
+<section class="section section--edge"><div class="wrap stack stack-24">
+  <span class="eyebrow">Читать дальше</span>
+  <div class="grid grid-3">
+    ${BLOG.filter((b) => b.slug !== slug).slice(0, 3).map((b) => `<a class="card card--link" href="#/blog/${b.slug}">
+      <span class="small muted">${b.tag}</span><h3 style="font-size:var(--step-1);font-family:var(--font-body);font-weight:700">${b.title}</h3></a>`).join("")}
+  </div>
+</div></section>
+${ctaBlock("От теории к смете", "Конфигуратор применит нормативы из статьи к вашему числу гостей автоматически.")}
+`;
+};
+
+const LEGAL = {
+  privacy: { t: "Политика конфиденциальности", d: "Демонстрационный текст. В боевой версии готовится юристом в соответствии с 152-ФЗ.", s: [
+    ["Оператор данных", "ООО «Мэджик Ивент», адрес и реквизиты указаны в футере сайта. Обработка персональных данных ведётся на серверах, расположенных на территории Российской Федерации."],
+    ["Какие данные мы собираем", "Имя, телефон, адрес электронной почты, мессенджер, адрес площадки и состав заказа, переданный через конфигуратор, а также обезличенные данные систем веб-аналитики."],
+    ["Цели обработки", "Подготовка сметы, связь по заявке, исполнение договора, бухгалтерский учёт и направление информационных сообщений при наличии отдельного согласия."],
+    ["Сроки хранения", "До достижения целей обработки или до отзыва согласия, а в части бухгалтерских документов — в сроки, установленные законодательством."],
+    ["Права субъекта", "Вы вправе запросить сведения об обработке, потребовать уточнения, блокирования или уничтожения данных, а также отозвать согласие, направив обращение на почту компании."],
+  ] },
+  consent: { t: "Согласие на обработку персональных данных", d: "Демонстрационный текст.", s: [
+    ["Предмет согласия", "Отправляя форму на сайте, вы даёте согласие на обработку указанных вами персональных данных в целях подготовки и согласования сметы, заключения и исполнения договора."],
+    ["Перечень действий", "Сбор, запись, систематизация, накопление, хранение, уточнение, использование, передача уполномоченным сотрудникам и подрядчикам, обезличивание, блокирование, удаление и уничтожение."],
+    ["Срок действия", "Согласие действует до его отзыва. Отзыв направляется в свободной форме на адрес электронной почты компании и исполняется в течение 10 рабочих дней."],
+  ] },
+  offer: { t: "Публичная оферта", d: "Демонстрационный текст.", s: [
+    ["Предмет договора", "Исполнитель обязуется оказать услуги по организации кальянной зоны на мероприятии заказчика, а заказчик — принять и оплатить услуги."],
+    ["Порядок расчётов", "Бронирование даты подтверждается предоплатой 30% стоимости. Остаток вносится не позднее дня оказания услуг, если иное не установлено отдельным договором."],
+    ["Отмена и перенос", "Перенос даты без удержания возможен не позднее чем за 7 дней. При отмене менее чем за 48 часов предоплата не возвращается."],
+    ["Ограничения", "Услуги оказываются только совершеннолетним. Исполнитель вправе отказать в обслуживании гостя, не подтвердившего возраст, а также при нарушении требований площадки."],
+  ] },
+  terms: { t: "Пользовательское соглашение", d: "Демонстрационный текст.", s: [
+    ["Назначение сайта", "Сайт содержит информацию об услуге кальянного кейтеринга и предназначен для лиц старше 18 лет. Материалы носят информационный характер."],
+    ["Расчёты на сайте", "Результат работы конфигуратора является предварительным расчётом и не является публичной офертой. Итоговая стоимость подтверждается менеджером."],
+    ["Интеллектуальные права", "Тексты, изображения и элементы интерфейса принадлежат правообладателю. Использование без согласия не допускается."],
+  ] },
+};
+
+PAGES.legal = (key) => {
+  const l = LEGAL[key];
+  if (!l) return PAGES.notFound();
+  return `
+${pageHead("Правовая информация", l.t, l.d)}
+<section class="section section--tight"><div class="wrap stack stack-32" style="max-width:800px">
+  ${l.s.map(([h, t], i) => `<div class="stack stack-12">
+    <h2 style="font-size:var(--step-1);font-family:var(--font-body);font-weight:700">${i + 1}. ${h}</h2>
+    <p class="muted">${t}</p></div>`).join("")}
+  <div class="hint">Демо-версия. Перед запуском тексты правовых страниц и все формулировки на сайте согласуются с профильным юристом — это блокирующий пункт роадмапа.</div>
+</div></section>`;
+};
+
+PAGES.thanks = () => {
+  const saved = JSON.parse(localStorage.getItem("magic_last_order") || "null");
+  return `
+<section class="section" style="padding-top:clamp(60px,9vw,120px)">
+  <div class="wrap stack stack-24" style="max-width:720px">
+    <span class="eyebrow">Заявка принята</span>
+    <h1 style="font-size:var(--step-4)">Спасибо. Смета у менеджера</h1>
+    <p class="lede">Мы получили вашу конфигурацию целиком — с линейкой, подачей, дресс-кодом и оборудованием. Менеджер свяжется в течение 15 минут и подтвердит итоговую сумму.</p>
+    ${saved ? `<div class="card stack stack-12">
+      <span class="eyebrow">Ваша конфигурация</span>
+      <div class="summary__lines">${saved.lines.map((l) => `<div class="summary__line"><span>${l[0]}</span><b>${money(l[1])}</b></div>`).join("")}</div>
+      <div class="summary__total"><span class="small muted">Предварительно</span><b>${money(saved.total)}</b></div>
+      <a class="link-arrow" href="${saved.link}">Открыть конфигурацию снова →</a>
+    </div>` : ""}
+    <div class="grid grid-3">
+      ${[["До 15 минут", "Ответ менеджера в рабочие часы"], ["PDF-смета", "Придёт на почту вместе с реквизитами"], ["48 часов", "Держим дату без предоплаты"]]
+        .map(([n, d]) => `<div class="tile"><b style="font-family:var(--font-display);font-size:var(--step-2);color:var(--brass-300)">${n}</b><span class="small muted">${d}</span></div>`).join("")}
+    </div>
+    <div class="row"><a class="btn btn--ghost" href="#/">На главную</a><a class="btn btn--ghost" href="#/blog">Почитать журнал</a></div>
+  </div>
+</section>`;
+};
+
+function prettyPath(p) {
+  let t = p;
+  try { t = decodeURIComponent(p); } catch (e) {}
+  return t.length > 42 ? t.slice(0, 42) + "…" : t;
+}
+
+PAGES.notFound = (path) => `
+<section class="section" style="padding-top:clamp(48px,7vw,96px)"><div class="wrap">
+  <div class="state">
+    <div class="state__code">404</div>
+    <h1 style="font-size:var(--step-3)">Такой страницы нет</h1>
+    <p class="lede">${path ? `Адрес <span style="color:var(--smoke-200);word-break:break-word">${esc(prettyPath(path))}</span> не найден.` : ""} Возможно, ссылка устарела или в ней опечатка.</p>
+    <div class="row">
+      <a class="btn btn--primary" href="#/configurator">Собрать смету</a>
+      <a class="btn btn--ghost" href="#/">На главную</a>
+    </div>
+    <div class="state__links">
+      <a href="#/catering">Услуга</a>
+      <a href="#/prices">Тарифы</a>
+      <a href="#/hookahs">Парк кальянов</a>
+      <a href="#/tobacco">Карта вкусов</a>
+      <a href="#/events">События</a>
+      <a href="#/faq">Вопросы</a>
+      <a href="#/contacts">Контакты</a>
+    </div>
+  </div>
+</div></section>`;
+
+PAGES.error = (detail) => `
+<section class="section" style="padding-top:clamp(48px,7vw,96px)"><div class="wrap">
+  <div class="state">
+    <div class="state__code state__code--err">500</div>
+    <h1 style="font-size:var(--step-3)">Страница не отработала</h1>
+    <p class="lede">Что-то сломалось на нашей стороне. Обновите страницу — обычно этого достаточно. Если повторится, напишите нам, и мы починим.</p>
+    ${detail ? `<p class="small muted num" style="word-break:break-word">${esc(detail)}</p>` : ""}
+    <div class="row">
+      <button class="btn btn--primary" type="button" onclick="location.reload()">Обновить страницу</button>
+      <a class="btn btn--ghost" href="#/contacts">Написать нам</a>
+    </div>
+    <div class="state__links"><a href="${BRAND.phoneHref}">${BRAND.phone}</a><a href="mailto:${BRAND.email}">${BRAND.email}</a></div>
+  </div>
+</div></section>`;
+
+PAGES.offline = () => `
+<section class="section" style="padding-top:clamp(48px,7vw,96px)"><div class="wrap">
+  <div class="state">
+    <div class="state__code">—</div>
+    <h1 style="font-size:var(--step-3)">Нет соединения</h1>
+    <p class="lede">Похоже, интернет пропал. Собранная в конфигураторе смета сохранена — она никуда не денется и восстановится, когда связь вернётся.</p>
+    <div class="row">
+      <button class="btn btn--primary" type="button" onclick="location.reload()">Попробовать снова</button>
+      <a class="btn btn--ghost" href="${BRAND.phoneHref}">Позвонить</a>
+    </div>
+  </div>
+</div></section>`;
+
+const skeletonPage = () => `
+<section class="section section--tight" style="padding-top:clamp(40px,6vw,88px)"><div class="wrap stack stack-16">
+  <div class="sk sk--line" style="width:120px"></div>
+  <div class="sk sk--title"></div>
+  <div class="sk sk--text" style="width:70%"></div>
+</div></section>
+<section class="section section--tight"><div class="wrap grid grid-3">
+  ${[0, 1, 2].map(() => `<div class="sk-card">
+    <div class="sk sk--plate"></div>
+    <div class="sk sk--line" style="width:60%"></div>
+    <div class="sk sk--text"></div>
+    <div class="sk sk--text"></div>
+  </div>`).join("")}
+</div></section>`;
+
+/* витрина системных экранов — для дизайнера и проверки, в навигации не показывается */
+PAGES.states = () => `
+${pageHead("Системные экраны", "Состояния интерфейса", "Служебная страница: как выглядят загрузка, пустой результат и ошибки. В навигации её нет.")}
+<section class="section section--tight"><div class="wrap stack stack-32">
+  <div class="head"><span class="eyebrow">Загрузка</span><h2 style="font-size:var(--step-2)">Скелетон страницы</h2>
+    <p class="muted small">Показывается, пока приходят данные: карточки, галерея, каталог вкусов</p></div>
+  <div style="border:1px solid var(--line-soft)">${skeletonPage()}</div>
+</div></section>
+<section class="section section--edge"><div class="wrap stack stack-32">
+  <div class="head"><span class="eyebrow">Ошибки</span><h2 style="font-size:var(--step-2)">Экраны ошибок</h2></div>
+  <div class="row" style="gap:12px">
+    <a class="btn btn--ghost" href="#/такой-страницы-нет">Открыть 404</a>
+    <button class="btn btn--ghost" type="button" onclick="window.showState('error','Демонстрационная ошибка')">Открыть 500</button>
+    <button class="btn btn--ghost" type="button" onclick="window.showState('offline')">Открыть офлайн</button>
+    <button class="btn btn--ghost" type="button" onclick="window.showSplash()">Показать стартовый экран</button>
+  </div>
+</div></section>`;
+
+/* ==========================================================
+   MAGIC — конфигуратор заказа.
+   6 шагов + итог, живая смета, автоподбор, состояние в URL.
+   Демо: расчёт на клиенте. В бою — только на сервере.
+   ========================================================== */
+
+const CFG_STEPS = ["Событие", "Площадка", "Кальяны", "Команда", "Табак", "Зона", "Смета"];
+
+const defaultState = () => ({
+  step: 0,
+  format: "birthday",
+  date: "",
+  time: "19:00",
+  hours: 4,
+  guests: 30,
+  venue: "Лофт",
+  indoor: "outdoor",
+  km: 0,
+  hookahs: { classic: 5, electro: 0, author: 0, fruit: 0 },
+  hookahsTouched: false,
+  flask: "standard",
+  mouth: "single",
+  masters: 1,
+  mastersTouched: false,
+  dress: "classic",
+  dressNote: "",
+  line: "standard",
+  strength: 3,
+  nicotine: true,
+  families: ["Цитрус", "Ягоды"],
+  flavors: [],
+  tobaccoNote: "",
+  equip: {},
+  client: "person",
+});
+
+let S = defaultState();
+
+/* ---------- сериализация состояния ---------- */
+
+const SER = ["format", "date", "time", "hours", "guests", "venue", "indoor", "km", "flask", "mouth", "masters", "dress", "line", "strength", "nicotine", "client"];
+
+function stateToQuery() {
+  const p = new URLSearchParams();
+  SER.forEach((k) => { if (S[k] !== "" && S[k] !== undefined) p.set(k, String(S[k])); });
+  p.set("h", `${S.hookahs.classic}-${S.hookahs.electro}-${S.hookahs.author}-${S.hookahs.fruit}`);
+  if (S.families.length) p.set("fam", S.families.join(","));
+  if (S.flavors.length) p.set("fl", S.flavors.join(","));
+  const eq = Object.keys(S.equip).filter((k) => S.equip[k]);
+  if (eq.length) p.set("eq", eq.join(","));
+  return p.toString();
+}
+
+function applyQuery(qs) {
+  const p = new URLSearchParams(qs);
+  if (![...p.keys()].length) return;
+  SER.forEach((k) => {
+    if (!p.has(k)) return;
+    const v = p.get(k);
+    if (["hours", "guests", "km", "masters", "strength"].includes(k)) S[k] = Number(v) || 0;
+    else if (k === "nicotine") S[k] = v === "true";
+    else S[k] = v;
+  });
+  if (p.has("h")) {
+    const [a, b, c, d] = p.get("h").split("-").map(Number);
+    S.hookahs = { classic: a || 0, electro: b || 0, author: c || 0, fruit: d || 0 };
+    S.hookahsTouched = true;
+  }
+  if (p.has("masters")) S.mastersTouched = true;
+  if (p.has("fam")) S.families = p.get("fam").split(",").filter(Boolean);
+  if (p.has("fl")) S.flavors = p.get("fl").split(",").filter(Boolean);
+  if (p.has("eq")) { S.equip = {}; p.get("eq").split(",").filter(Boolean).forEach((k) => (S.equip[k] = true)); }
+}
+
+function saveLocal() {
+  try { localStorage.setItem("magic_cfg", JSON.stringify(S)); } catch (e) {}
+}
+function restoreLocal() {
+  try {
+    const raw = localStorage.getItem("magic_cfg");
+    if (raw) S = Object.assign(defaultState(), JSON.parse(raw));
+  } catch (e) {}
+}
+
+/* ---------- расчёт ---------- */
+
+const totalHookahs = () => Object.values(S.hookahs).reduce((a, b) => a + b, 0);
+const recHookahs = () => Math.max(1, Math.ceil(S.guests / PRICE.guestsPerHookah));
+const recMasters = () => Math.max(1, Math.ceil(totalHookahs() / PRICE.hookahsPerMaster));
+
+function calc() {
+  const lines = [];
+  const extraHours = Math.max(0, S.hours - PRICE.minHours);
+  const th = totalHookahs();
+
+  lines.push([`Выезд, сборка и разбор зоны`, PRICE.base]);
+
+  let hookahSum = 0;
+  Object.entries(S.hookahs).forEach(([k, qty]) => {
+    if (!qty) return;
+    const h = PRICE.hookah[k];
+    hookahSum += h.price * qty;
+    lines.push([`${h.title} × ${qty}`, h.price * qty]);
+  });
+
+  if (extraHours > 0 && hookahSum) {
+    const v = hookahSum * PRICE.hourExtra * extraHours;
+    lines.push([`Продление: +${extraHours} ч к базовым ${PRICE.minHours}`, v]);
+  }
+
+  const flask = PRICE.flask[S.flask];
+  if (flask.price && th) lines.push([`Подача: ${flask.title.toLowerCase()} × ${th}`, flask.price * th]);
+
+  if (S.mouth === "named") lines.push([`Именные мундштуки × ${S.guests}`, PRICE.mouth.named.price * S.guests]);
+
+  const masterSum = S.masters * (PRICE.master + PRICE.masterHour * extraHours);
+  lines.push([`Мастера × ${S.masters}${extraHours ? ` (+${extraHours} ч)` : ""}`, masterSum]);
+
+  const dress = PRICE.dress[S.dress];
+  if (dress.price) {
+    const v = S.dress === "tux" ? dress.price * S.masters : dress.price;
+    lines.push([`Дресс-код: ${dress.title.toLowerCase()}`, v]);
+  }
+
+  const line = PRICE.tobaccoLine[S.line];
+  if (line.price && th) lines.push([`Табак ${line.title.toLowerCase()} × ${th}`, line.price * th]);
+  if (!S.nicotine && th) lines.push([`Безникотиновые смеси × ${th}`, PRICE.nicotineFree * th]);
+
+  PRICE.equipment.forEach((e) => { if (S.equip[e.id]) lines.push([e.title, e.price]); });
+
+  let subtotal = lines.reduce((a, l) => a + l[1], 0);
+
+  const night = Number(S.time.slice(0, 2)) >= 23 || Number(S.time.slice(0, 2)) < 6;
+  if (night) { const v = subtotal * PRICE.nightSurcharge; lines.push(["Ночной тариф (старт после 23:00)", v]); subtotal += v; }
+
+  if (S.km > 0) { const v = S.km * PRICE.kmOutside; lines.push([`Выезд за МКАД, ${S.km} км`, v]); subtotal += v; }
+
+  return { lines, total: subtotal, night };
+}
+
+/* ---------- предупреждения ---------- */
+
+function warnings() {
+  const w = [];
+  if (S.indoor === "indoor" && S.hookahs.classic > 0)
+    w.push(["warn", "Помещение без вытяжки: классические угольные кальяны, скорее всего, не согласуют. Замените их на электронные — мы уже подсветили эту линейку."]);
+  if (S.indoor === "indoor" && !S.equip.purifier && totalHookahs() > 0)
+    w.push(["ok", "Для закрытой площадки рекомендуем добавить очиститель воздуха — один на 30–40 м². Шаг «Зона»."]);
+  if (S.masters < recMasters())
+    w.push(["warn", `На ${totalHookahs()} кальянов по нашему нормативу нужно ${recMasters()} мастера. С меньшим числом гости будут ждать перезабивку.`]);
+  if (S.hours <= 3 && S.guests > 40)
+    w.push(["ok", "Для события на 40+ гостей три часа — почти всегда мало: зона выходит на пик к середине. Обычно берут 5 часов."]);
+  if (S.line === "import")
+    w.push(["ok", "Импортные линейки везём под заказ — нужно минимум 5 дней до события."]);
+  if (S.venue === "Теплоход")
+    w.push(["ok", "Для теплохода нужно разрешение администрации судна на открытый огонь. Запросим его сами, если дадите контакт."]);
+  return w;
+}
+
+/* ---------- рендер шагов ---------- */
+
+const optCard = (on, title, meta, price, attrs) => `
+<button class="opt ${on ? "is-on" : ""}" type="button" ${attrs}>
+  <div class="opt__body">
+    <span class="opt__title">${title}</span>
+    ${meta ? `<span class="opt__meta">${meta}</span>` : ""}
+    ${price !== null ? `<span class="opt__price">${price}</span>` : ""}
+  </div>
+</button>`;
+
+const FORMATS = [
+  ["wedding", "Свадьба"], ["corporate", "Корпоратив"], ["birthday", "День рождения"],
+  ["yacht", "Теплоход"], ["private", "Частная вечеринка"], ["other", "Другое"],
+];
+
+function stepBody() {
+  switch (S.step) {
+    case 0: return `
+      <div class="stack stack-32">
+        <div class="stack stack-12">
+          <span class="eyebrow">Шаг 1 из 6 · Событие</span>
+          <h2 style="font-size:var(--step-2)">Что за событие и когда</h2>
+        </div>
+        <div class="opt-grid">
+          ${FORMATS.map(([id, t]) => optCard(S.format === id, t, "", null, `data-set="format" data-val="${id}"`)).join("")}
+        </div>
+        <div class="grid grid-3">
+          <div class="field"><label for="cfg-date">Дата</label><input class="input" type="date" id="cfg-date" value="${S.date}" data-input="date"></div>
+          <div class="field"><label for="cfg-time">Время начала</label>
+            <select class="input" id="cfg-time" data-input="time">
+              ${Array.from({ length: 30 }, (_, i) => { const m = 12 * 60 + i * 30; const hh = String(Math.floor(m / 60) % 24).padStart(2, "0"); const mm = String(m % 60).padStart(2, "0"); return `${hh}:${mm}`; })
+                .map((t) => `<option value="${t}" ${S.time === t ? "selected" : ""}>${t}${Number(t.slice(0, 2)) >= 23 || Number(t.slice(0, 2)) < 6 ? " — ночной тариф" : ""}</option>`).join("")}
+            </select></div>
+          <div class="field"><label for="cfg-hours">Длительность: <b class="num" style="color:var(--brass-300)">${S.hours} ч</b></label>
+            <input type="range" id="cfg-hours" min="3" max="12" step="1" value="${S.hours}" data-range="hours">
+            <span class="small muted">Минимальный выезд — ${PRICE.minHours} часа</span></div>
+        </div>
+        ${Number(S.time.slice(0, 2)) >= 23 || Number(S.time.slice(0, 2)) < 6 ? `<div class="hint hint--warn">Старт после 23:00 — к смете добавляется ночной тариф +${Math.round(PRICE.nightSurcharge * 100)}%.</div>` : ""}
+      </div>`;
+
+    case 1: return `
+      <div class="stack stack-32">
+        <div class="stack stack-12">
+          <span class="eyebrow">Шаг 2 из 6 · Площадка и гости</span>
+          <h2 style="font-size:var(--step-2)">Где и для скольких</h2>
+        </div>
+        <div class="field">
+          <label for="cfg-guests">Гостей: <b class="num" style="color:var(--brass-300)">${S.guests}</b></label>
+          <input type="range" id="cfg-guests" min="2" max="300" step="1" value="${S.guests}" data-range="guests">
+          <span class="small muted">Для ${S.guests} гостей обычно берут ${Math.max(1, recHookahs() - 1)}–${recHookahs() + 1} кальянов</span>
+        </div>
+        <div class="stack stack-12">
+          <span class="field"><label>Тип площадки</label></span>
+          <div class="row">${["Квартира", "Загородный дом", "Лофт", "Ресторан", "Улица/шатёр", "Теплоход"]
+            .map((v) => `<button class="chip ${S.venue === v ? "is-on" : ""}" type="button" data-set="venue" data-val="${v}">${v}</button>`).join("")}</div>
+        </div>
+        <div class="stack stack-12">
+          <span class="field"><label>Помещение или улица</label></span>
+          <div class="opt-grid">
+            ${optCard(S.indoor === "outdoor", "Улица, терраса или помещение с вытяжкой", "Доступны все линейки, включая угольные", null, 'data-set="indoor" data-val="outdoor"')}
+            ${optCard(S.indoor === "indoor", "Закрытое помещение без вытяжки", "Только электронные кальяны и чаши без углей", null, 'data-set="indoor" data-val="indoor"')}
+          </div>
+        </div>
+        <div class="field">
+          <label for="cfg-km">Расстояние за МКАД: <b class="num" style="color:var(--brass-300)">${S.km} км</b></label>
+          <input type="range" id="cfg-km" min="0" max="120" step="5" value="${S.km}" data-range="km">
+          <span class="small muted">В пределах МКАД доставка входит в стоимость. Дальше — ${money(PRICE.kmOutside)} за км.</span>
+        </div>
+      </div>`;
+
+    case 2: {
+      const rec = recHookahs();
+      return `
+      <div class="stack stack-32">
+        <div class="stack stack-12">
+          <span class="eyebrow">Шаг 3 из 6 · Кальяны</span>
+          <h2 style="font-size:var(--step-2)">Линейка и подача</h2>
+          <p class="muted small">Рекомендуем ${rec} ${plural(rec, "кальян", "кальяна", "кальянов")} на ${S.guests} гостей. Можно комбинировать линейки.</p>
+        </div>
+        ${!S.hookahsTouched ? '<div class="hint">Количество подставлено автоматически по нормативу «один кальян на 6 гостей». Измените — и автоподбор отключится.</div>' : ""}
+        <div class="grid grid-2">
+          ${Object.values(PRICE.hookah).map((h) => {
+            const blocked = S.indoor === "indoor" && h.id === "classic";
+            const suggested = S.indoor === "indoor" && h.id === "electro";
+            return `<div class="card" style="${S.hookahs[h.id] ? "border-color:var(--brass-400)" : ""};${blocked ? "opacity:.55" : ""}">
+              <div class="row" style="justify-content:space-between">
+                <h3 style="font-size:var(--step-1);font-family:var(--font-body);font-weight:700">${h.title}</h3>
+                ${suggested ? '<span class="badge badge--ok">Рекомендуем</span>' : ""}
+                ${blocked ? '<span class="badge" style="border-color:rgba(201,111,94,.5);color:var(--err)">Не для помещения</span>' : ""}
+              </div>
+              <p class="small muted">${h.meta}. ${h.note}</p>
+              <div class="row" style="justify-content:space-between">
+                <span class="card__price">${money(h.price)} / шт</span>
+                <span class="stepper">
+                  <button type="button" data-hk="${h.id}" data-d="-1">−</button>
+                  <span class="num">${S.hookahs[h.id]}</span>
+                  <button type="button" data-hk="${h.id}" data-d="1">+</button>
+                </span>
+              </div>
+            </div>`;
+          }).join("")}
+        </div>
+        <div class="stack stack-12">
+          <span class="field"><label>Колбы и подача</label></span>
+          <div class="opt-grid">${Object.values(PRICE.flask).map((f) =>
+            optCard(S.flask === f.id, f.title, f.meta, f.price ? `+${money(f.price)} за кальян` : "включено", `data-set="flask" data-val="${f.id}"`)).join("")}</div>
+        </div>
+        <div class="stack stack-12">
+          <span class="field"><label>Мундштуки</label></span>
+          <div class="opt-grid">${Object.values(PRICE.mouth).map((m) =>
+            optCard(S.mouth === m.id, m.title, m.meta, m.price ? `+${money(m.price)} за гостя` : "включено", `data-set="mouth" data-val="${m.id}"`)).join("")}</div>
+        </div>
+      </div>`;
+    }
+
+    case 3: return `
+      <div class="stack stack-32">
+        <div class="stack stack-12">
+          <span class="eyebrow">Шаг 4 из 6 · Команда</span>
+          <h2 style="font-size:var(--step-2)">Мастера и дресс-код</h2>
+          <p class="muted small">Норматив: один мастер ведёт до ${PRICE.hookahsPerMaster} кальянов. У вас ${totalHookahs()} — рекомендуем ${recMasters()}.</p>
+        </div>
+        <div class="row" style="justify-content:space-between;align-items:center;border:1px solid var(--line-soft);padding:18px 20px">
+          <div class="stack stack-8">
+            <b style="color:var(--smoke-100)">Количество мастеров</b>
+            <span class="small muted">${money(PRICE.master)} за смену 3 часа, далее ${money(PRICE.masterHour)} в час</span>
+          </div>
+          <span class="stepper">
+            <button type="button" data-ms="-1">−</button><span class="num">${S.masters}</span><button type="button" data-ms="1">+</button>
+          </span>
+        </div>
+        <div class="stack stack-12">
+          <span class="field"><label>Дресс-код команды</label></span>
+          <div class="opt-grid">${Object.values(PRICE.dress).map((d) =>
+            optCard(S.dress === d.id, d.title, d.meta, d.price ? `+${money(d.price)}` : "без доплаты", `data-set="dress" data-val="${d.id}"`)).join("")}</div>
+        </div>
+        <div class="field"><label for="cfg-dressnote">Пожелания к команде</label>
+          <textarea class="input" id="cfg-dressnote" data-input="dressNote" placeholder="Например: без логотипов, бейджи с именами, обращение к гостям на «вы»">${esc(S.dressNote)}</textarea></div>
+      </div>`;
+
+    case 4: {
+      const list = TOBACCO.filter((t) =>
+        t.str <= S.strength &&
+        (S.nicotine || !t.nic) &&
+        (!S.families.length || S.families.includes(t.fam)));
+      return `
+      <div class="stack stack-32">
+        <div class="stack stack-12">
+          <span class="eyebrow">Шаг 5 из 6 · Табак</span>
+          <h2 style="font-size:var(--step-2)">Вкусы и крепость</h2>
+        </div>
+        <div class="stack stack-12">
+          <span class="field"><label>Линейка</label></span>
+          <div class="opt-grid">${Object.values(PRICE.tobaccoLine).map((l) =>
+            optCard(S.line === l.id, l.title, l.meta, l.price ? `+${money(l.price)} за кальян` : "включено", `data-set="line" data-val="${l.id}"`)).join("")}</div>
+        </div>
+        <div class="grid grid-2">
+          <div class="field"><label for="cfg-str">Крепость до: <b class="num" style="color:var(--brass-300)">${S.strength} из 5</b></label>
+            <input type="range" id="cfg-str" min="1" max="5" step="1" value="${S.strength}" data-range="strength">
+            <span class="small muted">${["Совсем лёгкий", "Лёгкий", "Средний", "Крепкий", "Очень крепкий"][S.strength - 1]}</span></div>
+          <div class="stack stack-12">
+            <span class="field"><label>Никотин</label></span>
+            <div class="row">
+              <button class="chip ${S.nicotine ? "is-on" : ""}" type="button" data-set="nicotine" data-val="true">С никотином</button>
+              <button class="chip ${!S.nicotine ? "is-on" : ""}" type="button" data-set="nicotine" data-val="false">Безникотиновые смеси (+${money(PRICE.nicotineFree)}/кальян)</button>
+            </div>
+          </div>
+        </div>
+        <div class="stack stack-12">
+          <span class="field"><label>Вкусовые семейства</label></span>
+          <div class="row">${TOB_FAMILIES.map((f) =>
+            `<button class="chip ${S.families.includes(f) ? "is-on" : ""}" type="button" data-fam-toggle="${f}">${f}</button>`).join("")}</div>
+        </div>
+        <div class="stack stack-12">
+          <span class="field"><label>Конкретные позиции — по желанию (${S.flavors.length} выбрано)</label></span>
+          <div class="opt-grid">${list.length ? list.map((t) =>
+            optCard(S.flavors.includes(t.n), t.n, `${t.fam} · крепость ${t.str}${t.nic ? "" : " · без никотина"}`, t.note, `data-flavor="${esc(t.n)}"`)).join("")
+            : '<p class="muted small">Под выбранные фильтры позиций нет — ослабьте крепость или добавьте семейства.</p>'}</div>
+        </div>
+        <div class="field"><label for="cfg-tobnote">Индивидуальный запрос</label>
+          <textarea class="input" id="cfg-tobnote" data-input="tobaccoNote" placeholder="Назовите вкус или бренд — привезём под заказ, нужно 5 дней">${esc(S.tobaccoNote)}</textarea></div>
+      </div>`;
+    }
+
+    case 5: return `
+      <div class="stack stack-32">
+        <div class="stack stack-12">
+          <span class="eyebrow">Шаг 6 из 6 · Зона</span>
+          <h2 style="font-size:var(--step-2)">Оборудование и оформление</h2>
+          <p class="muted small">То, из-за чего гости остаются в зоне до конца вечера. Выбирайте только нужное — каждая позиция отдельной строкой в смете.</p>
+        </div>
+        <div class="opt-grid">${PRICE.equipment.map((e) =>
+          optCard(!!S.equip[e.id], e.title, e.meta, money(e.price), `data-equip="${e.id}"`)).join("")}</div>
+        ${S.indoor === "indoor" && !S.equip.purifier ? '<div class="hint">Площадка закрытая — очиститель воздуха здесь заметно меняет ощущение зоны к концу вечера.</div>' : ""}
+      </div>`;
+
+    case 6: {
+      const { lines, total } = calc();
+      return `
+      <div class="stack stack-32">
+        <div class="stack stack-12">
+          <span class="eyebrow">Итог</span>
+          <h2 style="font-size:var(--step-2)">Ваша смета</h2>
+          <p class="muted small">Предварительный расчёт по прайсу ${PRICE.version}. Менеджер подтверждает итоговую сумму после уточнения площадки.</p>
+        </div>
+        <div class="tbl-scroll"><table class="tbl">
+          <thead><tr><th>Позиция</th><th class="num">Сумма</th></tr></thead>
+          <tbody>${lines.map((l) => `<tr><td>${l[0]}</td><td class="num">${money(l[1])}</td></tr>`).join("")}
+            <tr><td><b style="color:var(--smoke-100)">Итого</b></td><td class="num"><b style="color:var(--brass-300)">${money(total)}</b></td></tr>
+            <tr><td class="muted small">Вилка с учётом уточнений по площадке</td><td class="num muted small">${money(total * 0.95)} — ${money(total * 1.12)}</td></tr>
+          </tbody>
+        </table></div>
+
+        <form class="card stack stack-16" id="cfg-form">
+          <h3 style="font-size:var(--step-2)">Отправить заявку</h3>
+          <div class="row" style="gap:8px">
+            <button class="chip ${S.client === "person" ? "is-on" : ""}" type="button" data-set="client" data-val="person">Физическое лицо</button>
+            <button class="chip ${S.client === "company" ? "is-on" : ""}" type="button" data-set="client" data-val="company">Юридическое лицо</button>
+          </div>
+          <div class="grid grid-2">
+            <div class="field"><label for="f-name">Имя</label><input class="input" id="f-name" required></div>
+            <div class="field"><label for="f-phone">Телефон</label><input class="input" id="f-phone" required placeholder="+7 ..."></div>
+            <div class="field"><label for="f-tg">Telegram или WhatsApp</label><input class="input" id="f-tg" placeholder="@username"></div>
+            <div class="field"><label for="f-email">Почта для PDF-сметы</label><input class="input" id="f-email" type="email" placeholder="name@company.ru"></div>
+          </div>
+          ${S.client === "company" ? `
+          <div class="grid grid-2">
+            <div class="field"><label for="f-inn">ИНН</label><input class="input" id="f-inn" placeholder="10 или 12 цифр"></div>
+            <div class="field"><label for="f-org">Название компании</label><input class="input" id="f-org"></div>
+          </div>
+          <div class="row" style="gap:18px">
+            <label class="check"><input type="checkbox" id="f-dogovor" checked> Нужен договор</label>
+            <label class="check"><input type="checkbox" id="f-schet" checked> Нужен счёт</label>
+            <label class="check"><input type="checkbox" id="f-nda"> Нужен NDA</label>
+          </div>` : ""}
+          <div class="field"><label for="f-note">Комментарий</label><textarea class="input" id="f-note" placeholder="Контакт площадки, особенности заезда, тайминг"></textarea></div>
+          <label class="check"><input type="checkbox" id="f-consent" required> Согласен на обработку персональных данных и с <a href="#/legal/privacy" style="color:var(--brass-300)">политикой конфиденциальности</a></label>
+          <div class="row" style="gap:12px">
+            <button class="btn btn--primary" type="submit">Отправить заявку</button>
+            <button class="btn btn--ghost" type="button" id="cfg-tg">Продолжить в Telegram</button>
+          </div>
+          <p class="small muted">Демо-версия: заявка никуда не отправляется. В боевой версии уходит в CRM, в Telegram менеджеру и PDF-сметой на почту.</p>
+        </form>
+      </div>`;
+    }
+  }
+}
+
+function plural(n, one, few, many) {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few;
+  return many;
+}
+
+/* ---------- каркас страницы ---------- */
+
+PAGES.configurator = () => `
+<section class="section--tight" style="padding-top:clamp(36px,5vw,64px)">
+  <div class="wrap stack stack-12">
+    <span class="eyebrow">Конфигуратор</span>
+    <h1 style="font-size:var(--step-3);max-width:20ch">Соберите свою зону</h1>
+    <p class="lede" style="font-size:var(--step-0)">Шесть шагов, живой пересчёт и ссылка на конфигурацию, которую можно переслать. Заявка уходит менеджеру вместе со всем составом.</p>
+  </div>
+</section>
+<section class="section--tight cfg--live" style="padding-block:clamp(24px,3vw,40px)"><div class="wrap">
+  <div class="cfg">
+    <div>
+      <div class="cfg__progress" id="cfg-progress"></div>
+      <div id="cfg-step"></div>
+      <div class="stack stack-12" id="cfg-warn" style="margin-top:24px"></div>
+      <div class="row" style="margin-top:28px;justify-content:space-between">
+        <button class="btn btn--ghost" type="button" id="cfg-prev">Назад</button>
+        <div class="row" style="gap:12px">
+          <button class="btn btn--quiet" type="button" id="cfg-reset">Сбросить</button>
+          <button class="btn btn--primary" type="button" id="cfg-next">Далее</button>
+        </div>
+      </div>
+    </div>
+    <aside class="summary" id="cfg-summary"></aside>
+  </div>
+</div></section>
+<div class="mobile-bar" id="cfg-bar"></div>
+`;
+
+/* ---------- обновление ---------- */
+
+function renderSummary() {
+  const { lines, total } = calc();
+  const box = $("#cfg-summary");
+  if (!box) return;
+  box.innerHTML = `
+    <div class="row" style="justify-content:space-between">
+      <span class="eyebrow">Смета</span>
+      <span class="badge badge--soft">прайс ${PRICE.version}</span>
+    </div>
+    <div class="summary__lines">
+      ${lines.map((l) => `<div class="summary__line"><span>${l[0]}</span><b>${money(l[1])}</b></div>`).join("")}
+    </div>
+    <div class="summary__total"><span class="small muted">Предварительно</span><b>${money(total)}</b></div>
+    <div class="stack stack-8 small muted">
+      <span>${totalHookahs()} ${plural(totalHookahs(), "кальян", "кальяна", "кальянов")} · ${S.masters} ${plural(S.masters, "мастер", "мастера", "мастеров")} · ${S.hours} ч · ${S.guests} гостей</span>
+      <span>Вилка: ${money(total * 0.95)} — ${money(total * 1.12)}</span>
+    </div>
+    <div class="stack stack-8">
+      <button class="btn btn--primary" type="button" id="cfg-to-end">${S.step === 6 ? "К форме заявки" : "Перейти к смете"}</button>
+      <button class="btn btn--ghost" type="button" id="cfg-copy">Скопировать ссылку на смету</button>
+    </div>
+    <p class="small muted">Расчёт предварительный и не является офертой.</p>`;
+
+  const bar = $("#cfg-bar");
+  if (bar) bar.innerHTML = `<div class="stack stack-8"><span class="small muted">Предварительно</span><b>${money(total)}</b></div>
+    <button class="btn btn--primary" type="button" id="cfg-bar-next">${S.step === 6 ? "К заявке" : "Далее"}</button>`;
+}
+
+function renderProgress() {
+  const p = $("#cfg-progress");
+  if (!p) return;
+  p.innerHTML = CFG_STEPS.map((t, i) =>
+    `<button type="button" data-goto="${i}" class="${i === S.step ? "is-now" : i < S.step ? "is-done" : ""}">${t}</button>`).join("");
+}
+
+function renderWarn() {
+  const box = $("#cfg-warn");
+  if (!box) return;
+  box.innerHTML = warnings().map(([k, t]) => `<div class="hint ${k === "warn" ? "hint--warn" : ""}">${t}</div>`).join("");
+}
+
+function syncURL() {
+  const q = stateToQuery();
+  history.replaceState(null, "", `#/configurator?${q}`);
+}
+
+function cfgRender() {
+  const box = $("#cfg-step");
+  if (!box) return;
+  box.innerHTML = stepBody();
+  renderProgress();
+  renderWarn();
+  renderSummary();
+  const prev = $("#cfg-prev"); if (prev) prev.disabled = S.step === 0;
+  const next = $("#cfg-next"); if (next) { next.textContent = S.step === 6 ? "Отправить заявку" : "Далее"; next.style.display = S.step === 6 ? "none" : ""; }
+  saveLocal();
+  syncURL();
+}
+
+function cfgSoftUpdate() {
+  renderWarn();
+  renderSummary();
+  saveLocal();
+  syncURL();
+}
+
+function autoFill() {
+  if (!S.hookahsTouched) {
+    const rec = recHookahs();
+    S.hookahs = { classic: 0, electro: 0, author: 0, fruit: 0 };
+    if (S.indoor === "indoor") S.hookahs.electro = rec; else S.hookahs.classic = rec;
+  }
+  if (!S.mastersTouched) S.masters = recMasters();
+}
+
+function cfgGo(i) {
+  S.step = Math.max(0, Math.min(6, i));
+  cfgRender();
+  const top = $(".cfg");
+  if (top) window.scrollTo({ top: top.getBoundingClientRect().top + window.scrollY - 110, behavior: "smooth" });
+}
+
+/* ---------- события ---------- */
+
+function initConfigurator(query) {
+  restoreLocal();
+  S.step = 0;
+  if (query) applyQuery(query);
+  autoFill();
+  cfgRender();
+
+  const root = $(".cfg--live");
+  if (!root) return;
+
+  root.addEventListener("click", (e) => {
+    const t = e.target.closest("[data-set],[data-hk],[data-ms],[data-equip],[data-flavor],[data-fam-toggle],[data-goto],#cfg-next,#cfg-prev,#cfg-reset,#cfg-copy,#cfg-to-end,#cfg-tg");
+    if (!t) return;
+
+    if (t.dataset.set) {
+      const k = t.dataset.set, v = t.dataset.val;
+      S[k] = v === "true" ? true : v === "false" ? false : v;
+      if (k === "indoor" && v === "indoor" && !S.hookahsTouched) autoFill();
+      return cfgRender();
+    }
+    if (t.dataset.hk) {
+      const id = t.dataset.hk, d = Number(t.dataset.d);
+      S.hookahs[id] = Math.max(0, Math.min(60, S.hookahs[id] + d));
+      S.hookahsTouched = true;
+      if (!S.mastersTouched) S.masters = recMasters();
+      return cfgRender();
+    }
+    if (t.dataset.ms) {
+      S.masters = Math.max(1, Math.min(12, S.masters + Number(t.dataset.ms)));
+      S.mastersTouched = true;
+      return cfgRender();
+    }
+    if (t.dataset.equip) {
+      const id = t.dataset.equip;
+      S.equip[id] = !S.equip[id];
+      return cfgRender();
+    }
+    if (t.dataset.flavor) {
+      const n = t.dataset.flavor;
+      S.flavors = S.flavors.includes(n) ? S.flavors.filter((x) => x !== n) : S.flavors.concat(n);
+      return cfgRender();
+    }
+    if (t.dataset.famToggle) {
+      const f = t.dataset.famToggle;
+      S.families = S.families.includes(f) ? S.families.filter((x) => x !== f) : S.families.concat(f);
+      return cfgRender();
+    }
+    if (t.dataset.goto !== undefined) return cfgGo(Number(t.dataset.goto));
+    if (t.id === "cfg-next") return cfgGo(S.step + 1);
+    if (t.id === "cfg-prev") return cfgGo(S.step - 1);
+    if (t.id === "cfg-to-end") return cfgGo(6);
+    if (t.id === "cfg-reset") { S = defaultState(); autoFill(); return cfgRender(); }
+    if (t.id === "cfg-copy") {
+      const url = location.href;
+      navigator.clipboard?.writeText(url);
+      t.textContent = "Ссылка скопирована";
+      setTimeout(() => (t.textContent = "Скопировать ссылку на смету"), 2000);
+      return;
+    }
+    if (t.id === "cfg-tg") { openModal("Продолжение в Telegram", "В боевой версии эта кнопка передаёт собранную конфигурацию в бота: менеджер открывает ту же смету и продолжает диалог в чате. В демо-версии переход отключён."); }
+  });
+
+  root.addEventListener("input", (e) => {
+    const r = e.target.dataset.range;
+    if (r) {
+      S[r] = Number(e.target.value);
+      const lbl = e.target.closest(".field")?.querySelector("label b");
+      if (lbl) lbl.textContent = r === "hours" ? `${S.hours} ч` : r === "km" ? `${S.km} км` : r === "strength" ? `${S.strength} из 5` : S[r];
+      if (r === "guests" && !S.hookahsTouched) autoFill();
+      return cfgSoftUpdate();
+    }
+    const i = e.target.dataset.input;
+    if (i) { S[i] = e.target.value; return cfgSoftUpdate(); }
+  });
+
+  root.addEventListener("change", (e) => {
+    if (e.target.dataset.range) return cfgRender();
+  });
+
+  root.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!$("#f-consent").checked) return;
+    const { lines, total } = calc();
+    localStorage.setItem("magic_last_order", JSON.stringify({ lines, total, link: `#/configurator?${stateToQuery()}` }));
+    location.hash = "#/thank-you";
+  });
+
+  if (!window.__cfgBarBound) {
+    window.__cfgBarBound = true;
+    document.addEventListener("click", (e) => {
+      if (e.target.id === "cfg-bar-next") cfgGo(S.step === 6 ? 6 : S.step + 1);
+    });
+  }
+}
+
+/* ==========================================================
+   MAGIC — каркас приложения: гейт 18+, роутер, модалки, куки.
+   ========================================================== */
+
+function openModal(title, text) {
+  $("#modal-body").innerHTML = `<h3 style="font-size:var(--step-2)">${title}</h3><p class="muted">${text}</p>
+    <button class="btn btn--ghost" type="button" data-modal-close>Понятно</button>`;
+  $("#modal").classList.add("is-open");
+}
+function closeModal() { $("#modal").classList.remove("is-open"); }
+
+/* ---------- типографика: без точки в конце текстового блока ----------
+   Правовые страницы и предупреждение в футере не трогаем. */
+
+const DOT_BLOCKS = "p, li, h1, h2, h3, h4, summary, td, th, figcaption, .opt__meta, .opt__title, .small, .lede, .muted, .hint, .plate__tag, label";
+let dotBusy = false;
+
+function stripTrailingDots(root) {
+  if (!root || dotBusy) return;
+  if (location.hash.startsWith("#/legal")) return;
+  dotBusy = true;
+  root.querySelectorAll(DOT_BLOCKS).forEach((el) => {
+    const node = lastTextNode(el);
+    if (!node) return;
+    const t = node.nodeValue.replace(/\s+$/, "");
+    if (/[^.…]\.$/.test(t) && !/\d\.$/.test(t)) node.nodeValue = t.slice(0, -1);
+  });
+  dotBusy = false;
+}
+
+function lastTextNode(el) {
+  for (let i = el.childNodes.length - 1; i >= 0; i--) {
+    const n = el.childNodes[i];
+    if (n.nodeType === 3 && n.nodeValue.trim()) return n;
+    if (n.nodeType === 1) return null;
+  }
+  return null;
+}
+
+/* ---------- роутер ---------- */
+
+function route() {
+  try { routeInner(); }
+  catch (e) { renderState("error", e && e.message); }
+}
+
+function routeInner() {
+  const raw = location.hash.replace(/^#/, "") || "/";
+  const [path, query] = raw.split("?");
+  const parts = path.split("/").filter(Boolean);
+  const view = $("#view");
+  let html, after = null;
+
+  if (parts.length === 0) html = PAGES.home();
+  else switch (parts[0]) {
+    case "catering": html = PAGES.catering(); break;
+    case "configurator": html = PAGES.configurator(); after = () => initConfigurator(query); break;
+    case "hookahs": html = PAGES.hookahs(); break;
+    case "tobacco": html = PAGES.tobacco(); after = initTobacco; break;
+    case "masters": html = PAGES.masters(); break;
+    case "zone": html = PAGES.zone(); break;
+    case "events": html = parts[1] ? PAGES.event(parts[1]) : PAGES.eventsHub(); break;
+    case "agencies": html = PAGES.agencies(); break;
+    case "gallery": html = PAGES.gallery(); after = initGallery; break;
+    case "prices": html = PAGES.prices(); break;
+    case "faq": html = PAGES.faq(); break;
+    case "about": html = PAGES.about(); break;
+    case "contacts": html = PAGES.contacts(); break;
+    case "blog": html = parts[1] ? PAGES.post(parts[1]) : PAGES.blog(); break;
+    case "legal": html = PAGES.legal(parts[1]); break;
+    case "thank-you": html = PAGES.thanks(); break;
+    case "states": html = PAGES.states(); break;
+    default: html = PAGES.notFound(path);
+  }
+
+  view.innerHTML = html;
+  document.title = docTitle(parts);
+  $("#drawer").classList.remove("is-open");
+  document.body.classList.remove("is-locked");
+  if (!query) window.scrollTo({ top: 0, behavior: "auto" });
+  $$(".nav a").forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === "#" + path));
+  if (after) after();
+  bindForms();
+  stripTrailingDots(view);
+}
+
+function docTitle(parts) {
+  const map = {
+    "": "Magic — кальянный кейтеринг в Москве",
+    catering: "Кальянный кейтеринг — Magic",
+    configurator: "Конфигуратор заказа — Magic",
+    hookahs: "Парк кальянов — Magic",
+    tobacco: "Карта вкусов — Magic",
+    masters: "Команда и дресс-код — Magic",
+    zone: "Оформление зоны — Magic",
+    events: "События — Magic",
+    agencies: "Агентствам и площадкам — Magic",
+    gallery: "Галерея — Magic",
+    prices: "Тарифы и пакеты — Magic",
+    faq: "Вопросы и ответы — Magic",
+    about: "О компании — Magic",
+    contacts: "Контакты — Magic",
+    blog: "Журнал — Magic",
+    legal: "Правовая информация — Magic",
+    "thank-you": "Заявка принята — Magic",
+    states: "Системные экраны — Magic",
+  };
+  return map[parts[0] || ""] || "Magic — кальянный кейтеринг";
+}
+
+/* ---------- системные экраны ---------- */
+
+function renderState(kind, detail) {
+  const view = $("#view");
+  if (!view) return;
+  view.innerHTML = kind === "offline" ? PAGES.offline() : PAGES.error(detail);
+  document.title = (kind === "offline" ? "Нет соединения" : "Ошибка") + " — Magic";
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
+window.showState = renderState;
+
+window.showSplash = () => {
+  const sp = document.createElement("div");
+  sp.className = "splash";
+  sp.innerHTML = '<span class="splash__mark">Magic</span><span class="splash__line"></span>';
+  document.body.appendChild(sp);
+  setTimeout(() => { sp.classList.add("is-out"); setTimeout(() => sp.remove(), 600); }, 1800);
+};
+
+function initSystemStates() {
+  // ошибка в коде страницы — показываем экран, а не белый экран
+  window.addEventListener("error", (e) => {
+    if (e.message && /ResizeObserver/.test(e.message)) return;
+    renderState("error", e.message);
+  });
+  window.addEventListener("unhandledrejection", (e) => {
+    renderState("error", e.reason && (e.reason.message || String(e.reason)));
+  });
+
+  // офлайн
+  const bar = $("#offline-bar");
+  const sync = () => bar && bar.classList.toggle("is-on", !navigator.onLine);
+  window.addEventListener("offline", sync);
+  window.addEventListener("online", sync);
+  sync();
+}
+
+/* ---------- страница «Карта вкусов» ---------- */
+
+function initTobacco() {
+  const state = { fam: [], nic: false, line: null, str: 5 };
+  const grid = $("#tob-grid"), count = $("#tob-count");
+
+  function draw() {
+    const list = TOBACCO.filter((t) =>
+      t.str <= state.str &&
+      (!state.nic || !t.nic) &&
+      (!state.line || t.line === state.line) &&
+      (!state.fam.length || state.fam.includes(t.fam)));
+    count.textContent = `Показано ${list.length} из ${TOBACCO.length} позиций витрины`;
+    grid.innerHTML = list.length ? list.map((t) => `<article class="card">
+      <div class="row" style="justify-content:space-between;align-items:flex-start">
+        <h3 style="font-size:var(--step-1);font-family:var(--font-body);font-weight:700">${t.n}</h3>
+        <span class="badge badge--soft">${t.str}/5</span>
+      </div>
+      <span class="small" style="color:var(--brass-400)">${t.fam}${t.nic ? "" : " · без никотина"}${t.line !== "standard" ? " · " + PRICE.tobaccoLine[t.line].title.toLowerCase() : ""}</span>
+      <p class="small muted">${t.note}</p>
+    </article>`).join("") : '<p class="muted">Под эти фильтры ничего не подходит. Сбросьте часть условий.</p>';
+  }
+
+  $("#tob-filters").addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    if (b.dataset.fam) {
+      const f = b.dataset.fam;
+      state.fam = state.fam.includes(f) ? state.fam.filter((x) => x !== f) : state.fam.concat(f);
+      b.classList.toggle("is-on");
+    } else if (b.dataset.nic) {
+      state.nic = !state.nic; b.classList.toggle("is-on");
+    } else if (b.dataset.line) {
+      const l = b.dataset.line;
+      state.line = state.line === l ? null : l;
+      $$("#tob-filters [data-line]").forEach((x) => x.classList.toggle("is-on", x.dataset.line === state.line));
+    } else if (b.id === "tob-reset") {
+      state.fam = []; state.nic = false; state.line = null; state.str = 5;
+      $$("#tob-filters .chip").forEach((x) => x.classList.remove("is-on"));
+      $("#tob-str").value = 5; $("#tob-str-val").textContent = 5;
+    }
+    draw();
+  });
+
+  $("#tob-str").addEventListener("input", (e) => {
+    state.str = Number(e.target.value);
+    $("#tob-str-val").textContent = state.str;
+    draw();
+  });
+
+  draw();
+}
+
+/* ---------- галерея ---------- */
+
+function initGallery() {
+  const grid = $("#gal-grid");
+  $("#gal-filters").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    $$("#gal-filters .chip").forEach((c) => c.classList.toggle("is-on", c === b));
+    const f = b.dataset.gf;
+    $$(".gal__item", grid).forEach((it) => { it.style.display = f === "Все" || it.dataset.cat === f ? "" : "none"; });
+  });
+  grid.addEventListener("click", (e) => {
+    const it = e.target.closest(".gal__item"); if (!it) return;
+    $("#lightbox-body").innerHTML = plate(it.dataset.title, it.dataset.v, "plate--wide");
+    $("#lightbox").classList.add("is-open");
+    document.body.classList.add("is-locked");
+  });
+  const close = () => { $("#lightbox").classList.remove("is-open"); document.body.classList.remove("is-locked"); };
+  $("#lightbox-close").addEventListener("click", close);
+  $("#lightbox").addEventListener("click", (e) => { if (e.target.id === "lightbox") close(); });
+}
+
+/* ---------- демо-формы ---------- */
+
+function bindForms() {
+  ["#contact-form", "#b2b-form"].forEach((sel) => {
+    const f = $(sel);
+    if (!f) return;
+    f.addEventListener("submit", (e) => {
+      e.preventDefault();
+      openModal("Демо-версия", "Форма собрана и валидируется, но заявка никуда не уходит: в боевой версии она попадает в CRM и в Telegram менеджеру в течение нескольких секунд.");
+      f.reset();
+    });
+  });
+}
+
+/* ---------- запуск ---------- */
+
+function boot() {
+  $("#app").insertAdjacentHTML("afterbegin", renderHeader());
+  $("#app").insertAdjacentHTML("beforeend", renderFooter());
+
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const progress = $("#progress");
+  const progressOn = () => progress && progress.classList.add("is-on");
+  const progressOff = () => progress && progress.classList.remove("is-on");
+
+  initSystemStates();
+  window.addEventListener("hashchange", () => {
+    const view = $("#view");
+    if (reduced) return route();
+    progressOn();
+    view.classList.remove("is-entering");
+    view.classList.add("is-leaving");
+    setTimeout(() => {
+      route();
+      view.classList.remove("is-leaving");
+      void view.offsetWidth;
+      view.classList.add("is-entering");
+      progressOff();
+      setTimeout(() => view.classList.remove("is-entering"), 700);
+    }, 190);
+  });
+  route();
+
+  // шапка уплотняется при прокрутке
+  const hdr = $(".hdr");
+  const onScroll = () => hdr.classList.toggle("is-scrolled", window.scrollY > 24);
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // конфигуратор и фильтры перерисовывают куски страницы — чистим точки и там
+  const view = $("#view");
+  let dotTimer = null;
+  new MutationObserver(() => {
+    if (dotBusy) return;
+    clearTimeout(dotTimer);
+    dotTimer = setTimeout(() => stripTrailingDots(view), 30);
+  }).observe(view, { childList: true, subtree: true });
+
+  $("#burger").addEventListener("click", () => $("#drawer").classList.add("is-open"));
+  $("#drawer-close").addEventListener("click", () => $("#drawer").classList.remove("is-open"));
+  $("#drawer").addEventListener("click", (e) => { if (e.target.tagName === "A") $("#drawer").classList.remove("is-open"); });
+
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-modal-close]") || e.target.id === "modal") closeModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { closeModal(); $("#lightbox")?.classList.remove("is-open"); document.body.classList.remove("is-locked"); }
+  });
+
+  // cookie
+  if (!localStorage.getItem("magic_cookie")) {
+    $("#cookie").style.display = "flex";
+    $("#cookie-ok").addEventListener("click", () => {
+      localStorage.setItem("magic_cookie", "1");
+      $("#cookie").style.display = "none";
+    });
+  }
+}
+
+function initGate() {
+  const gate = $("#gate");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const enter = () => {
+    document.body.classList.add("app-in");
+    boot();
+    setTimeout(() => document.body.classList.remove("app-in"), 1400);
+  };
+
+  let seen = false;
+  try { seen = sessionStorage.getItem("magic_18") === "1"; } catch (e) {}
+  if (seen) { gate.remove(); enter(); return; }
+
+  $("#gate-yes").addEventListener("click", () => {
+    try { sessionStorage.setItem("magic_18", "1"); } catch (e) {}
+    if (reduced) { gate.remove(); boot(); return; }
+    // страница собирается за гейтом, потом гейт растворяется и открывает её
+    boot();
+    requestAnimationFrame(() => gate.classList.add("is-out"));
+    setTimeout(() => gate.remove(), 900);
+  });
+  $("#gate-no").addEventListener("click", () => {
+    gate.innerHTML = `<div class="gate__card"><span class="gate__mark">Magic</span>
+      <p class="lede">Сайт содержит информацию об услуге с использованием никотинсодержащей продукции и предназначен только для совершеннолетних.</p>
+      <p class="small muted">Спасибо за честный ответ. Заходите, когда вам исполнится 18.</p></div>`;
+  });
+}
+
+function hideSplash() {
+  const sp = $("#splash");
+  if (!sp) return;
+  sp.classList.add("is-out");
+  setTimeout(() => sp.remove(), 600);
+}
+
+function start() {
+  initGate();
+  const fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  const minShow = new Promise((r) => setTimeout(r, 400));
+  Promise.all([fonts, minShow]).then(hideSplash);
+  // страховка: не держим стартовый экран дольше трёх секунд ни при каких условиях
+  setTimeout(hideSplash, 3000);
+}
+
+document.addEventListener("DOMContentLoaded", start);
+
+</script>
+</body>
+</html>
