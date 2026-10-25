@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Magic Catering</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600;700&display=swap">
+<style>
+/* ===========================================================
+   MAGIC CATERING — светлая версия по ТЗ 1.1
+   Песочный фон · молочный воздух · терракота · графит
+   =========================================================== */
+
+:root {
+  /* песок и молоко */
+  --sand-50:  #faf6ef;   /* молочный — воздух и свет */
+  --sand-100: #f2ebdf;
+  --sand-200: #e9dfce;   /* песочный — основной фон */
+  --sand-300: #ddd0b9;
+  --sand-400: #c9b99d;
+
+  /* терракота — акцент и кнопки */
+  --terra-400: #c4714f;
+  --terra-500: #a04e2e;
+  --terra-600: #853f25;
+
+  /* графит — текст */
+  --ink:   #2a2420;
+  --ink-2: #4b423b;
+  --ink-3: #6b6058;
+  --ink-4: #9b9085;
+
+  --line:      rgba(42, 36, 32, 0.14);
+  --line-soft: rgba(42, 36, 32, 0.08);
+
+  --display: "Cormorant Garamond", "Times New Roman", serif;
+  --sans: "Montserrat", -apple-system, "Segoe UI", system-ui, sans-serif;
+
+  --container: 1280px;
+  --gutter: clamp(20px, 5vw, 72px);
+
+  --s--1: clamp(0.78rem, 0.76rem + 0.1vw, 0.85rem);
+  --s-0:  clamp(0.97rem, 0.94rem + 0.15vw, 1.06rem);
+  --s-1:  clamp(1.12rem, 1.04rem + 0.4vw, 1.35rem);
+  --s-2:  clamp(1.5rem, 1.3rem + 0.9vw, 2.1rem);
+  --s-3:  clamp(2rem, 1.6rem + 1.9vw, 3.4rem);
+  --s-4:  clamp(2.6rem, 1.9rem + 3.4vw, 5.2rem);
+
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; overflow-x: clip; scroll-padding-top: 92px; }
+
+body {
+  margin: 0;
+  background: var(--sand-200);
+  color: var(--ink-2);
+  font-family: var(--sans);
+  font-size: var(--s-0);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+body.is-locked { overflow: hidden; }
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--terra-500); outline-offset: 3px; }
+
+h1, h2, h3 {
+  font-family: var(--display);
+  font-weight: 500;
+  line-height: 1.07;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  text-wrap: balance;
+  margin: 0;
+}
+p { margin: 0; }
+
+/* ---------- каркас ---------- */
+
+.wrap { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+.sec { padding-block: clamp(64px, 9vw, 150px); }
+.sec--tight { padding-block: clamp(44px, 6vw, 92px); }
+.sec--milk { background: var(--sand-50); }
+.sec--line { border-top: 1px solid var(--line-soft); }
+
+.stack { display: flex; flex-direction: column; }
+.g8 { gap: 8px; } .g12 { gap: 12px; } .g16 { gap: 16px; } .g24 { gap: 24px; }
+.g32 { gap: 32px; } .g48 { gap: clamp(28px, 4vw, 48px); } .g72 { gap: clamp(36px, 6vw, 72px); }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+
+.eyebrow { font-size: var(--s--1); letter-spacing: .2em; text-transform: uppercase; color: var(--terra-600); font-weight: 600; }
+.lede { font-size: var(--s-1); color: var(--ink-2); max-width: 54ch; line-height: 1.55; }
+.muted { color: var(--ink-3); }
+.small { font-size: var(--s--1); }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- кнопки ---------- */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 52px; padding: 14px 32px; border: 1px solid transparent; border-radius: 2px;
+  font-size: var(--s--1); font-weight: 600; letter-spacing: .09em; text-transform: uppercase;
+  cursor: pointer; background: none; transition: background .25s, color .25s, border-color .25s;
+}
+.btn--main { background: var(--terra-500); color: var(--sand-50); }
+.btn--main:hover { background: var(--terra-600); }
+.btn--line { border-color: var(--ink); color: var(--ink); }
+.btn--line:hover { background: var(--ink); color: var(--sand-50); }
+.btn--ghost { border-color: var(--line); color: var(--ink-2); }
+.btn--ghost:hover { border-color: var(--ink); color: var(--ink); }
+
+.arrow {
+  display: inline-flex; align-items: center; gap: 10px; width: fit-content;
+  font-size: var(--s--1); letter-spacing: .1em; text-transform: uppercase; font-weight: 600;
+  color: var(--terra-500); border-bottom: 1px solid currentColor; padding-bottom: 4px;
+  transition: gap .25s;
+}
+.arrow:hover { gap: 16px; }
+
+/* ---------- шапка ---------- */
+
+.hdr {
+  position: sticky; top: 0; z-index: 60;
+  background: rgba(233, 223, 206, .88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid transparent;
+  transition: background .35s, border-color .35s, box-shadow .35s;
+}
+.hdr.is-stuck { background: rgba(250, 246, 239, .95); border-bottom-color: var(--line-soft); box-shadow: 0 10px 30px rgba(42,36,32,.06); }
+.hdr__in { display: flex; align-items: center; gap: clamp(14px, 2vw, 34px); min-height: 84px; transition: min-height .35s; }
+.hdr.is-stuck .hdr__in { min-height: 70px; }
+
+.logo { display: flex; flex-direction: column; margin-right: auto; flex: none; line-height: 1; }
+.logo__mark { font-family: var(--display); font-size: 1.6rem; letter-spacing: .26em; text-transform: uppercase; color: var(--ink); }
+.logo__sub { font-size: .58rem; letter-spacing: .34em; color: var(--ink-3); margin-top: 7px; padding-left: .2em; }
+
+.nav { display: flex; align-items: center; gap: clamp(4px, 1vw, 16px); flex: none; }
+.nav a {
+  font-size: .76rem; letter-spacing: .11em; text-transform: uppercase; font-weight: 600;
+  color: var(--ink-2); white-space: nowrap; padding: 8px 2px; border-bottom: 1px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+.nav a:hover, .nav a.is-on { color: var(--terra-500); border-bottom-color: var(--terra-500); }
+
+.hdr__tel { font-size: .85rem; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.burger { display: none; width: 48px; height: 48px; border: 1px solid var(--line); background: none; cursor: pointer; flex: none; }
+.burger span { display: block; width: 18px; height: 1px; background: var(--ink); margin: 4px auto; }
+
+.drawer {
+  position: fixed; inset: 0; z-index: 70; background: var(--sand-50);
+  padding: 22px var(--gutter) 40px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 2px;
+  opacity: 0; visibility: hidden; transform: translateY(-8px);
+  transition: opacity .3s, transform .4s cubic-bezier(.2,.7,.3,1), visibility .3s;
+}
+.drawer.is-open { opacity: 1; visibility: visible; transform: none; }
+.drawer a { padding: 16px 0; border-bottom: 1px solid var(--line-soft); font-size: 1.05rem; color: var(--ink); }
+.drawer__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+
+/* ---------- медиа-плашки (место под съёмку) ---------- */
+
+.shot {
+  position: relative; overflow: hidden; aspect-ratio: 4 / 3;
+  background:
+    radial-gradient(90% 80% at 25% 20%, rgba(196,113,79,.16), transparent 60%),
+    radial-gradient(80% 70% at 80% 85%, rgba(201,185,157,.55), transparent 62%),
+    linear-gradient(150deg, var(--sand-300), var(--sand-100));
+  border: 1px solid var(--line-soft);
+}
+.shot::after {
+  content: attr(data-note);
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 16px;
+  font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink-3); background: linear-gradient(transparent, rgba(250,246,239,.85));
+}
+.shot--wide { aspect-ratio: 16 / 9; }
+.shot--tall { aspect-ratio: 3 / 4; }
+.shot--sq   { aspect-ratio: 1 / 1; }
+.shot--hero { aspect-ratio: auto; min-height: clamp(420px, 68vh, 720px); }
+.shot--v2 { filter: hue-rotate(-8deg); }
+.shot--v3 { filter: hue-rotate(12deg) saturate(.9); }
+.shot--v4 { filter: saturate(.75) brightness(1.03); }
+
+/* ---------- первый экран ---------- */
+
+.hero { position: relative; }
+.hero__in {
+  position: absolute; inset: auto 0 0 0; padding-block: clamp(28px, 5vw, 64px);
+  background: linear-gradient(transparent, rgba(233,223,206,.94) 55%);
+}
+.hero h1 { font-size: var(--s-4); max-width: 16ch; }
+.hero__meta { font-size: var(--s--1); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); }
+
+/* ---------- цена ---------- */
+
+.price { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .85fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+.price__fig { font-family: var(--display); font-size: var(--s-4); color: var(--ink); line-height: 1; }
+.price__list { display: flex; flex-wrap: wrap; gap: 8px 24px; color: var(--ink-2); font-size: var(--s-1); }
+.price__list span::before { content: "· "; color: var(--terra-500); }
+
+/* ---------- формы ---------- */
+
+.form { display: flex; flex-direction: column; gap: 14px; background: var(--sand-50); padding: clamp(22px, 3vw, 36px); border: 1px solid var(--line-soft); }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field > label { font-size: var(--s--1); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+.input {
+  width: 100%; min-height: 52px; padding: 13px 16px;
+  background: #fff; border: 1px solid var(--line); border-radius: 2px; color: var(--ink);
+  transition: border-color .2s;
+}
+.input::placeholder { color: var(--ink-4); }
+.input:focus { border-color: var(--terra-500); outline: none; }
+textarea.input { min-height: 104px; resize: vertical; }
+.check { display: flex; gap: 11px; align-items: flex-start; font-size: .84rem; color: var(--ink-3); cursor: pointer; }
+.check input { margin-top: 3px; width: 17px; height: 17px; accent-color: var(--terra-500); flex: none; }
+
+/* ---------- сетки и карточки ---------- */
+
+.grid { display: grid; gap: clamp(16px, 2.2vw, 28px); }
+.g-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.g-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+.head { display: flex; flex-direction: column; gap: 16px; max-width: 60ch; }
+.head h2 { font-size: var(--s-3); }
+
+.incl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(24px, 4vw, 56px); }
+.incl div { padding: 16px 0; border-bottom: 1px solid var(--line-soft); font-size: var(--s-1); color: var(--ink); }
+.incl div::before { content: "·"; color: var(--terra-500); margin-right: 12px; }
+
+.person { display: flex; flex-direction: column; gap: 14px; }
+.person__name { font-family: var(--display); font-size: var(--s-2); color: var(--ink); }
+.person__note { font-size: .88rem; color: var(--ink-3); }
+.person__more { display: none; font-size: .88rem; color: var(--ink-2); padding-top: 8px; border-top: 1px solid var(--line-soft); }
+.person.is-open .person__more { display: block; }
+.person__btn {
+  background: none; border: 0; padding: 0; cursor: pointer; text-align: left; width: 100%;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px;
+  font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; color: var(--terra-600);
+}
+.person__btn span:last-child { font-size: 1.1rem; transition: transform .3s; }
+.person.is-open .person__btn span:last-child { transform: rotate(45deg); }
+
+.guest {
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px); align-items: center;
+  background: var(--ink); color: var(--sand-100); padding: clamp(24px, 3.5vw, 52px);
+}
+.guest h3 { color: var(--sand-50); font-size: var(--s-2); }
+.guest .eyebrow { color: var(--terra-400); }
+.guest .shot { border-color: rgba(250,246,239,.2); }
+
+.menu-card { background: var(--sand-50); border: 1px solid var(--line-soft); display: flex; flex-direction: column; }
+.menu-card__btn { display: flex; justify-content: space-between; align-items: center; gap: 16px; width: 100%; padding: 22px 24px; background: none; border: 0; cursor: pointer; text-align: left; }
+.menu-card__btn h3 { font-size: var(--s-2); }
+.menu-card__sign { font-size: 1.4rem; color: var(--terra-500); transition: transform .3s; flex: none; }
+.menu-card.is-open .menu-card__sign { transform: rotate(45deg); }
+.menu-card__body { display: none; padding: 0 24px 26px; }
+.menu-card.is-open .menu-card__body { display: block; }
+.menu-card__body ul { margin: 12px 0 0; padding-left: 18px; color: var(--ink-2); }
+
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 44px); }
+.step__n { font-family: var(--display); font-size: var(--s-2); color: var(--terra-500); }
+.step h3 { font-family: var(--sans); font-weight: 700; font-size: var(--s-1); margin: 8px 0 6px; }
+
+.chief { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 76px); align-items: center; }
+.chief__facts { display: flex; flex-direction: column; }
+.chief__facts div { padding: 12px 0; border-top: 1px solid var(--line-soft); font-size: var(--s-1); color: var(--ink); }
+
+.gal { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 20px); }
+.gal figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.gal figcaption { font-size: .82rem; color: var(--ink-3); }
+
+/* ---------- подвал ---------- */
+
+.ftr { background: var(--ink); color: var(--sand-200); }
+.ftr a { color: var(--sand-200); }
+.ftr a:hover { color: var(--terra-400); }
+.ftr__grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; padding-block: clamp(44px, 6vw, 80px); }
+.ftr h4 { font-family: var(--sans); font-size: var(--s--1); letter-spacing: .15em; text-transform: uppercase; color: var(--ink-4); margin: 0 0 14px; }
+.ftr p, .ftr a { font-size: .9rem; }
+.ftr__links a { display: block; padding: 5px 0; }
+.ftr__legal { border-top: 1px solid rgba(250,246,239,.12); padding-block: 22px; display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; font-size: .76rem; color: var(--ink-4); }
+
+/* ---------- служебное ---------- */
+
+.note { padding: 14px 18px; border-left: 2px solid var(--terra-500); background: rgba(196,113,79,.08); font-size: .9rem; color: var(--ink-2); }
+.tbd { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--terra-500); border: 1px solid rgba(179,90,56,.4); padding: 3px 9px; display: inline-block; }
+
+.modal { position: fixed; inset: 0; z-index: 95; display: flex; align-items: center; justify-content: center; padding: var(--gutter);
+  background: rgba(42,36,32,.55); opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+.modal.is-open { opacity: 1; visibility: visible; }
+.modal__card { width: min(520px, 100%); background: var(--sand-50); padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column; gap: 18px; }
+
+.rise { animation: rise .8s cubic-bezier(.2,.7,.3,1) both; }
+@keyframes rise { from { opacity: .5; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* нижняя панель быстрой связи — только на телефоне */
+.mbar {
+  display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 65;
+  background: var(--sand-50); border-top: 1px solid var(--line);
+  padding: 10px 14px; gap: 10px;
+  box-shadow: 0 -8px 24px rgba(42,36,32,.08);
+}
+.mbar .btn { flex: 1; min-height: 46px; padding: 10px 12px; width: auto; letter-spacing: .06em; }
+.swipe-hint { display: none; font-size: .76rem; color: var(--ink-3); }
+
+/* ---------- адаптив ---------- */
+
+@media (max-width: 1240px) { .hdr__tel { display: none; } }
+@media (max-width: 1080px) {
+  .nav { display: none; }
+  .burger { display: block; }
+  .g-5 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .gal { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 860px) {
+  .price, .chief, .guest { grid-template-columns: minmax(0, 1fr); }
+  /* кадры на телефоне короче — экран прокручивается быстрее */
+  .shot--tall { aspect-ratio: 4 / 5; }
+  .shot--hero { min-height: 340px; }
+  .sec { padding-block: clamp(52px, 11vw, 80px); }
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .g-4 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .hero__in { position: static; background: none; }
+  .shot--hero { min-height: 380px; }
+}
+@media (max-width: 620px) {
+  .g-2, .g-3, .g-4 { grid-template-columns: minmax(0, 1fr); }
+  .incl { grid-template-columns: minmax(0, 1fr); }
+  .ftr__grid { grid-template-columns: minmax(0, 1fr); }
+  .btn { width: 100%; }
+  .row .btn { width: auto; }
+
+  /* карточки мастеров — горизонтальная лента со снапом вместо башни из пяти блоков */
+  .g-5 {
+    display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
+    margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter);
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .g-5::-webkit-scrollbar { display: none; }
+  .g-5 > * { flex: 0 0 68vw; scroll-snap-align: start; }
+  .swipe-hint { display: block; }
+
+  /* события — две колонки, иначе четыре экрана подряд */
+  .gal { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .gal figcaption { font-size: .76rem; }
+
+  /* место под нижнюю панель действий */
+  body { padding-bottom: 74px; }
+  .mbar { display: flex; }
+}
+
+
+</style>
+
+</head>
+<body>
+<div id="splash" style="position:fixed;inset:0;z-index:110;background:#e9dfce;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .5s">
+  <span style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;letter-spacing:.3em;text-transform:uppercase;color:#2a2420;padding-left:.3em">Magic</span>
+  <span style="font-size:.58rem;letter-spacing:.34em;color:#776c62">hookah catering</span>
+</div>
+
+<div id="app">
+  <main id="view"></main>
+</div>
+
+<div class="mbar">
+  <a class="btn btn--line" href="tel:+74950000000">Позвонить</a>
+  <a class="btn btn--main" href="#price">Узнать стоимость</a>
+</div>
+
+<div class="modal" id="modal"><div class="modal__card" id="modal-body"></div></div>
+<script>
+/* ==========================================================
+   MAGIC CATERING — контент по ТЗ 1.1
+   Всё, что ждёт подтверждения заказчика, помечено TBD.
+   ========================================================== */
+
+const BRAND = {
+  name: "MAGIC",
+  sub: "hookah catering",
+  geo: "Москва и МО · регионы по запросу",
+  phone: "+7 (495) 000-00-00",
+  phoneHref: "tel:+74950000000",
+  tg: "@magic_catering",
+  tgHref: "https://t.me/magic_catering",
+  waHref: "https://wa.me/74950000000",
+  email: "hello@magic-catering.ru",
+  entity: "Юридическое лицо и реквизиты — на подтверждении",
+};
+
+const NAV = [
+  { href: "#service", label: "Сервис" },
+  { href: "#people", label: "Команда" },
+  { href: "#menu", label: "Меню" },
+  { href: "#options", label: "Возможности" },
+  { href: "#price", label: "Стоимость" },
+  { href: "#/agencies", label: "Агентствам" },
+  { href: "#contact", label: "Обсудить мероприятие" },
+];
+
+/* 02 — цена и быстрая заявка */
+const PRICE = {
+  from: "от ___ ₽",
+  items: ["3 кальяна", "3 часа", "доставка включена"],
+  text: "Начать можно с трёх кальянов на три часа. Всё необходимое для работы команда привозит с собой.",
+};
+
+/* 03 — что входит в сервис */
+const INCLUDED = [
+  "Мастера в фирменной одежде",
+  "Оборудование и кейсы",
+  "Табак популярных линеек",
+  "Угли и расходные материалы",
+  "Доставка",
+  "Обслуживание в течение заказа",
+];
+
+/* 04 — люди Magic */
+const PEOPLE = [
+  { name: "Имя", note: "Короткая деталь о мастере", more: "Развёрнутая деталь: опыт, манера работы на площадке, любимые сочетания", shot: "Портрет мастера" },
+  { name: "Имя", note: "Короткая деталь о мастере", more: "Развёрнутая деталь: опыт, манера работы на площадке, любимые сочетания", shot: "Портрет мастера" },
+  { name: "Имя", note: "Короткая деталь о мастере", more: "Развёрнутая деталь: опыт, манера работы на площадке, любимые сочетания", shot: "Портрет мастера" },
+  { name: "Имя", note: "Короткая деталь о мастере", more: "Развёрнутая деталь: опыт, манера работы на площадке, любимые сочетания", shot: "Портрет мастера" },
+  { name: "Имя", note: "Короткая деталь о мастере", more: "Развёрнутая деталь: опыт, манера работы на площадке, любимые сочетания", shot: "Портрет мастера" },
+];
+
+/* 05 — три карточки меню */
+const MENU = [
+  {
+    title: "Карточка меню 01",
+    lead: "Короткое описание направления",
+    body: ["Описание направления в две-три строки", "Подборка вкусов и сочетаний", "Для каких событий подходит"],
+  },
+  {
+    title: "Карточка меню 02",
+    lead: "Короткое описание направления",
+    body: ["Описание направления в две-три строки", "Подборка вкусов и сочетаний", "Для каких событий подходит"],
+  },
+  {
+    title: "Карточка меню 03",
+    lead: "Короткое описание направления",
+    body: ["Описание направления в две-три строки", "Подборка вкусов и сочетаний", "Для каких событий подходит"],
+  },
+];
+
+/* 06 — события и атмосфера */
+const EVENTS = [
+  { t: "День рождения", note: "Постановочная съёмка" },
+  { t: "Свадьба", note: "Постановочная съёмка" },
+  { t: "Корпоратив", note: "Постановочная съёмка" },
+  { t: "Закрытая вечеринка", note: "Постановочная съёмка" },
+];
+
+/* 08 — индивидуальные решения */
+const OPTIONS = [
+  { t: "Брендированная стойка", d: "Стойка под айдентику события или компании" },
+  { t: "Оформление зоны", d: "Свет, текстиль, посадка — зона как часть замысла вечера" },
+  { t: "Меню под событие", d: "Собранная под гостей подборка вкусов" },
+  { t: "Особый дресс-код", d: "Форма команды под стилистику мероприятия" },
+  { t: "Приглашённые мастера", d: "Медийные специалисты как часть программы" },
+  { t: "Электронные чаши APEX", d: "Формат без углей — согласовывается с площадкой" },
+];
+
+/* 09 — как организуем */
+const STEPS = [
+  ["Узнаём детали", "Дата, площадка, формат, количество гостей"],
+  ["Согласуем состав и смету", "Предлагаем команду и формат работы"],
+  ["Приезжаем и ведём сервис", "Привозим всё необходимое и обслуживаем событие"],
+];
+
+/* 10 — руководитель */
+const CHIEF = {
+  name: "Максим Заботин",
+  role: "Руководитель кальянного направления Magic",
+  facts: [
+    "Бренд-шеф кальянного направления ресторанной сети",
+    "Медийный мастер: ведёт профессиональный блог об индустрии",
+    "Аудитория 37,5 тыс. подписчиков в профессиональном блоге",
+    "12+ лет в индустрии",
+    "Опыт работы с 30+ заведениями Москвы",
+    "Отвечает за подбор и подготовку команды Magic",
+  ],
+  text: "За тем, как работает команда Magic, стоит Максим. Он отвечает за людей, которых мы отправляем на ваши мероприятия.",
+};
+
+/* ---------- страница для event-агентств ---------- */
+
+const B2B = {
+  h1: "Кальянный кейтеринг для event-агентств",
+  lead: "Выездной кальянный сервис под мероприятия в Москве и Московской области: команда мастеров, оборудование, доставка и обслуживание на площадке.",
+  title: "Кальянный кейтеринг для event-агентств в Москве | Magic Catering",
+  description: "Кальянный кейтеринг для event-агентств в Москве и МО. Команда мастеров, оборудование, доставка, индивидуальные решения. Запросите смету для мероприятия.",
+  blocks: [
+    {
+      n: "02", t: "Официальная работа",
+      d: "Кальянное обслуживание мероприятий по договору: понятная смета, согласованные условия и документы после события.",
+      list: ["Договор на оказание услуг", "Смета с составом работ", "Закрывающие документы после мероприятия", "Безналичный расчёт"],
+    },
+    {
+      n: "03", t: "Партнёрский сервис",
+      d: "Один контакт по проекту и понятные точки согласования — работаем как кальянный подрядчик для мероприятий агентства.",
+      list: ["Менеджер проекта на связи", "Согласование тайминга и площадки", "Подготовленная команда в форме", "Оборудование, доставка и работа в течение события"],
+    },
+    {
+      n: "04", t: "Форматы и опции",
+      d: "От стандартного кейтеринга до сложных событий — кальяны на корпоратив, свадьбу или закрытый вечер под конкретный бриф.",
+      list: ["Корпоративы, свадьбы, закрытые вечера", "Брендированная стойка и оформление зоны", "Персональное меню и дресс-код", "Медийные мастера, электронные чаши APEX"],
+    },
+  ],
+  flow: ["Запрос агентства", "Уточнение задачи", "Коммерческое предложение и смета", "Договор", "Выезд и обслуживание", "Документы"],
+  faq: [
+    { q: "Как рассчитывается смета?", a: "От количества кальянов, длительности работы и состава дополнительных опций. Точный порядок расчёта подтверждается до публикации." },
+    { q: "С какой географией работаете?", a: "Кальянный кейтеринг Москва и Московская область. Другие регионы — по отдельному запросу." },
+    { q: "Какие документы предоставляете?", a: "Договор, смета и комплект закрывающих документов после мероприятия. Точный состав подтверждаем при согласовании." },
+  ],
+};
+
+/* ==========================================================
+   MAGIC CATERING — сборка страниц по ТЗ 1.1
+   Главная с якорной навигацией + /event-agentstvam/
+   ========================================================== */
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const shot = (note, cls = "") => `<div class="shot ${cls}" data-note="${esc(note)}"></div>`;
+
+/* ---------- шапка и подвал ---------- */
+
+function header() {
+  return `<header class="hdr"><div class="wrap hdr__in">
+    <a class="logo" href="#top">
+      <span class="logo__mark">${BRAND.name}</span>
+      <span class="logo__sub">${BRAND.sub}</span>
+    </a>
+    <nav class="nav">${NAV.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}</nav>
+    <a class="hdr__tel" href="${BRAND.phoneHref}">${BRAND.phone}</a>
+    <a class="btn btn--main" href="#contact" style="min-height:46px;padding:12px 24px">Обсудить</a>
+    <button class="burger" type="button" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+  </div></header>
+
+  <div class="drawer" id="drawer">
+    <div class="drawer__top">
+      <span class="logo__mark" style="font-size:1.4rem">${BRAND.name}</span>
+      <button class="btn btn--ghost" type="button" id="drawer-close" style="min-height:44px;padding:10px 20px">Закрыть</button>
+    </div>
+    ${NAV.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}
+    <a href="${BRAND.phoneHref}">${BRAND.phone}</a>
+    <a class="btn btn--main" style="margin-top:22px" href="#contact">Обсудить мероприятие</a>
+  </div>`;
+}
+
+function footer() {
+  return `<footer class="ftr"><div class="wrap">
+    <div class="ftr__grid">
+      <div>
+        <span class="logo__mark" style="font-size:1.4rem;color:var(--sand-50)">${BRAND.name}</span>
+        <div class="logo__sub" style="color:var(--ink-4)">${BRAND.sub}</div>
+        <p style="margin-top:18px;max-width:34ch;color:var(--sand-300)">Выездной кальянный сервис для частных и корпоративных событий</p>
+        <p style="margin-top:14px">${BRAND.geo}</p>
+      </div>
+      <div class="ftr__links">
+        <h4>Разделы</h4>
+        ${NAV.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}
+      </div>
+      <div class="ftr__links">
+        <h4>Связаться</h4>
+        <a href="${BRAND.phoneHref}">${BRAND.phone}</a>
+        <a href="#contact">${BRAND.tg}</a>
+        <a href="mailto:${BRAND.email}">${BRAND.email}</a>
+      </div>
+    </div>
+    <div class="ftr__legal">
+      <span>${BRAND.entity}</span>
+      <span>Потребление никотинсодержащей продукции вредит вашему здоровью. Информация предназначена для лиц старше 18 лет</span>
+      <span>© 2026 Magic Catering · демо-версия</span>
+    </div>
+  </div></footer>`;
+}
+
+/* ---------- главная: блоки 01–11 ---------- */
+
+const PAGES = {};
+
+PAGES.home = () => `
+<!-- 01 Первый экран -->
+<section class="hero" id="top">
+  ${shot("Обложка · мастер и гости на мероприятии", "shot--hero")}
+  <div class="hero__in"><div class="wrap stack g24 rise">
+    <span class="hero__meta">${BRAND.geo}</span>
+    <h1>Кальянный кейтеринг для вашего события</h1>
+    <p class="lede">Мастера, сервис и подача, которые становятся частью вечера.</p>
+    <div class="row"><a class="btn btn--main" href="#price">Обсудить мероприятие</a></div>
+  </div></div>
+</section>
+
+<!-- 02 Цена и быстрая заявка -->
+<section class="sec sec--milk" id="price"><div class="wrap">
+  <div class="price">
+    <div class="stack g24">
+      <span class="eyebrow">Стоимость</span>
+      <div class="price__fig">Кейтеринг ${PRICE.from}</div>
+      <div class="price__list">${PRICE.items.map((i) => `<span>${i}</span>`).join("")}</div>
+      <p class="lede">${PRICE.text}</p>
+      <span class="tbd">Стартовая цена на подтверждении</span>
+    </div>
+    <form class="form" id="form-quick">
+      <div class="field"><label for="q-date">Дата события</label><input class="input" id="q-date" type="date" required></div>
+      <div class="field"><label for="q-place">Площадка или район</label><input class="input" id="q-place" placeholder="Лофт на Бауманской" required></div>
+      <div class="field"><label for="q-format">Формат мероприятия</label>
+        <select class="input" id="q-format">
+          <option>День рождения</option><option>Свадьба</option><option>Корпоратив</option>
+          <option>Закрытая вечеринка</option><option>Другое</option>
+        </select></div>
+      <div class="field"><label for="q-contact">Телефон или мессенджер</label><input class="input" id="q-contact" placeholder="+7 ..." required></div>
+      <label class="check"><input type="checkbox" id="q-consent" required> Согласен на обработку персональных данных</label>
+      <button class="btn btn--main" type="submit">Узнать стоимость</button>
+    </form>
+  </div>
+</div></section>
+
+<!-- 03 Что входит в сервис -->
+<section class="sec" id="service"><div class="wrap stack g48">
+  <div class="head">
+    <span class="eyebrow">Что входит в сервис</span>
+    <h2>Приезжаем подготовленными</h2>
+    <p class="lede">С мастерами, оборудованием и всем необходимым для кальянного обслуживания.</p>
+  </div>
+  <div class="grid g-2" style="align-items:center">
+    <div class="incl">${INCLUDED.map((i) => `<div>${i}</div>`).join("")}</div>
+    <div class="stack g16">
+      ${shot("Форма, кейсы, рабочая зона", "shot--wide")}
+      <div class="grid g-2">${shot("Руки мастера в работе", "shot--sq shot--v2")}${shot("Подготовленное оборудование", "shot--sq shot--v3")}</div>
+    </div>
+  </div>
+  <p class="small muted">Дополнительные решения считаются отдельно — <a class="arrow" style="display:inline-flex" href="#options">возможности</a></p>
+  <p class="small muted">Организуете событие для клиента? Условия, документы и смета — на странице <a class="arrow" style="display:inline-flex" href="/event-agentstvam/">для event-агентств</a></p>
+</div></section>
+
+<!-- 04 Люди Magic -->
+<section class="sec sec--milk" id="people"><div class="wrap stack g48">
+  <div class="head">
+    <span class="eyebrow">Люди Magic</span>
+    <h2>Подбираем людей под характер вечера</h2>
+    <p class="lede">Кому-то нужен безупречный сервис. Кому-то — разговор, который запомнится.</p>
+  </div>
+  ${shot("Общая сцена команды на мероприятии", "shot--wide")}
+  <div class="grid g-5">
+    ${PEOPLE.map((p, i) => `<article class="person" data-person>
+      ${shot(p.shot, "shot--tall" + (i % 2 ? " shot--v2" : ""))}
+      <div class="stack g8">
+        <span class="person__name">${p.name}</span>
+        <span class="person__note">${p.note}</span>
+        ${p.more ? `<button class="person__btn" type="button"><span>Подробнее</span><span>+</span></button>
+        <span class="person__more">${p.more}</span>` : ""}
+      </div>
+    </article>`).join("")}
+  </div>
+  <span class="swipe-hint">Листайте карточки в сторону →</span>
+  <div class="guest">
+    <div class="stack g16">
+      <span class="eyebrow">Приглашённые мастера</span>
+      <h3>Медийные мастера как часть программы вечера</h3>
+      <p>Отдельный состав приглашённых специалистов: известные в индустрии имена, собственная публика и опыт работы на больших событиях. Участие запрашивается под конкретную дату.</p>
+      <a class="arrow" href="#contact" style="color:var(--terra-400)">Запросить участие →</a>
+      <span class="tbd" style="border-color:rgba(196,113,79,.6);color:var(--terra-400)">Состав на подтверждении</span>
+    </div>
+    ${shot("Приглашённый мастер · съёмка", "shot--wide shot--v4")}
+  </div>
+</div></section>
+
+<!-- 05 Меню -->
+<section class="sec" id="menu"><div class="wrap stack g48">
+  <div class="head">
+    <span class="eyebrow">Меню</span>
+    <h2>Соберём меню под гостей и характер мероприятия</h2>
+    <p class="lede">Можно выбрать знакомые сочетания или подготовить что-то своё.</p>
+  </div>
+  <div class="grid g-3">
+    ${MENU.map((m, i) => `<article class="menu-card" data-menu>
+      ${shot("Фотография направления", "shot--wide" + (i === 1 ? " shot--v2" : i === 2 ? " shot--v3" : ""))}
+      <button class="menu-card__btn" type="button">
+        <span class="stack g8"><h3>${m.title}</h3><span class="small muted">${m.lead}</span></span>
+        <span class="menu-card__sign">+</span>
+      </button>
+      <div class="menu-card__body">
+        <ul>${m.body.map((b) => `<li>${b}</li>`).join("")}</ul>
+      </div>
+    </article>`).join("")}
+  </div>
+  <span class="tbd">Названия и наполнение карточек на подтверждении</span>
+</div></section>
+
+<!-- 06 События и атмосфера -->
+<section class="sec sec--milk" id="events"><div class="wrap stack g48">
+  <div class="head">
+    <span class="eyebrow">События</span>
+    <h2>Камерный вечер или событие с большой командой</h2>
+    <p class="lede">Сервис подстраивается под формат.</p>
+  </div>
+  <div class="gal">
+    ${EVENTS.map((e, i) => `<figure>
+      ${shot(e.t, "shot--tall" + (i % 3 === 1 ? " shot--v2" : i % 3 === 2 ? " shot--v3" : ""))}
+      <figcaption>${e.t} · ${e.note}</figcaption>
+    </figure>`).join("")}
+  </div>
+  <p class="small muted">Съёмка постановочная. Реальные кадры мероприятий появятся после первых событий</p>
+</div></section>
+
+<!-- 07 APEX -->
+<section class="sec" id="apex"><div class="wrap stack g48">
+  <div class="grid g-2" style="align-items:center">
+    <div class="stack g24">
+      <span class="eyebrow">Без угля · APEX</span>
+      <h2>Когда угли не нужны</h2>
+      <p class="lede">Электронные чаши APEX — другой способ организовать кальянный сервис на мероприятии: без углей и открытого огня.</p>
+      <p class="muted">Подходит там, где уголь не согласуют: закрытые залы, площадки без вытяжки, события с жёсткими требованиями по пожарной безопасности.</p>
+      <p class="muted">Формат согласовывается с площадкой заранее.</p>
+      <a class="arrow" href="#contact">Обсудить формат →</a>
+    </div>
+    ${shot("Электронные чаши APEX · терраса", "shot--wide")}
+  </div>
+  <div class="grid g-2">
+    ${shot("APEX в интерьере", "shot--wide shot--v2")}
+    ${shot("APEX на вечерней площадке", "shot--wide shot--v3")}
+  </div>
+</div></section>
+
+<!-- 08 Индивидуальные решения -->
+<section class="sec sec--milk" id="options"><div class="wrap stack g48">
+  <div class="head">
+    <span class="eyebrow">Возможности</span>
+    <h2>Если у вечера есть своя концепция, кальянная зона может стать её частью</h2>
+  </div>
+  <div class="grid g-2" style="align-items:start">
+    <div class="stack g16">
+      ${OPTIONS.map((o) => `<div style="padding:18px 0;border-bottom:1px solid var(--line-soft)">
+        <div style="font-size:var(--s-1);color:var(--ink)">${o.t}</div>
+        <div class="small muted">${o.d}</div>
+      </div>`).join("")}
+      <p class="small muted">Опции не входят в базовую стоимость и считаются под задачу</p>
+      <a class="btn btn--line" href="#contact" style="width:fit-content">Запросить индивидуальное предложение</a>
+    </div>
+    <div class="stack g16">
+      ${shot("Оформление зоны · деталь", "shot--wide")}
+      ${shot("Брендированная стойка", "shot--wide shot--v2")}
+    </div>
+  </div>
+</div></section>
+
+<!-- 09 Как организуем -->
+<section class="sec"><div class="wrap stack g48">
+  <div class="head">
+    <span class="eyebrow">Как организуем</span>
+    <h2>Вы рассказываете о событии — остальное берём на себя</h2>
+  </div>
+  <div class="steps">
+    ${STEPS.map(([t, d], i) => `<div class="step">
+      <div class="step__n">0${i + 1}</div>
+      <h3>${t}</h3>
+      <p class="muted small">${d}</p>
+    </div>`).join("")}
+  </div>
+  <p class="small muted">Заявка не является подтверждённым бронированием — дату подтверждает менеджер</p>
+</div></section>
+
+<!-- 10 Максим -->
+<section class="sec sec--milk" id="chief"><div class="wrap">
+  <div class="chief">
+    ${shot("Портрет Максима", "shot--tall")}
+    <div class="stack g24">
+      <span class="eyebrow">Руководитель направления</span>
+      <h2>${CHIEF.name}</h2>
+      <p class="lede">${CHIEF.text}</p>
+      <div class="chief__facts">
+        <div>${CHIEF.role}</div>
+        ${CHIEF.facts.map((f) => `<div>${f}</div>`).join("")}
+      </div>
+      <span class="tbd">Стаж и число заведений подтверждаются перед публикацией</span>
+    </div>
+  </div>
+</div></section>
+
+<!-- 11 Финальная заявка -->
+<section class="sec" id="contact"><div class="wrap">
+  <div class="grid g-2" style="align-items:center">
+    <div class="stack g24">
+      <span class="eyebrow">Обсудить мероприятие</span>
+      <h2>Расскажите, что планируете</h2>
+      <p class="lede">Предложим команду и формат, который подойдёт вашему вечеру.</p>
+      <div class="stack g16">
+        <a href="${BRAND.phoneHref}" style="font-family:var(--display);font-size:var(--s-2);color:var(--ink)">${BRAND.phone}</a>
+        <div class="row" style="gap:10px">
+          <a class="btn btn--line" href="${BRAND.tgHref}" target="_blank" rel="noopener">Написать в Telegram</a>
+          <a class="btn btn--ghost" href="${BRAND.waHref}" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+        <span class="muted small">${BRAND.email} · ${BRAND.geo}</span>
+      </div>
+    </div>
+    <form class="form" id="form-final">
+      <div class="field"><label for="f-name">Имя</label><input class="input" id="f-name" required></div>
+      <div class="field"><label for="f-contact">Телефон или мессенджер</label><input class="input" id="f-contact" placeholder="+7 ..." required></div>
+      <div class="field"><label for="f-about">О событии</label><textarea class="input" id="f-about" placeholder="Дата, площадка, формат, количество гостей"></textarea></div>
+      <label class="check"><input type="checkbox" id="f-consent" required> Согласен на обработку персональных данных</label>
+      <button class="btn btn--main" type="submit">Обсудить мероприятие</button>
+      <p class="small muted">Демо-версия: заявка никуда не отправляется</p>
+    </form>
+  </div>
+</div></section>
+`;
+
+/* ---------- страница для event-агентств ---------- */
+
+PAGES.agencies = () => `
+<section class="sec sec--tight" id="top" style="padding-top:clamp(40px,6vw,80px)"><div class="wrap stack g24">
+  <a class="small muted" href="#top" data-home>← На главную</a>
+  <span class="eyebrow">Для event-агентств</span>
+  <h1 style="font-size:var(--s-3);max-width:18ch">${B2B.h1}</h1>
+  <p class="lede">${B2B.lead}</p>
+  <div class="row"><a class="btn btn--main" href="#b2b-form">Запросить смету</a></div>
+</div></section>
+
+<section class="sec--tight"><div class="wrap">${shot("Работа команды на площадке", "shot--wide")}</div></section>
+
+${B2B.blocks.map((b) => `
+<section class="sec sec--tight sec--line"><div class="wrap grid g-2" style="align-items:start">
+  <div class="stack g16">
+    <span class="eyebrow">${b.n}</span>
+    <h2 style="font-size:var(--s-2)">${b.t}</h2>
+    <p class="lede" style="font-size:var(--s-0)">${b.d}</p>
+  </div>
+  <div class="stack">
+    ${b.list.map((i) => `<div style="padding:14px 0;border-bottom:1px solid var(--line-soft);color:var(--ink)">${i}</div>`).join("")}
+    ${b.n === "02" ? '<span class="tbd" id="b2b-tbd" style="margin-top:16px">Договорная схема и оплата на подтверждении</span>' : ""}
+  </div>
+</div></section>`).join("")}
+
+<section class="sec sec--milk"><div class="wrap stack g48">
+  <div class="head"><span class="eyebrow">05</span><h2 style="font-size:var(--s-2)">Как сотрудничаем</h2></div>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
+    ${B2B.flow.map((f, i) => `<div class="stack g8">
+      <span class="step__n">0${i + 1}</span>
+      <span style="color:var(--ink)">${f}</span>
+    </div>`).join("")}
+  </div>
+  <p class="small muted">Сроки и партнёрские тарифы не обещаем до подтверждения условий</p>
+</div></section>
+
+<section class="sec"><div class="wrap grid g-2" style="align-items:start">
+  <div class="stack g24">
+    <span class="eyebrow">06</span>
+    <h2 style="font-size:var(--s-2)">Заявка агентства</h2>
+    <p class="lede" style="font-size:var(--s-0)">Запрос помечается в CRM как обращение event-агентства и уходит ответственному менеджеру.</p>
+    <div class="stack g12" style="margin-top:8px">
+      ${B2B.faq.map((f) => `<details style="border-top:1px solid var(--line-soft);padding:14px 0">
+        <summary style="cursor:pointer;color:var(--ink);list-style:none;display:flex;justify-content:space-between;gap:14px">
+          <span>${f.q}</span><span style="color:var(--terra-500)">+</span></summary>
+        <p class="muted small" style="margin-top:10px">${f.a}</p>
+      </details>`).join("")}
+    </div>
+  </div>
+  <form class="form" id="b2b-form">
+    <div class="field"><label for="b-agency">Агентство</label><input class="input" id="b-agency" required></div>
+    <div class="field"><label for="b-name">Имя и контакт</label><input class="input" id="b-name" required></div>
+    <div class="grid g-2" style="gap:14px">
+      <div class="field"><label for="b-date">Дата</label><input class="input" id="b-date" type="date"></div>
+      <div class="field"><label for="b-guests">Гостей</label><input class="input" id="b-guests" type="number" min="1" placeholder="60"></div>
+    </div>
+    <div class="field"><label for="b-place">Место</label><input class="input" id="b-place" placeholder="Площадка или район"></div>
+    <div class="field"><label for="b-format">Формат события</label><input class="input" id="b-format" placeholder="Корпоратив, свадьба, закрытый вечер"></div>
+    <div class="field"><label for="b-note">Комментарий</label><textarea class="input" id="b-note" placeholder="Бриф, пожелания, особенности площадки"></textarea></div>
+    <label class="check"><input type="checkbox" id="b-consent" required> Согласен на обработку персональных данных</label>
+    <button class="btn btn--main" type="submit">Получить предложение</button>
+    <p class="small muted">Демо-версия: заявка никуда не отправляется</p>
+  </form>
+</div></section>
+`;
+
+/* ==========================================================
+   MAGIC CATERING — запуск: роутер, меню, формы
+   ========================================================== */
+
+function openModal(title, text) {
+  $("#modal-body").innerHTML = `<h3 style="font-size:var(--s-2)">${title}</h3><p class="muted">${text}</p>
+    <button class="btn btn--line" type="button" data-modal-close>Понятно</button>`;
+  $("#modal").classList.add("is-open");
+}
+
+const B2B_PATH = "/event-agentstvam/";
+
+function route() {
+  const hash = location.hash;
+  const isAgencies = location.pathname.replace(/\/?$/, "/") === B2B_PATH || hash.startsWith("#/agencies");
+  const view = $("#view");
+
+  if (view.dataset.page !== (isAgencies ? "agencies" : "home")) {
+    view.innerHTML = isAgencies ? PAGES.agencies() : PAGES.home();
+    view.dataset.page = isAgencies ? "agencies" : "home";
+    document.title = isAgencies ? B2B.title : "Magic Catering — кальянный кейтеринг в Москве";
+    setDescription(isAgencies ? B2B.description
+      : "Кальянный кейтеринг для частных и корпоративных событий в Москве и МО. Мастера, оборудование, доставка и обслуживание.");
+    bindPage();
+    window.scrollTo({ top: 0, behavior: "auto" });
+    return;
+  }
+
+  // тот же раздел: якорная прокрутка
+  if (!isAgencies && hash && hash.length > 1 && !hash.startsWith("#/")) {
+    const el = document.getElementById(hash.slice(1));
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function setDescription(text) {
+  let m = document.querySelector('meta[name="description"]');
+  if (!m) { m = document.createElement("meta"); m.name = "description"; document.head.appendChild(m); }
+  m.content = text;
+}
+
+function bindPage() {
+  // раскрывающиеся карточки меню
+  $$("[data-menu] .menu-card__btn").forEach((b) => {
+    b.addEventListener("click", () => b.closest("[data-menu]").classList.toggle("is-open"));
+  });
+
+  // карточки мастеров — детали по нажатию
+  $$("[data-person] .person__btn").forEach((b) => {
+    b.addEventListener("click", () => b.closest("[data-person]").classList.toggle("is-open"));
+  });
+
+  // демо-формы
+  $$("#view form").forEach((f) => {
+    f.addEventListener("submit", (e) => {
+      e.preventDefault();
+      openModal("Демо-версия",
+        "Форма собрана и проверяет поля, но заявка никуда не уходит. В боевой версии она попадает в CRM и менеджеру в мессенджер.");
+      f.reset();
+    });
+  });
+}
+
+function boot() {
+  $("#app").insertAdjacentHTML("afterbegin", header());
+  $("#app").insertAdjacentHTML("beforeend", footer());
+
+  route();
+  window.addEventListener("hashchange", route);
+
+  // бургер
+  $("#burger").addEventListener("click", () => {
+    $("#drawer").classList.add("is-open");
+    document.body.classList.add("is-locked");
+  });
+  const closeDrawer = () => { $("#drawer").classList.remove("is-open"); document.body.classList.remove("is-locked"); };
+  $("#drawer-close").addEventListener("click", closeDrawer);
+  $("#drawer").addEventListener("click", (e) => { if (e.target.tagName === "A") closeDrawer(); });
+
+  // шапка при прокрутке
+  const hdr = $(".hdr");
+  const onScroll = () => hdr.classList.toggle("is-stuck", window.scrollY > 20);
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // подсветка активного раздела в меню
+  const ids = NAV.filter((n) => n.href.startsWith("#") && !n.href.startsWith("#/")).map((n) => n.href.slice(1));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      $$(".nav a").forEach((a) => a.classList.toggle("is-on", a.getAttribute("href") === "#" + en.target.id));
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  const watch = () => ids.forEach((id) => { const el = document.getElementById(id); if (el) io.observe(el); });
+  watch();
+  window.addEventListener("hashchange", () => setTimeout(watch, 100));
+
+  // внутренние переходы без перезагрузки: /event-agentstvam/ и обратно
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="/"]');
+    if (!a || a.target === "_blank") return;
+    e.preventDefault();
+    history.pushState(null, "", a.getAttribute("href"));
+    route();
+    window.scrollTo({ top: 0, behavior: "auto" });
+  });
+  window.addEventListener("popstate", route);
+
+  // модалка
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-modal-close]") || e.target.id === "modal") $("#modal").classList.remove("is-open");
+    const home = e.target.closest("[data-home]");
+    if (home) { e.preventDefault(); history.pushState(null, "", "/"); route(); window.scrollTo({ top: 0, behavior: "auto" }); }
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { $("#modal").classList.remove("is-open"); closeDrawer(); } });
+
+  // стартовый экран
+  const sp = $("#splash");
+  const hide = () => { if (sp) { sp.style.opacity = "0"; setTimeout(() => sp.remove(), 500); } };
+  const fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  Promise.all([fonts, new Promise((r) => setTimeout(r, 350))]).then(hide);
+  setTimeout(hide, 3000);
+}
+
+document.addEventListener("DOMContentLoaded", boot);
+
+</script>
+</body>
+</html>
