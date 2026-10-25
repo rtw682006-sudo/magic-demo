@@ -131,12 +131,15 @@ p { margin: 0; }
 
 .hdr {
   position: sticky; top: 0; z-index: 60;
-  background: rgba(233, 223, 206, .88);
-  backdrop-filter: blur(16px);
+  background: transparent;
+  backdrop-filter: none;
   border-bottom: 1px solid transparent;
   transition: background .35s, border-color .35s, box-shadow .35s;
 }
-.hdr.is-stuck { background: rgba(250, 246, 239, .95); border-bottom-color: var(--line-soft); box-shadow: 0 10px 30px rgba(42,36,32,.06); }
+.hdr:not(.is-stuck) .hdr__cta {
+  background: none; color: var(--ink); border-color: var(--ink);
+}
+.hdr.is-stuck { background: rgba(250, 246, 239, .95); backdrop-filter: blur(16px); border-bottom-color: var(--line-soft); box-shadow: 0 10px 30px rgba(42,36,32,.06); }
 .hdr__in { display: flex; align-items: center; gap: clamp(14px, 2vw, 34px); min-height: 84px; transition: min-height .35s; }
 .hdr.is-stuck .hdr__in { min-height: 70px; }
 
@@ -193,13 +196,59 @@ p { margin: 0; }
 
 /* ---------- первый экран ---------- */
 
-.hero { position: relative; }
-.hero__in {
-  position: absolute; inset: auto 0 0 0; padding-block: clamp(28px, 5vw, 64px);
-  background: linear-gradient(transparent, rgba(233,223,206,.94) 55%);
+.hero {
+  position: relative;
+  margin-top: -84px;            /* кадр уходит под шапку */
+  min-height: 100svh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
 }
-.hero h1 { font-size: var(--s-4); max-width: 16ch; }
-.hero__meta { font-size: var(--s--1); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); }
+.hero__bg { position: absolute; inset: 0; }
+.hero__bg .shot { width: 100%; height: 100%; aspect-ratio: auto; border: 0; }
+.hero__bg .shot::after { content: none; }
+.hero__bg::after {            /* мягкая вуаль под текст, без утяжеления кадра */
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(70% 55% at 50% 52%, rgba(250,246,239,.78), rgba(250,246,239,.3) 60%, transparent 80%),
+    linear-gradient(rgba(233,223,206,.55), transparent 28%, transparent 70%, rgba(233,223,206,.8));
+}
+.hero__in {
+  position: relative; z-index: 2;
+  padding-top: 84px; padding-bottom: clamp(32px, 6vh, 64px);
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: clamp(18px, 3vh, 30px);
+}
+.hero__lockup { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+.hero__lockup b {
+  font-family: var(--display); font-weight: 500;
+  font-size: clamp(3.4rem, 2rem + 7vw, 7.5rem);
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
+  padding-left: .1em;
+}
+.hero__lockup span {
+  font-size: clamp(.78rem, .6rem + .5vw, 1.15rem);
+  letter-spacing: .32em; color: var(--ink-2); margin-top: clamp(6px, 1.2vh, 14px);
+  padding-left: .32em;
+}
+.hero h1 {
+  font-family: var(--sans); font-weight: 400;
+  font-size: clamp(1.02rem, .9rem + .6vw, 1.5rem);
+  letter-spacing: .01em; line-height: 1.5; color: var(--ink-2);
+  max-width: 30ch;
+}
+.hero__meta { font-size: var(--s--1); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-3); }
+.hero .btn--pill {
+  border-radius: 999px; border: 1px solid var(--ink); color: var(--ink);
+  background: rgba(250,246,239,.35); backdrop-filter: blur(4px);
+  padding: 16px 46px; min-height: 58px;
+}
+.hero .btn--pill:hover { background: var(--ink); color: var(--sand-50); }
+.hero__scroll {
+  position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%);
+  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-3);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.hero__scroll::after { content: ""; width: 1px; height: 26px; background: var(--ink-3); opacity: .5; }
 
 /* ---------- цена ---------- */
 
@@ -338,8 +387,8 @@ textarea.input { min-height: 104px; resize: vertical; }
   .sec { padding-block: clamp(52px, 11vw, 80px); }
   .steps { grid-template-columns: minmax(0, 1fr); }
   .g-4 { grid-template-columns: repeat(2, minmax(0,1fr)); }
-  .hero__in { position: static; background: none; }
-  .shot--hero { min-height: 380px; }
+  .hero { min-height: 92svh; }
+  .hero__scroll { display: none; }
 }
 @media (max-width: 620px) {
   .g-2, .g-3, .g-4 { grid-template-columns: minmax(0, 1fr); }
@@ -553,7 +602,7 @@ function header() {
     </a>
     <nav class="nav">${NAV.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}</nav>
     <a class="hdr__tel" href="${BRAND.phoneHref}">${BRAND.phone}</a>
-    <a class="btn btn--main" href="#contact" style="min-height:46px;padding:12px 24px">Обсудить</a>
+    <a class="btn btn--main hdr__cta" href="#contact" style="min-height:46px;padding:12px 24px">Обсудить</a>
     <button class="burger" type="button" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
   </div></header>
 
@@ -603,13 +652,17 @@ const PAGES = {};
 PAGES.home = () => `
 <!-- 01 Первый экран -->
 <section class="hero" id="top">
-  ${shot("Обложка · мастер и гости на мероприятии", "shot--hero")}
-  <div class="hero__in"><div class="wrap stack g24 rise">
+  <div class="hero__bg">${shot("Обложка · мастер и гости на мероприятии")}</div>
+  <div class="wrap hero__in rise">
+    <div class="hero__lockup">
+      <b>${BRAND.name}</b>
+      <span>${BRAND.sub}</span>
+    </div>
+    <h1>Кальянный кейтеринг для вашего события: мастера, сервис и подача, которые становятся частью вечера</h1>
     <span class="hero__meta">${BRAND.geo}</span>
-    <h1>Кальянный кейтеринг для вашего события</h1>
-    <p class="lede">Мастера, сервис и подача, которые становятся частью вечера.</p>
-    <div class="row"><a class="btn btn--main" href="#price">Обсудить мероприятие</a></div>
-  </div></div>
+    <a class="btn btn--pill" href="#price">Обсудить мероприятие</a>
+  </div>
+  <span class="hero__scroll">Листайте</span>
 </section>
 
 <!-- 02 Цена и быстрая заявка -->
